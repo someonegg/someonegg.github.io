@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <title>汉字组词练习</title>
+  <style>
+    :root {
+      --bg: #f4efe4;
+      --surface: #fbf7ee;
+      --surface-soft: #f7f1e5;
+      --text: #2b241d;
+      --muted: #6f6255;
+      --accent: #6f4b2f;
+      --accent-soft: rgba(111, 75, 47, 0.12);
+      --border: #ddd0bd;
+      --ok: #1a625d;
+      --warn: #9a3412;
+      --warn-soft: #fff7ed;
+      --radius: 12px;
+      --shadow: 0 10px 28px rgba(24, 32, 36, 0.06);
+      --focus: 0 0 0 3px rgba(111, 75, 47, 0.22);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 12% 0%, #fffdf8 0%, #f8f2e8 28%, transparent 72%),
+        var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.7;
+      padding: 18px 14px 30px;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .nav-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .nav-link:hover { background: var(--accent-soft); }
+
+    .header { margin-bottom: 14px; }
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: -0.3px;
+      font-weight: 650;
+    }
+
+    .desc {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-soft);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      font-size: 12px;
+      background: #fff;
+      color: var(--muted);
+    }
+
+    .chip strong {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 460px;
+    }
+
+    .col { padding: 14px; }
+
+    .col + .col {
+      border-left: 1px solid var(--border);
+      background: #fffdf9;
+    }
+
+    .section-title {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    input[type="text"] {
+      width: 100%;
+      height: 52px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0 14px;
+      color: var(--text);
+      background: #fff;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    input[type="text"]:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .hint.ok { color: var(--ok); }
+    .hint.warn { color: var(--warn); }
+
+    .result-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      min-height: 320px;
+      padding: 12px;
+      overflow: auto;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 4px 2px;
+    }
+
+    .group + .group { margin-top: 12px; }
+
+    .group-title {
+      margin: 0 0 6px;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .word-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+
+    .word-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fffefb;
+    }
+
+    .word {
+      font-size: 24px;
+      line-height: 1.2;
+      letter-spacing: 0.4px;
+    }
+
+    .char-link {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px dashed transparent;
+      border-radius: 4px;
+      padding: 0 1px;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+
+    .char-link:hover {
+      color: var(--accent);
+      border-bottom-color: rgba(111, 75, 47, 0.45);
+      background: var(--accent-soft);
+    }
+
+    .char-link:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+
+    .pinyin {
+      font-size: 13px;
+      color: #2f5d8a;
+      text-align: right;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 920px) {
+      body {
+        padding: 10px 8px 12px;
+      }
+      .top-nav { margin-bottom: 6px; }
+      .header { margin-bottom: 8px; }
+      h1 { font-size: 22px; line-height: 1.25; }
+      .desc { display: none; }
+      .stats {
+        padding: 6px 8px;
+        gap: 6px;
+      }
+      .chip {
+        font-size: 11px;
+        padding: 3px 8px;
+      }
+      .content {
+        grid-template-columns: 1fr;
+      }
+      .col {
+        padding: 10px;
+      }
+      .col + .col {
+        border-left: none;
+        border-top: 1px solid var(--border);
+      }
+      input[type="text"] {
+        height: 48px;
+        font-size: 28px;
+      }
+      .result-box {
+        min-height: 46dvh;
+      }
+      .word {
+        font-size: 22px;
+      }
+      .pinyin {
+        font-size: 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="top-nav">
+      <a href="./index.html" class="nav-link">返回索引</a>
+    </nav>
+
+    <header class="header">
+      <h1>汉字组词练习</h1>
+      <p class="desc">输入一个汉字，查看常见组词并配合拼音朗读。建议先从课内常见字开始练习。</p>
+    </header>
+
+    <section class="panel">
+      <div class="stats">
+        <span class="chip">当前汉字 <strong id="activeChar">-</strong></span>
+        <span class="chip">可组词 <strong id="totalCount">0</strong></span>
+        <span class="chip">已显示 <strong id="shownCount">0</strong></span>
+      </div>
+
+      <div class="content">
+        <section class="col">
+          <h2 class="section-title">输入汉字</h2>
+          <label class="field-label" for="inputChar">请输入一个汉字</label>
+          <input id="inputChar" type="text" inputmode="text" autocomplete="off" placeholder="例如：学" aria-describedby="inputRuleHint statusHint" />
+          <p id="inputRuleHint" class="hint">仅支持输入 1 个汉字，按 Enter 查询。</p>
+          <p id="statusHint" class="hint" role="status" aria-live="polite" aria-atomic="true">正在加载词库...</p>
+        </section>
+
+        <section class="col">
+          <h2 class="section-title">组词结果</h2>
+          <div class="result-box" id="resultBox" aria-live="polite"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="/vendor/msgpack.min.js"></script>
+  <script src="/assets/site/hanzi-data-loader.js"></script>
+  <script>
+    const DEFAULT_LIMIT = 15;
+    const SHARD_COUNT = 8;
+    const SHARD_CONCURRENCY = 2;
+    const FETCH_TIMEOUT_MS = 30000;
+    const MAX_RETRIES = 2;
+
+    const inputChar = document.getElementById('inputChar');
+    const activeChar = document.getElementById('activeChar');
+    const totalCount = document.getElementById('totalCount');
+    const shownCount = document.getElementById('shownCount');
+    const statusHint = document.getElementById('statusHint');
+    const resultBox = document.getElementById('resultBox');
+    let dictReady = false;
+    let wordIndex = {};
+    let draftInputValue = '';
+    let committedInput = { kind: 'empty' };
+    let hasSubmitted = false;
+    let committedChar = null;
+    let isComposing = false;
+
+    function restoreWordPayload(payload) {
+      const out = {};
+      for (const [ch, items] of Object.entries(payload)) {
+        if (!Array.isArray(items)) {
+          throw new Error(`词库格式错误：${ch} 的值必须是数组`);
+        }
+        out[ch] = items.map((item) => ({
+          word: item && typeof item === 'object' ? item.a : undefined,
+          pinyinNum: item && typeof item === 'object' ? item.b : undefined
+        }));
+      }
+      return out;
+    }
+
+    function isCjk(ch) {
+      return /[\u3400-\u9FFF\uF900-\uFAFF]/u.test(ch);
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function splitPinyinTone(syllable) {
+      const match = /^([a-züv:]+)([0-5])$/i.exec(syllable);
+      if (!match) return { base: syllable, tone: 5 };
+      return { base: match[1], tone: Number(match[2]) };
+    }
+
+    function toMarkedPinyin(syllable) {
+      const normalized = syllable.toLowerCase().replace('u:', 'v');
+      const parts = splitPinyinTone(normalized);
+      const base = parts.base;
+      const tone = parts.tone;
+
+      if (tone === 5 || tone === 0) {
+        return base.replace(/v/g, 'ü');
+      }
+
+      const vowelMap = {
+        a: ['ā', 'á', 'ǎ', 'à'],
+        o: ['ō', 'ó', 'ǒ', 'ò'],
+        e: ['ē', 'é', 'ě', 'è'],
+        i: ['ī', 'í', 'ǐ', 'ì'],
+        u: ['ū', 'ú', 'ǔ', 'ù'],
+        v: ['ǖ', 'ǘ', 'ǚ', 'ǜ']
+      };
+
+      const chars = Array.from(base);
+      const joined = chars.join('');
+      let target = -1;
+
+      if (joined.includes('a')) target = joined.indexOf('a');
+      else if (joined.includes('o')) target = joined.indexOf('o');
+      else if (joined.includes('e')) target = joined.indexOf('e');
+      else if (joined.includes('iu')) target = joined.indexOf('u');
+      else if (joined.includes('ui')) target = joined.indexOf('i');
+      else {
+        for (let i = chars.length - 1; i >= 0; i -= 1) {
+          if ('aeiouv'.includes(chars[i])) {
+            target = i;
+            break;
+          }
+        }
+      }
+
+      if (target < 0) return base.replace(/v/g, 'ü');
+
+      const vowel = chars[target];
+      const marked = vowelMap[vowel] ? vowelMap[vowel][tone - 1] : vowel;
+      chars[target] = marked;
+      return chars.join('').replace(/v/g, 'ü');
+    }
+
+    function toMarkedPinyinLine(pinyinNum) {
+      return String(pinyinNum)
+        .split(/\s+/)
+        .filter(Boolean)
+        .map(toMarkedPinyin)
+        .join(' ');
+    }
+
+    function renderPinyinCell(pinyinList) {
+      const main = pinyinList.map((item) => toMarkedPinyinLine(item)).join(' / ');
+      return `<span class="pinyin">${escapeHtml(main)}</span>`;
+    }
+
+    function renderWordWithLinks(word) {
+      return Array.from(String(word))
+        .map((ch) => {
+          if (!isCjk(ch)) return escapeHtml(ch);
+          return `<a class="char-link" href="./hanzi-stroke.html?char=${encodeURIComponent(ch)}">${escapeHtml(ch)}</a>`;
+        })
+        .join('');
+    }
+
+    function parseSubmittedInput(rawValue) {
+      const raw = String(rawValue || '').trim();
+      if (!raw) return { kind: 'empty' };
+
+      const chars = Array.from(raw);
+      if (chars.length !== 1 || !isCjk(chars[0])) {
+        return { kind: 'invalid' };
+      }
+
+      return { kind: 'valid', char: chars[0] };
+    }
+
+    function groupByLength(items) {
+      const groups = {
+        len2: [],
+        len3: [],
+        len4p: []
+      };
+
+      for (const item of items) {
+        const len = Array.from(item.word).length;
+        if (len === 2) groups.len2.push(item);
+        else if (len === 3) groups.len3.push(item);
+        else groups.len4p.push(item);
+      }
+
+      return groups;
+    }
+
+    function renderGroups(items) {
+      if (!items.length) {
+        return '<p class="empty">未找到可展示的组词。</p>';
+      }
+
+      const groups = groupByLength(items);
+      const chunks = [];
+
+      function renderOne(title, list) {
+        if (!list.length) return '';
+        const rows = list.map((item) => {
+          return `<li class="word-item"><span class="word">${renderWordWithLinks(item.word)}</span>${renderPinyinCell(item.pinyinNum)}</li>`;
+        }).join('');
+        return `<section class="group"><h3 class="group-title">${title}</h3><ul class="word-list">${rows}</ul></section>`;
+      }
+
+      chunks.push(renderOne('二字词', groups.len2));
+      chunks.push(renderOne('三字词', groups.len3));
+      chunks.push(renderOne('四字及以上', groups.len4p));
+
+      return chunks.filter(Boolean).join('');
+    }
+
+    function setStatus(text, type) {
+      statusHint.textContent = text;
+      if (type === 'warn') statusHint.className = 'hint warn';
+      else if (type === 'ok') statusHint.className = 'hint ok';
+      else statusHint.className = 'hint';
+    }
+
+    function render() {
+      if (!dictReady) {
+        activeChar.textContent = '-';
+        totalCount.textContent = '0';
+        shownCount.textContent = '0';
+        resultBox.innerHTML = '<p class="empty">词库加载中，请稍候...</p>';
+        return;
+      }
+
+      if (!committedChar) {
+        activeChar.textContent = '-';
+        totalCount.textContent = '0';
+        shownCount.textContent = '0';
+        if (!hasSubmitted) {
+          resultBox.innerHTML = '<p class="empty">请输入一个汉字后按 Enter 开始组词。</p>';
+        } else if (committedInput.kind === 'empty') {
+          resultBox.innerHTML = '<p class="empty">请输入一个汉字后按 Enter 查询。</p>';
+        } else {
+          resultBox.innerHTML = '<p class="empty">输入不符合要求。请只输入 1 个汉字后按 Enter 查询。</p>';
+        }
+        if (!hasSubmitted) {
+          setStatus(`词库已就绪：覆盖 ${Object.keys(wordIndex).length} 个汉字。`, 'ok');
+        } else if (committedInput.kind === 'empty') {
+          setStatus('请输入一个汉字后按 Enter 查询。', 'warn');
+        } else if (committedInput.kind === 'invalid') {
+          setStatus('请输入且仅输入 1 个汉字。', 'warn');
+        }
+        return;
+      }
+
+      const ch = committedChar;
+      const allItems = Array.isArray(wordIndex[ch]) ? wordIndex[ch] : [];
+      const visibleItems = allItems.slice(0, DEFAULT_LIMIT);
+
+      activeChar.textContent = ch;
+      totalCount.textContent = String(allItems.length);
+      shownCount.textContent = String(visibleItems.length);
+      resultBox.innerHTML = allItems.length
+        ? renderGroups(visibleItems)
+        : '<p class="empty">未找到该字的组词。可以换一个字试试。</p>';
+
+      if (hasSubmitted && committedInput.kind === 'empty') {
+        setStatus(`请输入一个汉字后按 Enter 查询。当前保留「${ch}」的结果。`, 'warn');
+      } else if (hasSubmitted && committedInput.kind === 'invalid') {
+        setStatus(`请输入且仅输入 1 个汉字。当前保留「${ch}」的结果。`, 'warn');
+      } else {
+        const okText = allItems.length
+          ? `已找到 ${allItems.length} 条组词，当前仅显示前 ${DEFAULT_LIMIT} 条。`
+          : '当前汉字暂未命中词库。';
+        setStatus(okText, allItems.length ? 'ok' : 'warn');
+      }
+    }
+
+    function submitCurrentInput() {
+      committedInput = parseSubmittedInput(draftInputValue);
+      hasSubmitted = true;
+      if (committedInput.kind === 'valid') {
+        committedChar = committedInput.char;
+      }
+      render();
+    }
+
+    inputChar.addEventListener('input', () => {
+      draftInputValue = inputChar.value;
+    });
+
+    inputChar.addEventListener('compositionstart', () => {
+      isComposing = true;
+    });
+
+    inputChar.addEventListener('compositionend', () => {
+      isComposing = false;
+      draftInputValue = inputChar.value;
+    });
+
+    inputChar.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter') return;
+      if (event.isComposing || isComposing || event.keyCode === 229) return;
+      event.preventDefault();
+      submitCurrentInput();
+    });
+
+    async function bootstrap() {
+      draftInputValue = inputChar.value;
+      render();
+      setStatus('正在加载词库...', null);
+
+      try {
+        const loader = window.HanziDataLoader;
+        if (!loader) throw new Error('HanziDataLoader 不可用');
+        const restored = await loader.loadShardedMap({
+          dir: 'word',
+          baseName: 'char-word',
+          shardCount: SHARD_COUNT,
+          concurrency: SHARD_CONCURRENCY,
+          timeoutMs: FETCH_TIMEOUT_MS,
+          retries: MAX_RETRIES,
+          restore: restoreWordPayload,
+          onProgress: ({ loadedCount, shardCount }) => {
+            setStatus(`正在加载词库分片 ${loadedCount}/${shardCount}...`, null);
+          }
+        });
+
+        if (!restored || typeof restored !== 'object' || Array.isArray(restored)) {
+          throw new Error('词库格式错误');
+        }
+
+        for (const [ch, items] of Object.entries(restored)) {
+          if (!Array.isArray(items)) {
+            throw new Error(`词库格式错误：${ch} 的值必须是数组`);
+          }
+
+          for (const item of items) {
+            if (!item || typeof item !== 'object' || Array.isArray(item)) {
+              throw new Error(`词库格式错误：${ch} 的词条必须是对象`);
+            }
+            if (typeof item.word !== 'string' || item.word.trim().length === 0) {
+              throw new Error(`词库格式错误：${ch} 的 word 必须是非空字符串`);
+            }
+            if (!Array.isArray(item.pinyinNum) || item.pinyinNum.some((py) => typeof py !== 'string' || py.length === 0)) {
+              throw new Error(`词库格式错误：${ch} 的 pinyinNum 必须是字符串数组`);
+            }
+          }
+        }
+
+        wordIndex = restored;
+
+        dictReady = true;
+        setStatus(`词库已就绪：覆盖 ${Object.keys(wordIndex).length} 个汉字。`, 'ok');
+        render();
+      } catch (err) {
+        console.error(err);
+        dictReady = false;
+        setStatus('词库加载失败，请先执行构建脚本。', 'warn');
+        resultBox.innerHTML = '<p class="empty">词库未就绪，无法查询组词。</p>';
+      }
+    }
+
+    bootstrap();
+  </script>
+</body>
+</html>

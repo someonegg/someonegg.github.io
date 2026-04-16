@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <title>汉字注音练习</title>
+  <style>
+    :root {
+      --bg: #f4efe4;
+      --surface: #fbf7ee;
+      --surface-soft: #f7f1e5;
+      --text: #2b241d;
+      --muted: #6f6255;
+      --accent: #6f4b2f;
+      --accent-soft: rgba(111, 75, 47, 0.12);
+      --assist: #f8eee3;
+      --border: #ddd0bd;
+      --warn: #b45309;
+      --warn-soft: #fff7ed;
+      --ok: #1a625d;
+      --rt-phrase: #1f7a55;
+      --rt-char: #2f5d8a;
+      --rt-char-uncertain: #8b3a5a;
+      --radius: 12px;
+      --shadow: 0 10px 28px rgba(24, 32, 36, 0.06);
+      --focus: 0 0 0 3px rgba(111, 75, 47, 0.22);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 12% 0%, #fffdf8 0%, #f8f2e8 28%, transparent 72%),
+        var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.7;
+      padding: 18px 14px 30px;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .nav-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .nav-link:hover { background: var(--accent-soft); }
+
+    .header { margin-bottom: 14px; }
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: -0.3px;
+      font-weight: 650;
+    }
+
+    .desc {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-soft);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      font-size: 12px;
+      background: #fff;
+      color: var(--muted);
+    }
+
+    .chip strong {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .chip.chip-matched {
+      background: rgba(31, 122, 85, 0.12);
+      border-color: rgba(31, 122, 85, 0.32);
+      color: #1f7a55;
+    }
+    .chip.chip-fallback {
+      background: rgba(47, 93, 138, 0.12);
+      border-color: rgba(47, 93, 138, 0.32);
+      color: #2f5d8a;
+    }
+    .chip.chip-unknown {
+      background: rgba(180, 83, 9, 0.1);
+      border-color: rgba(180, 83, 9, 0.32);
+      color: #9a3412;
+    }
+    .chip.chip-uncertain {
+      background: rgba(139, 58, 90, 0.12);
+      border-color: rgba(139, 58, 90, 0.32);
+      color: #8b3a5a;
+    }
+    .chip.chip-matched strong,
+    .chip.chip-fallback strong,
+    .chip.chip-unknown strong,
+    .chip.chip-uncertain strong {
+      color: inherit;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 420px;
+    }
+
+    .col { padding: 14px; }
+
+    .col + .col {
+      border-left: 1px solid var(--border);
+      background: var(--assist);
+    }
+
+    .section-title {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    textarea:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 250px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--text);
+      background: #fff;
+      font-size: 22px;
+      line-height: 1.8;
+      resize: vertical;
+    }
+
+    .result-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      min-height: 250px;
+      padding: 12px;
+      font-size: 25px;
+      line-height: 2.1;
+      word-break: break-word;
+    }
+
+    ruby { ruby-position: over; margin-right: 0; }
+
+    rt {
+      font-size: 13px;
+      color: var(--rt-char);
+      font-weight: 550;
+      user-select: none;
+    }
+    rt.rt-phrase { color: var(--rt-phrase); }
+    rt.rt-char { color: var(--rt-char); }
+    rt.rt-char-uncertain { color: var(--rt-char-uncertain); }
+
+    .char-link {
+      color: inherit;
+      text-decoration: none;
+      border-radius: 3px;
+      transition: background 0.15s;
+    }
+    .char-link:hover { background: var(--accent-soft); }
+
+    .token {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 3px 3px 0;
+    }
+
+    .token-group {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      flex-wrap: nowrap;
+    }
+
+    .token-group ruby { margin-right: 0; }
+
+    .token-select {
+      margin-top: 4px;
+      max-width: 124px;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.2;
+      padding: 2px 8px;
+    }
+
+    .token-select:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+
+    .unknown-char {
+      background: var(--warn-soft);
+      color: #7c2d12;
+      border-radius: 4px;
+      padding: 0 1px;
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .hint.warn { color: var(--warn); }
+    .hint.ok { color: var(--ok); }
+
+    @media (max-width: 920px) {
+      body {
+        height: 100dvh;
+        padding: 8px 8px 10px;
+        overflow: hidden;
+      }
+      .wrap {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .top-nav { margin-bottom: 6px; }
+      .header { margin-bottom: 8px; }
+      .desc { display: none; }
+      h1 { font-size: 22px; line-height: 1.25; }
+      .panel {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        flex: 1;
+      }
+      .stats {
+        padding: 6px 8px;
+        gap: 6px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+      .chip {
+        white-space: nowrap;
+        font-size: 11px;
+        padding: 3px 8px;
+      }
+      .content {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        min-height: 0;
+        flex: 1;
+        overflow: hidden;
+      }
+      .col {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .col + .col {
+        border-left: none;
+        border-top: 1px solid var(--border);
+      }
+      .section-title {
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+      textarea,
+      .result-box {
+        min-height: 0;
+        flex: 1;
+        font-size: 19px;
+        line-height: 1.65;
+        overflow: auto;
+      }
+      rt { font-size: 12px; }
+      .token-select {
+        max-width: 108px;
+        font-size: 11px;
+      }
+      .hint {
+        margin-top: 6px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 920px) and (max-height: 780px) {
+      .stats {
+        padding: 4px 8px;
+        gap: 4px;
+      }
+      .chip {
+        font-size: 10px;
+        padding: 2px 7px;
+      }
+      .content { grid-template-rows: 0.95fr 1.05fr; }
+      textarea,
+      .result-box {
+        font-size: 18px;
+        line-height: 1.55;
+      }
+      .token-select {
+        max-width: 96px;
+        font-size: 10px;
+      }
+      .hint {
+        margin-top: 4px;
+        font-size: 11px;
+      }
+      #resultHint {
+        margin-top: 4px;
+        font-size: 11px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="top-nav">
+      <a href="./index.html" class="nav-link">返回索引</a>
+    </nav>
+
+    <header class="header">
+      <h1>汉字注音练习</h1>
+      <p class="desc">输入词语或短句，系统会自动标出拼音。适合识字练习、朗读预习和课后复习。</p>
+    </header>
+
+    <section class="panel">
+      <div class="stats">
+        <span class="chip chip-matched">词条命中 <strong id="matchedCount">0</strong></span>
+        <span class="chip chip-fallback">单字兜底 <strong id="fallbackCount">0</strong></span>
+        <span class="chip chip-unknown">未注音 <strong id="unknownCount">0</strong></span>
+        <span class="chip chip-uncertain">多音候选 <strong id="uncertainCount">0</strong></span>
+      </div>
+
+      <div class="content">
+        <section class="col">
+          <h2 class="section-title">输入文本</h2>
+          <textarea id="inputText" placeholder="请输入要注音的词语或句子。"></textarea>
+
+          <p class="hint">支持中文、数字、英文混合输入；可以先从短句开始。</p>
+        </section>
+
+        <section class="col">
+          <h2 class="section-title">查看注音</h2>
+
+          <div class="result-box" id="resultBox" aria-live="polite"></div>
+          <p class="hint" id="resultHint">正在加载开源词库...</p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="/vendor/msgpack.min.js"></script>
+  <script src="/assets/site/hanzi-data-loader.js"></script>
+  <script>
+    const inputText = document.getElementById('inputText');
+    const resultBox = document.getElementById('resultBox');
+
+    const matchedCount = document.getElementById('matchedCount');
+    const fallbackCount = document.getElementById('fallbackCount');
+    const unknownCount = document.getElementById('unknownCount');
+    const uncertainCount = document.getElementById('uncertainCount');
+    const resultHint = document.getElementById('resultHint');
+
+    let dictReady = false;
+    const FETCH_TIMEOUT_MS = 30000;
+
+    let phraseMap = {};
+    let charMap = {};
+    let maxPhraseLength = 1;
+    const selectionState = new Map();
+
+    function isNonEmptyString(value) {
+      return typeof value === 'string' && value.length > 0;
+    }
+
+    function serializeList(list) {
+      return list.join('\u0001');
+    }
+
+    function normalizeCharEntry(entry) {
+      if (isNonEmptyString(entry)) {
+        return [entry];
+      }
+
+      if (Array.isArray(entry)) {
+        const candidates = [...new Set(entry.filter(isNonEmptyString))];
+        return candidates.length > 0 ? candidates : null;
+      }
+
+      return null;
+    }
+
+    function normalizePhraseEntry(entry) {
+      if (Array.isArray(entry)) {
+        const candidates = entry
+          .filter(Array.isArray)
+          .map((candidate) => candidate.filter(isNonEmptyString))
+          .filter((candidate) => candidate.length > 0);
+        return candidates.length > 0 ? candidates : null;
+      }
+
+      return null;
+    }
+
+    function normalizeDictionary(rawMap, kind) {
+      if (!rawMap || typeof rawMap !== 'object' || Array.isArray(rawMap)) {
+        return {};
+      }
+
+      const out = {};
+      for (const [key, value] of Object.entries(rawMap)) {
+        const entry = kind === 'phrase' ? normalizePhraseEntry(value) : normalizeCharEntry(value);
+        if (entry) {
+          out[key] = entry;
+        }
+      }
+      return out;
+    }
+
+    function getDataLoader() {
+      const loader = window.HanziDataLoader;
+      if (!loader) {
+        throw new Error('HanziDataLoader 不可用');
+      }
+      return loader;
+    }
+
+    async function fetchDataAsset(logicalPath) {
+      const loader = getDataLoader();
+      return loader.fetchAsset(logicalPath, { timeoutMs: FETCH_TIMEOUT_MS });
+    }
+
+    function computeMaxPhraseLength(map) {
+      const keys = Object.keys(map);
+      if (keys.length === 0) return 1;
+      let maxLen = 1;
+      for (const key of keys) {
+        const len = Array.from(key).length;
+        if (len > maxLen) maxLen = len;
+      }
+      return maxLen;
+    }
+
+    function isCjk(ch) {
+      return /[\u3400-\u9FFF\uF900-\uFAFF]/u.test(ch);
+    }
+
+    function charLinkHtml(char, innerHtml) {
+      return `<a class="char-link" href="./hanzi-stroke.html?char=${encodeURIComponent(char)}" target="_blank" rel="noopener noreferrer">${innerHtml}</a>`;
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function splitPinyinTone(syllable) {
+      const match = /^([a-züv:]+)([0-5])$/i.exec(syllable);
+      if (!match) return { base: syllable, tone: 5 };
+      return { base: match[1], tone: Number(match[2]) };
+    }
+
+    function toneOf(syllable) {
+      return splitPinyinTone(syllable).tone;
+    }
+
+    function toMarkedPinyin(syllable) {
+      const normalized = syllable.toLowerCase().replace('u:', 'v');
+      const { base, tone } = splitPinyinTone(normalized);
+      if (tone === 5 || tone === 0) {
+        return base.replace(/v/g, 'ü');
+      }
+
+      const vowelMap = {
+        a: ['ā', 'á', 'ǎ', 'à'],
+        o: ['ō', 'ó', 'ǒ', 'ò'],
+        e: ['ē', 'é', 'ě', 'è'],
+        i: ['ī', 'í', 'ǐ', 'ì'],
+        u: ['ū', 'ú', 'ǔ', 'ù'],
+        v: ['ǖ', 'ǘ', 'ǚ', 'ǜ']
+      };
+
+      let target = -1;
+      const chars = Array.from(base);
+      const joined = chars.join('');
+
+      if (joined.includes('a')) target = joined.indexOf('a');
+      else if (joined.includes('o')) target = joined.indexOf('o');
+      else if (joined.includes('e')) target = joined.indexOf('e');
+      else if (joined.includes('iu')) target = joined.indexOf('u');
+      else if (joined.includes('ui')) target = joined.indexOf('i');
+      else {
+        for (let i = chars.length - 1; i >= 0; i -= 1) {
+          if ('aeiouv'.includes(chars[i])) {
+            target = i;
+            break;
+          }
+        }
+      }
+
+      if (target < 0) return base.replace(/v/g, 'ü');
+
+      const vowel = chars[target];
+      const marked = vowelMap[vowel] ? vowelMap[vowel][tone - 1] : vowel;
+      chars[target] = marked;
+      return chars.join('').replace(/v/g, 'ü');
+    }
+
+    function applyToneSandhi(pinyinList) {
+      const out = [...pinyinList];
+      for (let i = 0; i < out.length; i += 1) {
+        const cur = out[i];
+        const next = out[i + 1] || '';
+        const curParts = splitPinyinTone(cur);
+        const nextTone = toneOf(next);
+
+        if (curParts.base === 'yi' && curParts.tone === 1 && nextTone >= 1 && nextTone <= 4) {
+          out[i] = nextTone === 4 ? 'yi2' : 'yi4';
+        }
+
+        if (curParts.base === 'bu' && curParts.tone === 4 && nextTone === 4) {
+          out[i] = 'bu2';
+        }
+      }
+      return out;
+    }
+
+    function buildMarkedLine(pinyinList) {
+      return pinyinList.map((item) => toMarkedPinyin(item)).join(' ');
+    }
+
+    async function loadOpenDictionary() {
+      const [openPhraseRaw, openCharRaw] = await Promise.all([
+        fetchDataAsset('pinyin/phrase-pinyin.msgpack'),
+        fetchDataAsset('pinyin/char-pinyin.msgpack')
+      ]);
+
+      const openPhrase = normalizeDictionary(openPhraseRaw, 'phrase');
+      const openChar = normalizeDictionary(openCharRaw, 'char');
+
+      return {
+        openPhrase,
+        openChar,
+        phraseCount: Object.keys(openPhrase).length,
+        charCount: Object.keys(openChar).length,
+        phraseMultiCount: Object.values(openPhrase).filter((entry) => entry.length > 1).length,
+        charMultiCount: Object.values(openChar).filter((entry) => entry.length > 1).length
+      };
+    }
+
+    async function loadCustomOverrides() {
+      const payload = await fetchDataAsset('pinyin/pinyin-overrides.json');
+      const customPhrase = payload && typeof payload === 'object' && payload.phraseMap && typeof payload.phraseMap === 'object'
+        ? normalizeDictionary(payload.phraseMap, 'phrase')
+        : {};
+      const customChar = payload && typeof payload === 'object' && payload.charMap && typeof payload.charMap === 'object'
+        ? normalizeDictionary(payload.charMap, 'char')
+        : {};
+
+      return {
+        customPhrase,
+        customChar,
+        customPhraseCount: Object.keys(customPhrase).length,
+        customCharCount: Object.keys(customChar).length
+      };
+    }
+
+    function annotate(text) {
+      const chars = Array.from(text);
+      const tokens = [];
+      let i = 0;
+      const stats = {
+        matchedPhrases: 0,
+        fallbackChars: 0,
+        unknownChars: 0,
+        multiTokens: 0
+      };
+      const activeTokenIds = new Set();
+
+      while (i < chars.length) {
+        const ch = chars[i];
+
+        if (!isCjk(ch)) {
+          tokens.push({ type: 'raw', text: ch });
+          i += 1;
+          continue;
+        }
+
+        let matched = null;
+        let matchedLen = 0;
+        for (let len = Math.min(maxPhraseLength, chars.length - i); len >= 2; len -= 1) {
+          const segment = chars.slice(i, i + len).join('');
+          if (phraseMap[segment]) {
+            matched = segment;
+            matchedLen = len;
+            break;
+          }
+        }
+
+        if (matched) {
+          const phraseEntry = phraseMap[matched];
+          const segChars = Array.from(matched);
+          const tokenId = `phrase:${i}:${i + matchedLen}:${matched}`;
+          const selectedIndex = Math.min(
+            selectionState.get(tokenId) ?? 0,
+            Math.max(phraseEntry.length - 1, 0)
+          );
+          const candidate = phraseEntry[selectedIndex] || phraseEntry[0];
+          const pinyinNums = applyToneSandhi(candidate);
+          const isValidPhrasePinyin = pinyinNums.length === segChars.length
+            && pinyinNums.every((py) => typeof py === 'string' && py.length > 0);
+
+          if (isValidPhrasePinyin) {
+            stats.matchedPhrases += 1;
+            if (phraseEntry.length > 1) {
+              stats.multiTokens += 1;
+            }
+            activeTokenIds.add(tokenId);
+            tokens.push({
+              type: 'phrase',
+              tokenId,
+              chars: segChars,
+              pinyinNums,
+              pinyinMarks: pinyinNums.map((item) => toMarkedPinyin(item)),
+              candidates: phraseEntry,
+              candidateMarks: phraseEntry.map((item) => buildMarkedLine(item)),
+              selectedIndex
+            });
+            i += matchedLen;
+            continue;
+          }
+        }
+
+        const charEntry = charMap[ch];
+        if (charEntry) {
+          const tokenId = `char:${i}:${i + 1}:${ch}`;
+          const selectedIndex = Math.min(
+            selectionState.get(tokenId) ?? 0,
+            Math.max(charEntry.length - 1, 0)
+          );
+          const pinyinNum = charEntry[selectedIndex] || charEntry[0];
+          if (charEntry.length > 1) {
+            stats.multiTokens += 1;
+          }
+          activeTokenIds.add(tokenId);
+          tokens.push({
+            type: 'char',
+            tokenId,
+            char: ch,
+            pinyinNum,
+            pinyinMark: toMarkedPinyin(pinyinNum),
+            candidates: charEntry,
+            candidateMarks: charEntry.map((item) => toMarkedPinyin(item)),
+            selectedIndex
+          });
+          stats.fallbackChars += 1;
+        } else {
+          tokens.push({ type: 'unknown', char: ch });
+          stats.unknownChars += 1;
+        }
+
+        i += 1;
+      }
+
+      const rubyHtml = tokens.map((token) => {
+        if (token.type === 'char') {
+          const selectHtml = token.candidates.length > 1
+            ? `<select class="token-select" data-token-id="${escapeHtml(token.tokenId)}" aria-label="切换${escapeHtml(token.char)}的拼音候选">${token.candidateMarks.map((item, index) => `<option value="${index}"${index === token.selectedIndex ? ' selected' : ''}>${escapeHtml(item)}</option>`).join('')}</select>`
+            : '';
+          const rtClass = token.candidates.length > 1 ? 'rt-char-uncertain' : 'rt-char';
+          return `<span class="token token-char">${charLinkHtml(token.char, `<ruby>${escapeHtml(token.char)}<rt class="${rtClass}">${escapeHtml(token.pinyinMark)}</rt></ruby>`)}${selectHtml}</span>`;
+        }
+        if (token.type === 'phrase') {
+          const selectHtml = token.candidates.length > 1
+            ? `<select class="token-select" data-token-id="${escapeHtml(token.tokenId)}" aria-label="切换词组${escapeHtml(token.chars.join(''))}的拼音候选">${token.candidateMarks.map((item, index) => `<option value="${index}"${index === token.selectedIndex ? ' selected' : ''}>${escapeHtml(item)}</option>`).join('')}</select>`
+            : '';
+          return `<span class="token token-phrase" data-token-id="${escapeHtml(token.tokenId)}"><span class="token-group">${token.chars.map((char, index) => charLinkHtml(char, `<ruby>${escapeHtml(char)}<rt class="rt-phrase">${escapeHtml(token.pinyinMarks[index])}</rt></ruby>`)).join('')}</span>${selectHtml}</span>`;
+        }
+        if (token.type === 'unknown') {
+          return `<span class="unknown-char">${escapeHtml(token.char)}</span>`;
+        }
+        return escapeHtml(token.text);
+      }).join('');
+
+      return { rubyHtml, stats, activeTokenIds };
+    }
+
+    function render(result) {
+      matchedCount.textContent = String(result.stats.matchedPhrases);
+      fallbackCount.textContent = String(result.stats.fallbackChars);
+      unknownCount.textContent = String(result.stats.unknownChars);
+      uncertainCount.textContent = String(result.stats.multiTokens);
+
+      resultBox.innerHTML = result.rubyHtml || ' ';
+
+      if (result.stats.unknownChars > 0) {
+        resultHint.textContent = `有 ${result.stats.unknownChars} 个字未命中词典，建议补充词条。`;
+        resultHint.className = 'hint warn';
+      } else if (!dictReady) {
+        resultHint.textContent = '正在加载开源词库...';
+        resultHint.className = 'hint';
+      } else {
+        resultHint.textContent = '注音完成。可继续输入或修改文本。';
+        resultHint.className = 'hint ok';
+      }
+    }
+
+    function update() {
+      const result = annotate(inputText.value);
+      render(result);
+
+      for (const key of Array.from(selectionState.keys())) {
+        if (!result.activeTokenIds.has(key)) {
+          selectionState.delete(key);
+        }
+      }
+    }
+
+    let timer = null;
+    inputText.addEventListener('input', () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(update, 250);
+    });
+
+    resultBox.addEventListener('change', (event) => {
+      if (!(event.target instanceof HTMLSelectElement)) return;
+      const tokenId = event.target.dataset.tokenId;
+      if (!tokenId) return;
+
+      const nextIndex = Number.parseInt(event.target.value, 10);
+      if (!Number.isFinite(nextIndex)) return;
+
+      selectionState.set(tokenId, nextIndex);
+      update();
+    });
+
+    async function bootstrap() {
+      update();
+      resultHint.textContent = '正在加载开源词库...';
+      resultHint.className = 'hint';
+
+      try {
+        const loader = getDataLoader();
+        const [openResult, customResult] = await loader.loadMany([
+          () => loadOpenDictionary(),
+          () => loadCustomOverrides()
+        ], { mode: 'allSettled' });
+        if (openResult.status !== 'fulfilled') {
+          throw openResult.reason || new Error('开源词库加载失败');
+        }
+        const openMeta = openResult.value;
+        let customMeta = {
+          customPhrase: {},
+          customChar: {},
+          customPhraseCount: 0,
+          customCharCount: 0
+        };
+        if (customResult.status === 'fulfilled') {
+          customMeta = customResult.value;
+        } else {
+          console.warn(customResult.reason || new Error('自定义词库加载失败'));
+        }
+
+        phraseMap = { ...openMeta.openPhrase, ...customMeta.customPhrase };
+        charMap = { ...openMeta.openChar, ...customMeta.customChar };
+        maxPhraseLength = computeMaxPhraseLength(phraseMap);
+
+        dictReady = true;
+        update();
+        resultHint.textContent = `开源词库已加载：词语 ${openMeta.phraseCount}，单字 ${openMeta.charCount}，词组多音 ${openMeta.phraseMultiCount}，单字多音 ${openMeta.charMultiCount}；自定义 ${customMeta.customPhraseCount}:${customMeta.customCharCount}。`;
+        resultHint.className = 'hint ok';
+      } catch (err) {
+        dictReady = false;
+        console.error(err);
+        resultHint.textContent = '开源词库加载失败，请检查 data 目录词库文件。';
+        resultHint.className = 'hint warn';
+      }
+    }
+
+    bootstrap();
+  </script>
+</body>
+</html>

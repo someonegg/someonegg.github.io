@@ -1,0 +1,10 @@
+.DS_Store
+.worktrees/
+.obsidian/
+.npm-cache/
+.playwright-cli/
+.playwright-mcp/
+
+diff/
+tmp/
+node_modules/

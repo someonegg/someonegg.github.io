@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <title>Touch Mouse Event Playground</title>
+  <style>
+    :root {
+      --bg: #f6f8f9;
+      --panel: #ffffff;
+      --line: #dde5e7;
+      --text: #182024;
+      --muted: #5d6a70;
+      --accent: #1f6f68;
+      --warn: #b45309;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background:
+        radial-gradient(circle at 10% 0%, #ffffff 0%, #fbfcfc 30%, transparent 70%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      line-height: 1.55;
+    }
+    .top-nav {
+      max-width: 1080px;
+      margin: 0 auto 12px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .nav-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .nav-link:hover { background: rgba(31, 111, 104, 0.08); }
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: grid;
+      gap: 12px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+    .head {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .title { font-weight: 600; font-size: 15px; }
+    .muted { color: var(--muted); font-size: 12px; }
+    .body { padding: 16px; display: grid; gap: 12px; }
+    .probe-zone {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbfb 100%);
+      min-height: 220px;
+      padding: 12px;
+      touch-action: none;
+      user-select: none;
+    }
+    .zone-title {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .zone-content {
+      min-height: 176px;
+      border: 1px dashed #c8d4d8;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      padding: 10px;
+      text-align: center;
+      color: #2f3a40;
+      background: rgba(255, 255, 255, 0.7);
+    }
+    .drag-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      cursor: grab;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+    .drag-item:active { cursor: grabbing; }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    button:hover { border-color: var(--accent); color: var(--accent); background: #fcfefe; }
+    label {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text);
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    #log {
+      margin: 0;
+      padding: 12px;
+      max-height: 58vh;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border-top: 1px solid var(--line);
+      background: #f9fafb;
+      color: #475569;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .hint {
+      margin: 0;
+      font-size: 12px;
+      color: var(--warn);
+    }
+    @media (max-width: 768px) {
+      body { padding: 12px; }
+      .body { padding: 12px; }
+      .probe-zone { min-height: 190px; }
+      .zone-content { min-height: 150px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="./index.html" class="nav-link">返回索引</a>
+  </nav>
+  <div class="wrap">
+    <section class="card">
+      <div class="head">
+        <div class="title">Touch / Mouse / Pointer Event Probe</div>
+        <div class="muted" id="status">ready</div>
+      </div>
+      <div class="body">
+        <div id="probeZone" class="probe-zone" data-zone="probe-zone">
+          <div class="zone-title">测试画布区（点击、拖动、滚轮、右键、触控）</div>
+          <div class="zone-content" id="dropZone" data-zone="drop-zone">
+            <div>
+              在这里做手势与鼠标操作
+              <div id="dragItem" class="drag-item" draggable="true" data-zone="drag-item">拖动我（drag/drop）</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="focusProbeBtn">focus 画布区</button>
+          <button id="clearLogBtn">clear logs</button>
+          <button id="copyLogBtn">copy logs</button>
+          <button id="resetBtn">reset state</button>
+          <label>
+            <input type="checkbox" id="preventDefaultToggle" />
+            画布区启用 preventDefault
+          </label>
+        </div>
+        <p class="hint">提示：未开启 preventDefault 时，部分浏览器下 drop 可能不会触发。</p>
+      </div>
+      <pre id="log"></pre>
+    </section>
+  </div>
+
+  <script>
+    const probeZone = document.getElementById('probeZone');
+    const dropZone = document.getElementById('dropZone');
+    const dragItem = document.getElementById('dragItem');
+    const logNode = document.getElementById('log');
+    const statusNode = document.getElementById('status');
+    const preventDefaultToggle = document.getElementById('preventDefaultToggle');
+    const focusProbeBtn = document.getElementById('focusProbeBtn');
+    const clearLogBtn = document.getElementById('clearLogBtn');
+    const copyLogBtn = document.getElementById('copyLogBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    const LOG_LIMIT = 140000;
+    let seq = 0;
+
+    function now() {
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      const ss = String(d.getSeconds()).padStart(2, '0');
+      const ms = String(d.getMilliseconds()).padStart(3, '0');
+      return `${hh}:${mm}:${ss}.${ms}`;
+    }
+
+    function getZoneName(node) {
+      if (!node || !node.closest) return 'unknown';
+      const found = node.closest('[data-zone]');
+      return found ? found.getAttribute('data-zone') || 'unknown' : 'document';
+    }
+
+    function targetInfo(node) {
+      if (!node || !node.tagName) return 'unknown';
+      const id = node.id ? `#${node.id}` : '';
+      return `${node.tagName.toLowerCase()}${id}`;
+    }
+
+    function pushLog(type, detail) {
+      seq += 1;
+      const line = `[${now()}] #${seq} ${type} ${detail}`;
+      logNode.textContent = `${line}\n${logNode.textContent}`;
+      if (logNode.textContent.length > LOG_LIMIT) {
+        logNode.textContent = logNode.textContent.slice(0, LOG_LIMIT);
+      }
+      statusNode.textContent = type;
+    }
+
+    function commonDetail(e, scopeName) {
+      const bits = [];
+      bits.push(`scope=${scopeName}`);
+      bits.push(`zone=${getZoneName(e.target)}`);
+      bits.push(`target=${targetInfo(e.target)}`);
+      bits.push(`current=${targetInfo(e.currentTarget)}`);
+      bits.push(`defaultPrevented=${String(e.defaultPrevented)}`);
+      bits.push(`cancelable=${String(e.cancelable)}`);
+      bits.push(`buttons=${'buttons' in e ? e.buttons : -1}`);
+      bits.push(`button=${'button' in e ? e.button : -1}`);
+      bits.push(`mods=${Number(e.altKey)}${Number(e.ctrlKey)}${Number(e.metaKey)}${Number(e.shiftKey)}`);
+      if ('clientX' in e) {
+        bits.push(`xy=${Math.round(e.clientX)},${Math.round(e.clientY)}`);
+      }
+      return bits.join(' ');
+    }
+
+    function pointerDetail(e) {
+      return `pointerId=${e.pointerId} pointerType=${JSON.stringify(e.pointerType)} isPrimary=${String(e.isPrimary)} pressure=${Number(e.pressure).toFixed(3)}`;
+    }
+
+    function touchDetail(e) {
+      const first = e.changedTouches && e.changedTouches[0];
+      const p = first ? `${Math.round(first.clientX)},${Math.round(first.clientY)}` : 'n/a';
+      return `touches=${e.touches.length} changedTouches=${e.changedTouches.length} targetTouches=${e.targetTouches.length} firstChanged=${p}`;
+    }
+
+    function wheelDetail(e) {
+      return `delta=${e.deltaX.toFixed(2)},${e.deltaY.toFixed(2)},${e.deltaZ.toFixed(2)} mode=${e.deltaMode}`;
+    }
+
+    function dragDetail(e) {
+      if (!e.dataTransfer) return 'dataTransfer=false';
+      const types = Array.from(e.dataTransfer.types || []).join('|');
+      return `types=${JSON.stringify(types)} effectAllowed=${JSON.stringify(e.dataTransfer.effectAllowed || '')} dropEffect=${JSON.stringify(e.dataTransfer.dropEffect || '')}`;
+    }
+
+    function maybePreventDefault(e, scopeName) {
+      const shouldPrevent = preventDefaultToggle.checked && scopeName === 'probe';
+      if (shouldPrevent && e.cancelable) {
+        e.preventDefault();
+      }
+    }
+
+    function bindEvents(node, scopeName) {
+      const pointerEvents = ['pointerdown', 'pointermove', 'pointerup', 'pointercancel', 'pointerenter', 'pointerleave', 'pointerover', 'pointerout', 'gotpointercapture', 'lostpointercapture'];
+      const touchEvents = ['touchstart', 'touchmove', 'touchend', 'touchcancel'];
+      const mouseEvents = ['mousedown', 'mousemove', 'mouseup', 'mouseenter', 'mouseleave', 'mouseover', 'mouseout', 'click', 'dblclick', 'auxclick'];
+      const extraEvents = ['wheel', 'contextmenu', 'dragstart', 'drag', 'dragend', 'dragenter', 'dragover', 'dragleave', 'drop'];
+
+      pointerEvents.forEach(type => {
+        node.addEventListener(type, e => {
+          maybePreventDefault(e, scopeName);
+          pushLog(type, `${commonDetail(e, scopeName)} ${pointerDetail(e)}`, node);
+        });
+      });
+      touchEvents.forEach(type => {
+        node.addEventListener(type, e => {
+          maybePreventDefault(e, scopeName);
+          pushLog(type, `${commonDetail(e, scopeName)} ${touchDetail(e)}`, node);
+        });
+      });
+      mouseEvents.forEach(type => {
+        node.addEventListener(type, e => {
+          maybePreventDefault(e, scopeName);
+          pushLog(type, commonDetail(e, scopeName), node);
+        });
+      });
+      extraEvents.forEach(type => {
+        node.addEventListener(type, e => {
+          maybePreventDefault(e, scopeName);
+          const extra = type === 'wheel' ? wheelDetail(e) : (type.startsWith('drag') || type === 'drop' ? dragDetail(e) : '');
+          pushLog(type, `${commonDetail(e, scopeName)}${extra ? ` ${extra}` : ''}`, node);
+        });
+      });
+    }
+
+    bindEvents(probeZone, 'probe');
+    bindEvents(dropZone, 'drop-zone');
+    bindEvents(dragItem, 'drag-item');
+
+    dragItem.addEventListener('dragstart', e => {
+      if (e.dataTransfer) {
+        e.dataTransfer.setData('text/plain', 'drag-item');
+      }
+    });
+
+    focusProbeBtn.addEventListener('click', () => {
+      probeZone.setAttribute('tabindex', '-1');
+      probeZone.focus();
+      pushLog('action:focus-probe', 'ok=true');
+    });
+    clearLogBtn.addEventListener('click', () => {
+      logNode.textContent = '';
+      pushLog('action:clear-logs', 'ok=true');
+    });
+    copyLogBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(logNode.textContent || '');
+        pushLog('action:copy-logs', 'ok=true');
+      } catch (err) {
+        pushLog('action:copy-logs', `ok=false error=${JSON.stringify(String(err))}`);
+      }
+    });
+    resetBtn.addEventListener('click', () => {
+      preventDefaultToggle.checked = false;
+      statusNode.textContent = 'ready';
+      pushLog('action:reset-state', 'ok=true');
+    });
+    preventDefaultToggle.addEventListener('change', () => {
+      pushLog('action:toggle-prevent-default', `enabled=${String(preventDefaultToggle.checked)}`);
+    });
+
+    pushLog('boot', `ua=${JSON.stringify(navigator.userAgent)}`);
+  </script>
+</body>
+</html>

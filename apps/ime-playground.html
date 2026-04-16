@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <title>Textarea IME Playground</title>
+  <style>
+    :root {
+      --bg: #f6f8f9;
+      --panel: #ffffff;
+      --line: #dde5e7;
+      --text: #182024;
+      --muted: #5d6a70;
+      --accent: #1f6f68;
+      --ok: #1f6f68;
+      --warn: #b45309;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background:
+        radial-gradient(circle at 10% 0%, #ffffff 0%, #fbfcfc 30%, transparent 70%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      line-height: 1.6;
+    }
+    .top-nav {
+      max-width: 980px;
+      margin: 0 auto 12px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .nav-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .nav-link:hover { background: rgba(31, 111, 104, 0.08); }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      gap: 12px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .head {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .title { font-weight: 600; font-size: 15px; color: var(--text); }
+    .muted { color: var(--muted); font-size: 12px; }
+    .body { padding: 16px; }
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fafafa;
+      color: var(--text);
+      padding: 12px;
+      font: inherit;
+      font-size: 16px;
+      line-height: 1.5;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(31, 111, 104, 0.1);
+      background: #fff;
+    }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; }
+    button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+    button:hover { border-color: var(--accent); color: var(--accent); background: #fcfefe; }
+    #log {
+      margin: 0;
+      padding: 12px;
+      max-height: 60vh;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border-top: 1px solid var(--line);
+      background: #f9fafb;
+      color: #475569;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .hint { color: var(--warn); font-weight: 500; }
+    .ok { color: var(--ok); font-weight: 500; }
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="./index.html" class="nav-link">返回索引</a>
+  </nav>
+  <div class="wrap">
+    <div class="card">
+      <div class="head">
+        <div class="title">Textarea IME Event Probe</div>
+        <div class="muted" id="status">ready</div>
+      </div>
+      <div class="body">
+        <textarea id="ta" placeholder="Tap here, then use keyboard/IME/voice input"></textarea>
+        <div class="controls" style="margin-top:10px">
+          <button id="focusBtn">focus</button>
+          <button id="clearInputBtn">clear textarea</button>
+          <button id="clearLogBtn">clear logs</button>
+          <button id="copyLogBtn">copy logs</button>
+        </div>
+        <div class="muted" style="margin-top:10px">
+          <span class="ok">Tip:</span> iOS voice input often differs from keyboard IME. Keep this page in foreground and watch exact sequence.
+        </div>
+      </div>
+      <pre id="log"></pre>
+    </div>
+  </div>
+
+  <script>
+    const ta = document.getElementById('ta');
+    const logNode = document.getElementById('log');
+    const statusNode = document.getElementById('status');
+    const focusBtn = document.getElementById('focusBtn');
+    const clearInputBtn = document.getElementById('clearInputBtn');
+    const clearLogBtn = document.getElementById('clearLogBtn');
+    const copyLogBtn = document.getElementById('copyLogBtn');
+
+    let seq = 0;
+
+    function now() {
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      const ss = String(d.getSeconds()).padStart(2, '0');
+      const ms = String(d.getMilliseconds()).padStart(3, '0');
+      return `${hh}:${mm}:${ss}.${ms}`;
+    }
+
+    function esc(s) {
+      return String(s).replace(/\r/g, '\\r').replace(/\n/g, '\\n');
+    }
+
+    function short(s, n = 120) {
+      const chars = Array.from(esc(s));
+      return chars.length <= n ? chars.join('') : chars.slice(0, n).join('') + '...';
+    }
+
+    function selInfo() {
+      const a = ta.selectionStart;
+      const b = ta.selectionEnd;
+      const dir = ta.selectionDirection || 'none';
+      return `sel=[${a},${b},${dir}]`;
+    }
+
+    function line(type, extra = '') {
+      seq += 1;
+      const value = ta.value;
+      const msg = `[${now()}] #${seq} ${type} len=${value.length} ${selInfo()} value="${short(value)}"${extra ? ' ' + extra : ''}`;
+      logNode.textContent = msg + '\n' + logNode.textContent;
+      if (logNode.textContent.length > 120000) {
+        logNode.textContent = logNode.textContent.slice(0, 120000);
+      }
+      statusNode.textContent = `${type}`;
+    }
+
+    function inputExtra(e) {
+      const bits = [];
+      bits.push(`inputType=${JSON.stringify(e.inputType || '')}`);
+      bits.push(`data=${JSON.stringify(e.data || '')}`);
+      bits.push(`isComposing=${String(e.isComposing)}`);
+      bits.push(`composed=${String(e.composed)}`);
+      return bits.join(' ');
+    }
+
+    function keyExtra(e) {
+      const bits = [];
+      bits.push(`key=${JSON.stringify(e.key)}`);
+      bits.push(`code=${JSON.stringify(e.code)}`);
+      bits.push(`keyCode=${String(e.keyCode)}`);
+      bits.push(`which=${String(e.which)}`);
+      bits.push(`isComposing=${String(!!e.isComposing)}`);
+      return bits.join(' ');
+    }
+
+    ['focus', 'blur', 'change'].forEach(type => {
+      ta.addEventListener(type, () => line(type));
+    });
+
+    ['compositionstart', 'compositionupdate', 'compositionend'].forEach(type => {
+      ta.addEventListener(type, e => {
+        line(type, `data=${JSON.stringify((e && e.data) || '')}`);
+      });
+    });
+
+    ['beforeinput', 'input'].forEach(type => {
+      ta.addEventListener(type, e => {
+        line(type, inputExtra(e));
+      });
+    });
+
+    ['keydown', 'keypress', 'keyup'].forEach(type => {
+      ta.addEventListener(type, e => {
+        line(type, keyExtra(e));
+      });
+    });
+
+    document.addEventListener('selectionchange', () => {
+      if (document.activeElement === ta) {
+        line('selectionchange(document)');
+      }
+    });
+
+    focusBtn.addEventListener('click', () => {
+      ta.focus();
+      line('action:focus()');
+    });
+
+    clearInputBtn.addEventListener('click', () => {
+      ta.value = '';
+      line('action:clear-textarea');
+    });
+
+    clearLogBtn.addEventListener('click', () => {
+      logNode.textContent = '';
+      line('action:clear-logs');
+    });
+
+    copyLogBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(logNode.textContent || '');
+        line('action:copy-logs', 'ok=true');
+      } catch (err) {
+        line('action:copy-logs', `ok=false error=${JSON.stringify(String(err))}`);
+      }
+    });
+
+    line('boot', `ua=${JSON.stringify(navigator.userAgent)}`);
+    ta.focus();
+  </script>
+</body>
+</html>

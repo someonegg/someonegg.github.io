@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+    <title>Ripple Resonance - Generative Art</title>
+    <script src="/vendor/p5.min.js"></script>
+    <style>
+        :root {
+            --anthropic-dark: #141413;
+            --anthropic-light: #faf9f5;
+            --anthropic-mid-gray: #b0aea5;
+            --anthropic-light-gray: #e8e6dc;
+            --anthropic-orange: #d97757;
+            --anthropic-blue: #6a9bcc;
+            --anthropic-green: #788c5d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--anthropic-light) 0%, #f5f3ee 100%);
+            min-height: 100vh;
+            color: var(--anthropic-dark);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .sidebar {
+            width: 320px;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(20, 20, 19, 0.1);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .nav-link-top {
+            display: inline-block;
+            color: var(--anthropic-dark);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--anthropic-light-gray);
+            background: #fff;
+            margin-bottom: 14px;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .nav-link-top:hover {
+            background: var(--anthropic-light);
+            border-color: var(--anthropic-mid-gray);
+        }
+
+        .sidebar h1 {
+            font-family: 'Lora', serif;
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--anthropic-dark);
+            margin-bottom: 8px;
+        }
+
+        .sidebar .subtitle {
+            color: var(--anthropic-mid-gray);
+            font-size: 14px;
+            margin-bottom: 32px;
+            line-height: 1.4;
+        }
+
+        .control-section {
+            margin-bottom: 32px;
+        }
+
+        .control-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--anthropic-dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-section h3::before {
+            content: '';
+            color: var(--anthropic-orange);
+            font-weight: bold;
+        }
+
+        .seed-input {
+            width: 100%;
+            background: var(--anthropic-light);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin-bottom: 12px;
+            border: 1px solid var(--anthropic-light-gray);
+            text-align: center;
+        }
+
+        .seed-input:focus {
+            outline: none;
+            border-color: var(--anthropic-orange);
+            box-shadow: 0 0 0 2px rgba(217, 119, 87, 0.1);
+            background: white;
+        }
+
+        .seed-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .regen-button {
+            margin-bottom: 0;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--anthropic-dark);
+            margin-bottom: 8px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+            height: 4px;
+            background: var(--anthropic-light-gray);
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--anthropic-orange);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            background: #c86641;
+        }
+
+        .slider-container input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--anthropic-orange);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .value-display {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--anthropic-mid-gray);
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .color-group {
+            margin-bottom: 16px;
+        }
+
+        .color-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--anthropic-mid-gray);
+            margin-bottom: 4px;
+        }
+
+        .color-picker-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-picker-container input[type="color"] {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: none;
+            padding: 0;
+        }
+
+        .color-value {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--anthropic-mid-gray);
+        }
+
+        .button {
+            background: var(--anthropic-orange);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .button:hover {
+            background: #c86641;
+            transform: translateY(-1px);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button.secondary {
+            background: var(--anthropic-blue);
+        }
+
+        .button.secondary:hover {
+            background: #5a8bb8;
+        }
+
+        .button.tertiary {
+            background: var(--anthropic-green);
+        }
+
+        .button.tertiary:hover {
+            background: #6b7b52;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .button-row .button {
+            flex: 1;
+        }
+
+        .canvas-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        #canvas-container {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(20, 20, 19, 0.1);
+            background: white;
+        }
+
+        #canvas-container canvas {
+            display: block;
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--anthropic-mid-gray);
+            padding: 100px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .canvas-area {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a href="./index.html" class="nav-link-top">返回索引</a>
+            <h1>Ripple Resonance</h1>
+            <div class="subtitle">Wave interference patterns emerging from multiple sources. Each seed creates a unique harmonic composition.</div>
+
+            <!-- Seed Section -->
+            <div class="control-section">
+                <h3>Seed</h3>
+                <input type="number" id="seed-input" class="seed-input" value="12345" onchange="updateSeed()">
+                <div class="seed-controls">
+                    <button class="button secondary" onclick="previousSeed()">← Prev</button>
+                    <button class="button secondary" onclick="nextSeed()">Next →</button>
+                </div>
+                <button class="button tertiary regen-button" onclick="randomSeedAndUpdate()">↻ Random</button>
+            </div>
+
+            <!-- Parameters Section -->
+            <div class="control-section">
+                <h3>Parameters</h3>
+
+                <div class="control-group">
+                    <label>Wave Sources</label>
+                    <div class="slider-container">
+                        <input type="range" id="waveCount" min="3" max="12" step="1" value="6" oninput="updateParam('waveCount', this.value)">
+                        <span class="value-display" id="waveCount-value">6</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Wavelength</label>
+                    <div class="slider-container">
+                        <input type="range" id="wavelength" min="20" max="80" step="5" value="40" oninput="updateParam('wavelength', this.value)">
+                        <span class="value-display" id="wavelength-value">40</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Decay Rate</label>
+                    <div class="slider-container">
+                        <input type="range" id="decay" min="0.001" max="0.008" step="0.001" value="0.003" oninput="updateParam('decay', this.value)">
+                        <span class="value-display" id="decay-value">0.003</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Resolution</label>
+                    <div class="slider-container">
+                        <input type="range" id="resolution" min="2" max="6" step="1" value="4" oninput="updateParam('resolution', this.value)">
+                        <span class="value-display" id="resolution-value">4</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Time Phase</label>
+                    <div class="slider-container">
+                        <input type="range" id="timePhase" min="0" max="6.28" step="0.1" value="0" oninput="updateParam('timePhase', this.value)">
+                        <span class="value-display" id="timePhase-value">0.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colors Section -->
+            <div class="control-section">
+                <h3>Colors</h3>
+
+                <div class="color-group">
+                    <label>Warm (Positive Amplitude)</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="colorWarm" value="#d97757" onchange="updateColor('colorWarm', this.value)">
+                        <span class="color-value" id="colorWarm-value">#d97757</span>
+                    </div>
+                </div>
+
+                <div class="color-group">
+                    <label>Cool (Negative Amplitude)</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="colorCool" value="#6a9bcc" onchange="updateColor('colorCool', this.value)">
+                        <span class="color-value" id="colorCool-value">#6a9bcc</span>
+                    </div>
+                </div>
+
+                <div class="color-group">
+                    <label>Background</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="colorBg" value="#faf9f5" onchange="updateColor('colorBg', this.value)">
+                        <span class="color-value" id="colorBg-value">#faf9f5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions Section -->
+            <div class="control-section">
+                <h3>Actions</h3>
+                <div class="button-row" style="margin-bottom: 8px;">
+                    <button class="button" onclick="resetParameters()">Reset</button>
+                    <button class="button tertiary" onclick="downloadImage()">Download PNG</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Canvas Area -->
+        <div class="canvas-area">
+            <div id="canvas-container">
+                <div class="loading">Generating ripples...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════════════
+        // RIPPLE RESONANCE - WAVE INTERFERENCE PATTERNS
+        // ═══════════════════════════════════════════════════════════════════════
+
+        let params = {
+            seed: 12345,
+            waveCount: 6,
+            wavelength: 40,
+            decay: 0.003,
+            resolution: 4,
+            timePhase: 0,
+            colorWarm: '#d97757',
+            colorCool: '#6a9bcc',
+            colorBg: '#faf9f5'
+        };
+
+        let defaultParams = {...params};
+        let waveSources = [];
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // P5.JS ALGORITHM
+        // ═══════════════════════════════════════════════════════════════════════
+
+        function setup() {
+            let canvas = createCanvas(800, 800);
+            canvas.parent('canvas-container');
+            pixelDensity(1);
+            noLoop();
+
+            initializeSystem();
+
+            document.querySelector('.loading').style.display = 'none';
+        }
+
+        function initializeSystem() {
+            randomSeed(params.seed);
+            noiseSeed(params.seed);
+
+            // Generate wave sources at random positions
+            waveSources = [];
+            for (let i = 0; i < params.waveCount; i++) {
+                waveSources.push({
+                    x: random(width * 0.1, width * 0.9),
+                    y: random(height * 0.1, height * 0.9),
+                    phase: random(TWO_PI),
+                    amplitude: random(0.7, 1.0)
+                });
+            }
+
+            redraw();
+        }
+
+        function draw() {
+            let bgColor = hexToRgb(params.colorBg);
+            let warmColor = hexToRgb(params.colorWarm);
+            let coolColor = hexToRgb(params.colorCool);
+
+            background(bgColor.r, bgColor.g, bgColor.b);
+
+            loadPixels();
+
+            let res = params.resolution;
+
+            for (let x = 0; x < width; x += res) {
+                for (let y = 0; y < height; y += res) {
+                    // Calculate superposition of all waves at this point
+                    let totalAmplitude = 0;
+
+                    for (let source of waveSources) {
+                        let dx = x - source.x;
+                        let dy = y - source.y;
+                        let distance = Math.sqrt(dx * dx + dy * dy);
+
+                        // Wave equation with decay
+                        let decay = Math.exp(-distance * params.decay);
+                        let wave = Math.sin((distance / params.wavelength) * TWO_PI + source.phase + params.timePhase);
+
+                        totalAmplitude += wave * decay * source.amplitude;
+                    }
+
+                    // Normalize amplitude to [-1, 1] range
+                    totalAmplitude = totalAmplitude / (params.waveCount * 0.5);
+                    totalAmplitude = constrain(totalAmplitude, -1, 1);
+
+                    // Map amplitude to color
+                    let r, g, b;
+                    if (totalAmplitude > 0) {
+                        // Interpolate from background to warm
+                        let t = totalAmplitude;
+                        r = lerp(bgColor.r, warmColor.r, t);
+                        g = lerp(bgColor.g, warmColor.g, t);
+                        b = lerp(bgColor.b, warmColor.b, t);
+                    } else {
+                        // Interpolate from background to cool
+                        let t = -totalAmplitude;
+                        r = lerp(bgColor.r, coolColor.r, t);
+                        g = lerp(bgColor.g, coolColor.g, t);
+                        b = lerp(bgColor.b, coolColor.b, t);
+                    }
+
+                    // Fill the resolution block
+                    for (let dx = 0; dx < res && x + dx < width; dx++) {
+                        for (let dy = 0; dy < res && y + dy < height; dy++) {
+                            let idx = 4 * ((y + dy) * width + (x + dx));
+                            pixels[idx] = r;
+                            pixels[idx + 1] = g;
+                            pixels[idx + 2] = b;
+                            pixels[idx + 3] = 255;
+                        }
+                    }
+                }
+            }
+
+            updatePixels();
+
+            // Draw wave source indicators
+            noFill();
+            stroke(100, 100, 100, 80);
+            strokeWeight(1);
+            for (let source of waveSources) {
+                ellipse(source.x, source.y, 8, 8);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // UTILITY FUNCTIONS
+        // ═══════════════════════════════════════════════════════════════════════
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : { r: 250, g: 249, b: 245 };
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // UI CONTROL HANDLERS
+        // ═══════════════════════════════════════════════════════════════════════
+
+        function updateParam(paramName, value) {
+            if (paramName === 'waveCount') {
+                params[paramName] = parseInt(value);
+            } else if (paramName === 'resolution') {
+                params[paramName] = parseInt(value);
+            } else {
+                params[paramName] = parseFloat(value);
+            }
+
+            document.getElementById(paramName + '-value').textContent =
+                paramName === 'timePhase' ? parseFloat(value).toFixed(1) : value;
+
+            // Regenerate for waveCount changes, otherwise just redraw
+            if (paramName === 'waveCount') {
+                initializeSystem();
+            } else {
+                redraw();
+            }
+        }
+
+        function updateColor(colorId, value) {
+            params[colorId] = value;
+            document.getElementById(colorId + '-value').textContent = value;
+            redraw();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // SEED CONTROL FUNCTIONS
+        // ═══════════════════════════════════════════════════════════════════════
+
+        function updateSeedDisplay() {
+            document.getElementById('seed-input').value = params.seed;
+        }
+
+        function updateSeed() {
+            let input = document.getElementById('seed-input');
+            let newSeed = parseInt(input.value);
+            if (newSeed && newSeed > 0) {
+                params.seed = newSeed;
+                initializeSystem();
+            } else {
+                updateSeedDisplay();
+            }
+        }
+
+        function previousSeed() {
+            params.seed = Math.max(1, params.seed - 1);
+            updateSeedDisplay();
+            initializeSystem();
+        }
+
+        function nextSeed() {
+            params.seed = params.seed + 1;
+            updateSeedDisplay();
+            initializeSystem();
+        }
+
+        function randomSeedAndUpdate() {
+            params.seed = Math.floor(Math.random() * 999999) + 1;
+            updateSeedDisplay();
+            initializeSystem();
+        }
+
+        function resetParameters() {
+            params = {...defaultParams};
+
+            // Update all UI elements
+            document.getElementById('waveCount').value = params.waveCount;
+            document.getElementById('waveCount-value').textContent = params.waveCount;
+            document.getElementById('wavelength').value = params.wavelength;
+            document.getElementById('wavelength-value').textContent = params.wavelength;
+            document.getElementById('decay').value = params.decay;
+            document.getElementById('decay-value').textContent = params.decay;
+            document.getElementById('resolution').value = params.resolution;
+            document.getElementById('resolution-value').textContent = params.resolution;
+            document.getElementById('timePhase').value = params.timePhase;
+            document.getElementById('timePhase-value').textContent = parseFloat(params.timePhase).toFixed(1);
+
+            document.getElementById('colorWarm').value = params.colorWarm;
+            document.getElementById('colorWarm-value').textContent = params.colorWarm;
+            document.getElementById('colorCool').value = params.colorCool;
+            document.getElementById('colorCool-value').textContent = params.colorCool;
+            document.getElementById('colorBg').value = params.colorBg;
+            document.getElementById('colorBg-value').textContent = params.colorBg;
+
+            updateSeedDisplay();
+            initializeSystem();
+        }
+
+        function downloadImage() {
+            saveCanvas('ripple-resonance-' + params.seed, 'png');
+        }
+
+        // Initialize UI on load
+        window.addEventListener('load', function() {
+            updateSeedDisplay();
+        });
+    </script>
+</body>
+</html>

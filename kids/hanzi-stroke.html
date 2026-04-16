@@ -1,0 +1,1246 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <title>汉字写字演示</title>
+  <style>
+    :root {
+      --bg: #f4efe4;
+      --surface: #fbf7ee;
+      --surface-soft: #f7f1e5;
+      --text: #2b241d;
+      --muted: #6f6255;
+      --accent: #6f4b2f;
+      --accent-soft: rgba(111, 75, 47, 0.12);
+      --assist: #f8eee3;
+      --assist-text: #7f2f1d;
+      --border: #ddd0bd;
+      --stroke-active: #8b4513;
+      --radius: 12px;
+      --shadow: 0 10px 30px rgba(24, 32, 36, 0.06);
+      --focus: 0 0 0 3px rgba(111, 75, 47, 0.22);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 12% 0%, #fffdf8 0%, #f8f2e8 28%, transparent 72%),
+        var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+      padding: 16px 14px 28px;
+      touch-action: manipulation;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .nav-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .nav-link:hover { background: var(--accent-soft); }
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: -0.3px;
+      font-weight: 650;
+    }
+
+    .desc {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .panel {
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .toolbar {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      background: var(--surface-soft);
+    }
+
+    .field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .field label {
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 0;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 0 12px;
+      font-size: 18px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    input[type="text"]:focus-visible,
+    button:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+
+    button {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      height: 42px;
+      padding: 0 14px;
+      border-radius: 9px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      touch-action: manipulation;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: #fcfefe;
+    }
+
+    .btn-main {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 560;
+    }
+
+    .btn-main:hover {
+      color: #fff;
+      filter: brightness(1.03);
+      background: #1a625d;
+      border-color: #1a625d;
+    }
+
+    #autoplayBtn {
+      background: var(--surface-soft);
+      border-color: var(--border);
+      color: var(--muted);
+      min-width: 88px;
+    }
+
+    #autoplayBtn:hover {
+      border-color: var(--accent);
+      color: var(--text);
+      background: #f4ebdd;
+    }
+
+    #autoplayBtn.is-playing {
+      background: var(--stroke-active);
+      border-color: var(--stroke-active);
+      color: #fff;
+    }
+
+    #autoplayBtn.is-playing:hover {
+      color: #fff;
+      filter: brightness(1.03);
+    }
+
+    .content {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(360px, 1fr) minmax(300px, 0.95fr);
+      gap: 12px;
+    }
+
+    .viewer,
+    .info {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .viewer {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 520px;
+    }
+
+    .svg-wrap {
+      flex: 1 1 auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background:
+        linear-gradient(180deg, rgba(124, 96, 67, 0.03), rgba(124, 96, 67, 0.01)),
+        repeating-linear-gradient(90deg, rgba(124, 96, 67, 0.015) 0, rgba(124, 96, 67, 0.015) 1px, transparent 1px, transparent 7px),
+        #f3e8d2;
+      display: grid;
+      place-items: center;
+      height: auto;
+      min-height: 320px;
+    }
+
+    svg {
+      width: min(100%, 460px);
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    .status {
+      margin: 0;
+      margin-top: auto;
+      min-height: 24px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .status.warn {
+      color: #b45309;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+
+    .info {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 520px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 13px;
+      color: var(--muted);
+      background: #fff;
+      margin-right: 6px;
+    }
+
+    .chip strong {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .current {
+      background: var(--assist);
+      color: var(--assist-text);
+      border: 1px solid #ffd4bf;
+      border-radius: 9px;
+      padding: 10px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    @media (max-width: 980px) {
+      body {
+        padding: 6px 6px 8px;
+        height: 100dvh;
+        overflow: hidden;
+      }
+      .wrap {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .top-nav { margin-bottom: 4px; }
+      h1 { font-size: 20px; line-height: 1.25; }
+      .desc { display: none; }
+      .panel {
+        margin-top: 6px;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        flex: 1;
+      }
+      .toolbar {
+        padding: 8px;
+        gap: 6px;
+      }
+      .field {
+        min-width: 100%;
+        gap: 6px;
+      }
+      .field label { font-size: 12px; }
+      .field-hint { font-size: 11px; }
+      .content {
+        flex: 1;
+        min-height: 0;
+        padding: 8px;
+        gap: 8px;
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+      .viewer,
+      .info {
+        min-height: 0;
+        padding: 8px;
+        gap: 8px;
+      }
+      .viewer { overflow: hidden; }
+      .info { overflow: auto; }
+      .svg-wrap {
+        height: auto;
+        min-height: 260px;
+      }
+      .status {
+        min-height: 20px;
+        font-size: 12px;
+      }
+      .chip {
+        font-size: 12px;
+        padding: 3px 8px;
+      }
+      .current {
+        padding: 8px;
+        font-size: 13px;
+      }
+      .controls { gap: 6px; }
+      button,
+      input[type="text"] { height: 40px; }
+    }
+
+    @media (max-width: 980px) and (max-height: 760px) {
+      .content {
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+      .svg-wrap {
+        height: auto;
+        min-height: 220px;
+      }
+      .current {
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+      .controls {
+        gap: 4px;
+      }
+      button,
+      input[type="text"] {
+        height: 38px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="top-nav">
+      <a href="./index.html" class="nav-link">返回索引</a>
+    </nav>
+
+    <header>
+      <h1>汉字写字演示</h1>
+      <p class="desc">输入一个汉字，按步骤查看“从第 1 笔到完整字”的静态演示，便于孩子建立字形与笔顺对应关系。</p>
+    </header>
+
+    <section class="panel">
+      <div class="toolbar">
+        <div class="field">
+          <label for="hanziInput">输入汉字</label>
+          <input id="hanziInput" type="text" maxlength="8" placeholder="请输入 1 个汉字，按回车" />
+          <button id="autoplayBtn" type="button">自动播放</button>
+        </div>
+      </div>
+
+      <div class="content">
+        <section class="viewer">
+          <div class="svg-wrap">
+            <svg id="strokeSvg" viewBox="0 0 1024 1024" aria-label="笔顺演示区"></svg>
+          </div>
+          <p id="statusText" class="status">正在加载离线字库...</p>
+        </section>
+
+        <section class="info">
+          <div>
+            <span class="chip">当前字 <strong id="currentChar">-</strong></span>
+            <span class="chip">总笔画 <strong id="totalCount">-</strong></span>
+          </div>
+
+          <div id="currentStroke" class="current">当前笔画：-</div>
+
+          <div class="controls">
+            <button id="prevBtn" type="button">上一步</button>
+            <button id="nextBtn" type="button">下一步</button>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="/vendor/msgpack.min.js"></script>
+  <script src="/assets/site/hanzi-data-loader.js"></script>
+  <script>
+    const inputEl = document.getElementById('hanziInput');
+    const svgEl = document.getElementById('strokeSvg');
+    const statusText = document.getElementById('statusText');
+    const currentCharEl = document.getElementById('currentChar');
+    const totalCountEl = document.getElementById('totalCount');
+    const currentStrokeEl = document.getElementById('currentStroke');
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const autoplayBtn = document.getElementById('autoplayBtn');
+
+    const SHARD_COUNT = 8;
+    const SHARD_CONCURRENCY = 2;
+    const FETCH_TIMEOUT_MS = 30000;
+    const MAX_RETRIES = 2;
+
+    let dict = null;
+    let dictReady = false;
+    let activeChar = '';
+    let activeData = null;
+    let activeLayout = null;
+    let phase = 0;
+
+    function restoreStrokePayload(payload) {
+      const out = {};
+      for (const [ch, item] of Object.entries(payload)) {
+        out[ch] = {
+          total: item && typeof item === 'object' ? item.a : undefined,
+          strokes: item && typeof item === 'object' ? item.b : undefined,
+          paths: item && typeof item === 'object' ? item.c : undefined,
+          medians: item && typeof item === 'object' ? item.d : undefined
+        };
+      }
+      return out;
+    }
+
+    const playback = {
+      mode: 'idle', // idle | manual | auto
+      running: false,
+      rafId: null,
+      stage: 'idle',
+      strokeIndex: -1,
+      doneCount: 0,
+      progress: 0,
+      transitionProgress: 0,
+      transitionFrom: -1,
+      transitionTo: -1,
+      stageStartTs: 0,
+      stageDurationMs: 0,
+    };
+
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+    const RENDER_BOX = { width: 1024, height: 900 };
+    const ADAPTIVE_CONFIG = {
+      marginRatioX: 0.04,
+      marginRatioY: 0.06,
+      minScaleByCount: 0.78,
+      maxScaleByCount: 1.0,
+      scaleSlope: 0.012,
+      scaleIntercept: 1.06,
+    };
+    const ANIMATION_CONFIG = {
+      minStrokeMs: 280,
+      baseStrokeMs: 120,
+      maxStrokeMs: 900,
+      strokeMsPerUnit: 0.9,
+      transitionMs: 150,
+      speed: 0.9,
+      minTraceWidth: 42,
+      maxTraceWidth: 92,
+      traceWidthBase: 112,
+      traceWidthSlope: 3.2,
+      traceGlowScale: 1.35,
+      revealBrushScale: 1.95,
+      minRevealBrushWidth: 84,
+      maxRevealBrushWidth: 220,
+    };
+    const STROKE_COLOR = {
+      done: '#2a231b',
+      active: '#8b4513',
+      pending: '#bcae99',
+    };
+    const TRACE_COLOR = {
+      core: '#7a3f16',
+      glow: 'rgba(122, 63, 22, 0.18)',
+      dot: '#9a4e1a',
+      hint: 'rgba(139, 69, 19, 0.20)',
+    };
+
+    function updateAutoplayButton() {
+      const isPlaying = Boolean(playback.running && playback.mode === 'auto' && activeData);
+      autoplayBtn.classList.toggle('is-playing', isPlaying);
+
+      if (!activeData) {
+        autoplayBtn.textContent = '自动播放';
+        return;
+      }
+
+      const maxPhase = activeData.total + 1;
+      if (playback.running && playback.mode === 'manual') {
+        autoplayBtn.textContent = '接力自动';
+      } else if (isPlaying) {
+        autoplayBtn.textContent = '暂停';
+      } else if (playback.mode === 'auto' && (playback.stage === 'drawing' || playback.stage === 'transition')) {
+        autoplayBtn.textContent = '继续播放';
+      } else if (phase >= maxPhase) {
+        autoplayBtn.textContent = '重新播放';
+      } else if (phase > 0) {
+        autoplayBtn.textContent = '继续播放';
+      } else {
+        autoplayBtn.textContent = '自动播放';
+      }
+    }
+
+    function isSingleCjk(text) {
+      const chars = Array.from(text.trim());
+      if (chars.length !== 1) return false;
+      return /[\u3400-\u9FFF\uF900-\uFAFF]/u.test(chars[0]);
+    }
+
+    function setStatus(message, type = 'normal') {
+      statusText.textContent = message;
+      statusText.className = type === 'warn' ? 'status warn' : 'status';
+    }
+
+    function cancelPlaybackRaf() {
+      if (playback.rafId) {
+        window.cancelAnimationFrame(playback.rafId);
+      }
+      playback.rafId = null;
+    }
+
+    function stopPlay() {
+      cancelPlaybackRaf();
+      playback.running = false;
+      updateAutoplayButton();
+    }
+
+    function clamp(min, value, max) {
+      return Math.max(min, Math.min(value, max));
+    }
+
+    function easeInOutCubic(x) {
+      return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+    }
+
+    function easeOutCubic(x) {
+      return 1 - Math.pow(1 - x, 3);
+    }
+
+    function buildMedianRuntime(points) {
+      if (!Array.isArray(points) || points.length < 2) return null;
+      const safePoints = points
+        .filter((pt) => Array.isArray(pt) && pt.length >= 2 && Number.isFinite(pt[0]) && Number.isFinite(pt[1]))
+        .map((pt) => [Number(pt[0]), Number(pt[1])]);
+      if (safePoints.length < 2) return null;
+
+      const pathParts = [`M ${safePoints[0][0]} ${safePoints[0][1]}`];
+      const cumulative = [0];
+      let totalLen = 0;
+      for (let i = 1; i < safePoints.length; i += 1) {
+        const [x1, y1] = safePoints[i - 1];
+        const [x2, y2] = safePoints[i];
+        const segLen = Math.hypot(x2 - x1, y2 - y1);
+        if (!Number.isFinite(segLen) || segLen === 0) continue;
+        totalLen += segLen;
+        cumulative.push(totalLen);
+        pathParts.push(`L ${x2} ${y2}`);
+      }
+
+      if (totalLen <= 0 || pathParts.length < 2 || cumulative.length < 2) return null;
+      return {
+        pathD: pathParts.join(' '),
+        points: safePoints,
+        cumulative,
+        length: totalLen,
+        start: safePoints[0],
+        end: safePoints[safePoints.length - 1],
+      };
+    }
+
+    function getStrokeRuntime(data, index) {
+      if (!data || !Array.isArray(data.__strokeRuntime)) return null;
+      return data.__strokeRuntime[index] || null;
+    }
+
+    function ensureStrokeRuntime(data) {
+      if (!data) return;
+      if (Array.isArray(data.__strokeRuntime)) return;
+      const total = Math.max(1, Number(data.total) || (Array.isArray(data.paths) ? data.paths.length : 1));
+      const medians = Array.isArray(data.medians) ? data.medians : [];
+      data.__strokeRuntime = new Array(total).fill(null).map((_, idx) => buildMedianRuntime(medians[idx]));
+    }
+
+    function getStrokeDurationMs(index) {
+      const runtime = getStrokeRuntime(activeData, index);
+      const length = runtime ? runtime.length : 320;
+      return clamp(
+        ANIMATION_CONFIG.minStrokeMs,
+        ANIMATION_CONFIG.baseStrokeMs + length * ANIMATION_CONFIG.strokeMsPerUnit,
+        ANIMATION_CONFIG.maxStrokeMs
+      ) / ANIMATION_CONFIG.speed;
+    }
+
+    function getManualDurationMs(index) {
+      return Math.max(220, getStrokeDurationMs(index) * 0.9);
+    }
+
+    function resetPlaybackState(doneCount = 0) {
+      cancelPlaybackRaf();
+      playback.mode = 'idle';
+      playback.running = false;
+      playback.stage = 'idle';
+      playback.strokeIndex = -1;
+      playback.doneCount = Math.max(0, Number(doneCount) || 0);
+      playback.progress = 0;
+      playback.transitionProgress = 0;
+      playback.transitionFrom = -1;
+      playback.transitionTo = -1;
+      playback.stageStartTs = 0;
+      playback.stageDurationMs = 0;
+    }
+
+    function syncPlaybackToPhase() {
+      if (!activeData) {
+        resetPlaybackState(0);
+        return;
+      }
+      const total = activeData.total;
+      if (phase <= 0) {
+        phase = 0;
+        playback.doneCount = 0;
+        playback.stage = 'idle';
+        playback.strokeIndex = -1;
+      } else if (phase >= total + 1) {
+        phase = total + 1;
+        playback.doneCount = total;
+        playback.stage = 'finished';
+        playback.strokeIndex = -1;
+      } else {
+        playback.doneCount = phase - 1;
+        playback.stage = 'idle';
+        playback.strokeIndex = phase - 1;
+      }
+      playback.mode = 'idle';
+      playback.running = false;
+      playback.progress = 0;
+      playback.transitionProgress = 0;
+      playback.transitionFrom = -1;
+      playback.transitionTo = -1;
+      playback.stageStartTs = 0;
+      playback.stageDurationMs = 0;
+      cancelPlaybackRaf();
+    }
+
+    function startDrawingStage(index, mode, ts = 0, startProgress = 0) {
+      if (!activeData) return;
+      const total = activeData.total;
+      const strokeIndex = clamp(0, index, Math.max(0, total - 1));
+      playback.mode = mode;
+      playback.stage = 'drawing';
+      playback.strokeIndex = strokeIndex;
+      playback.doneCount = Math.min(playback.doneCount, strokeIndex);
+      playback.progress = clamp(0, startProgress, 1);
+      playback.transitionProgress = 0;
+      playback.transitionFrom = -1;
+      playback.transitionTo = -1;
+      playback.stageDurationMs = mode === 'manual' ? getManualDurationMs(strokeIndex) : getStrokeDurationMs(strokeIndex);
+      playback.stageStartTs = ts > 0 ? ts - playback.progress * playback.stageDurationMs : 0;
+      phase = index + 1;
+    }
+
+    function startTransitionStage(from, to, ts = 0) {
+      playback.mode = 'auto';
+      playback.stage = 'transition';
+      playback.strokeIndex = to;
+      playback.transitionFrom = from;
+      playback.transitionTo = to;
+      playback.transitionProgress = 0;
+      playback.progress = 0;
+      playback.stageStartTs = ts;
+      playback.stageDurationMs = ANIMATION_CONFIG.transitionMs / ANIMATION_CONFIG.speed;
+      phase = from + 1;
+    }
+
+    function startManualStrokeAnimation(index) {
+      if (!activeData || index < 0 || index >= activeData.total) return;
+      stopPlay();
+      playback.doneCount = index;
+      playback.running = true;
+      startDrawingStage(index, 'manual');
+      playback.rafId = window.requestAnimationFrame(animationTick);
+      updateAutoplayButton();
+    }
+
+    function animationTick(ts) {
+      if (!playback.running || !activeData) {
+        stopPlay();
+        renderAll();
+        return;
+      }
+
+      const total = activeData.total;
+      if (playback.stageStartTs === 0) {
+        if (playback.stage === 'drawing') {
+          playback.stageStartTs = ts - playback.progress * Math.max(1, playback.stageDurationMs);
+        } else if (playback.stage === 'transition') {
+          playback.stageStartTs = ts - playback.transitionProgress * Math.max(1, playback.stageDurationMs);
+        } else {
+          playback.stageStartTs = ts;
+        }
+      }
+      const elapsed = ts - playback.stageStartTs;
+      const rawP = clamp(0, elapsed / Math.max(1, playback.stageDurationMs), 1);
+
+      if (playback.stage === 'drawing') {
+        playback.progress = rawP;
+        if (rawP >= 1) {
+          playback.doneCount = Math.min(total, playback.strokeIndex + 1);
+          playback.progress = 0;
+          if (playback.mode === 'manual') {
+            playback.running = false;
+            playback.stage = 'finished';
+            cancelPlaybackRaf();
+            renderAll();
+            updateAutoplayButton();
+            return;
+          }
+          if (playback.doneCount >= total) {
+            playback.running = false;
+            playback.mode = 'auto';
+            playback.stage = 'finished';
+            playback.strokeIndex = -1;
+            phase = total + 1;
+            cancelPlaybackRaf();
+            renderAll();
+            updateAutoplayButton();
+            return;
+          }
+          startTransitionStage(playback.strokeIndex, playback.strokeIndex + 1, ts);
+        }
+      } else if (playback.stage === 'transition') {
+        playback.transitionProgress = rawP;
+        if (rawP >= 1) {
+          playback.transitionProgress = 0;
+          startDrawingStage(playback.doneCount, 'auto', ts, 0);
+        }
+      }
+
+      renderAll();
+      playback.rafId = window.requestAnimationFrame(animationTick);
+    }
+
+    function startPlay() {
+      if (!activeData) {
+        updateAutoplayButton();
+        return;
+      }
+
+      const total = Math.max(1, activeData.total || 1);
+      if (playback.running) {
+        if (playback.mode === 'auto') {
+          stopPlay();
+          return;
+        }
+        if (playback.mode === 'manual') {
+          playback.mode = 'auto';
+          if (playback.stage === 'drawing' && playback.strokeIndex >= 0) {
+            playback.stageDurationMs = getStrokeDurationMs(playback.strokeIndex);
+          } else if (playback.stage === 'transition') {
+            playback.stageDurationMs = ANIMATION_CONFIG.transitionMs / ANIMATION_CONFIG.speed;
+          }
+          playback.stageStartTs = 0;
+          updateAutoplayButton();
+          return;
+        }
+      }
+
+      if (phase >= total + 1) {
+        phase = 0;
+        resetPlaybackState(0);
+      }
+
+      if (playback.mode === 'auto' && (playback.stage === 'drawing' || playback.stage === 'transition')) {
+        playback.running = true;
+        playback.stageStartTs = 0;
+        playback.rafId = window.requestAnimationFrame(animationTick);
+        updateAutoplayButton();
+        return;
+      }
+
+      playback.mode = 'auto';
+      playback.running = true;
+      playback.doneCount = clamp(0, phase - 1, total);
+      if (playback.doneCount >= total) {
+        phase = total + 1;
+        playback.running = false;
+        playback.stage = 'finished';
+        updateAutoplayButton();
+        return;
+      }
+
+      startDrawingStage(playback.doneCount, 'auto');
+      playback.rafId = window.requestAnimationFrame(animationTick);
+      updateAutoplayButton();
+    }
+
+    function setButtonsDisabled(disabled) {
+      prevBtn.disabled = disabled;
+      nextBtn.disabled = disabled;
+      autoplayBtn.disabled = disabled;
+      updateAutoplayButton();
+    }
+
+    function computeAdaptiveStyle(data, renderedBounds) {
+      const totalStrokes = Math.max(1, Number(data.total) || (Array.isArray(data.paths) ? data.paths.length : 1));
+      const bbox = renderedBounds || { minX: 0, minY: 0, maxX: RENDER_BOX.width, maxY: RENDER_BOX.height };
+      const bboxW = Math.max(1, bbox.maxX - bbox.minX);
+      const bboxH = Math.max(1, bbox.maxY - bbox.minY);
+
+      const availW = RENDER_BOX.width * (1 - ADAPTIVE_CONFIG.marginRatioX * 2);
+      const availH = RENDER_BOX.height * (1 - ADAPTIVE_CONFIG.marginRatioY * 2);
+      const fitScale = Math.min(1, availW / bboxW, availH / bboxH);
+      const countScale = clamp(
+        ADAPTIVE_CONFIG.minScaleByCount,
+        ADAPTIVE_CONFIG.scaleIntercept - ADAPTIVE_CONFIG.scaleSlope * totalStrokes,
+        ADAPTIVE_CONFIG.maxScaleByCount
+      );
+      const scaleFinal = fitScale * countScale;
+
+      const charCx = (bbox.minX + bbox.maxX) / 2;
+      const charCy = (bbox.minY + bbox.maxY) / 2;
+      const viewCx = RENDER_BOX.width / 2;
+      const viewCy = RENDER_BOX.height / 2;
+      const shiftX = viewCx - charCx;
+      const shiftY = viewCy - charCy;
+
+      return { scaleFinal, charCx, charCy, shiftX, shiftY };
+    }
+
+    function getPointAtProgress(runtime, progress) {
+      if (!runtime || !Array.isArray(runtime.points) || runtime.points.length < 2) return null;
+      const p = clamp(0, progress, 1);
+      if (p <= 0) return runtime.points[0];
+      if (p >= 1) return runtime.points[runtime.points.length - 1];
+
+      const target = runtime.length * p;
+      for (let i = 1; i < runtime.cumulative.length; i += 1) {
+        const prev = runtime.cumulative[i - 1];
+        const curr = runtime.cumulative[i];
+        if (target <= curr) {
+          const segRatio = (target - prev) / Math.max(0.0001, curr - prev);
+          const [x1, y1] = runtime.points[i - 1];
+          const [x2, y2] = runtime.points[i];
+          return [x1 + (x2 - x1) * segRatio, y1 + (y2 - y1) * segRatio];
+        }
+      }
+      return runtime.points[runtime.points.length - 1];
+    }
+
+    function computeVisualState(total) {
+      const state = {
+        doneCount: 0,
+        currentIndex: -1,
+        drawProgress: 0,
+        transitionFrom: -1,
+        transitionTo: -1,
+        transitionProgress: 0,
+      };
+
+      if (playback.stage === 'drawing' && playback.strokeIndex >= 0) {
+        state.doneCount = clamp(0, playback.doneCount, total);
+        state.currentIndex = playback.strokeIndex;
+        state.drawProgress = easeInOutCubic(clamp(0, playback.progress, 1));
+        return state;
+      }
+
+      if (playback.stage === 'transition') {
+        state.doneCount = clamp(0, playback.doneCount, total);
+        state.currentIndex = playback.doneCount < total ? playback.doneCount : -1;
+        state.transitionFrom = playback.transitionFrom;
+        state.transitionTo = playback.transitionTo;
+        state.transitionProgress = easeOutCubic(clamp(0, playback.transitionProgress, 1));
+        return state;
+      }
+
+      if (playback.stage === 'finished') {
+        state.doneCount = clamp(0, playback.doneCount, total);
+        state.currentIndex = phase >= 1 && phase <= total ? phase - 1 : -1;
+        return state;
+      }
+
+      state.doneCount = Math.max(0, Math.min(phase - 1, total));
+      state.currentIndex = phase >= 1 && phase <= total ? phase - 1 : -1;
+      return state;
+    }
+
+    function getTraceWidth(total) {
+      return clamp(
+        ANIMATION_CONFIG.minTraceWidth,
+        ANIMATION_CONFIG.traceWidthBase - total * ANIMATION_CONFIG.traceWidthSlope,
+        ANIMATION_CONFIG.maxTraceWidth
+      );
+    }
+
+    function getRevealBrushWidth(total) {
+      return clamp(
+        ANIMATION_CONFIG.minRevealBrushWidth,
+        getTraceWidth(total) * ANIMATION_CONFIG.revealBrushScale,
+        ANIMATION_CONFIG.maxRevealBrushWidth
+      );
+    }
+
+    function renderSVG() {
+      svgEl.innerHTML = '';
+
+      if (!activeData) return;
+
+      const rawGroup = document.createElementNS(SVG_NS, 'g');
+      // Hanzi Writer path coordinates use an upward y-axis; flip to SVG screen coordinates.
+      rawGroup.setAttribute('transform', `scale(1, -1) translate(0, -${RENDER_BOX.height})`);
+      const total = activeData.paths.length;
+      const visual = computeVisualState(total);
+      const traceWidth = getTraceWidth(total);
+      const revealBrushWidth = getRevealBrushWidth(total);
+
+      for (let i = 0; i < total; i += 1) {
+        const p = document.createElementNS(SVG_NS, 'path');
+        p.setAttribute('d', activeData.paths[i]);
+        p.setAttribute('stroke', 'none');
+
+        if (i < visual.doneCount) {
+          p.setAttribute('fill', STROKE_COLOR.done);
+        } else {
+          // 当前笔统一由轨迹动画表达，不做整块填充高亮。
+          p.setAttribute('fill', STROKE_COLOR.pending);
+        }
+
+        rawGroup.appendChild(p);
+      }
+
+      if (visual.currentIndex >= 0 && visual.drawProgress > 0) {
+        const runtime = getStrokeRuntime(activeData, visual.currentIndex);
+        if (runtime) {
+          const maskId = `strokeRevealMask-${visual.currentIndex}`;
+          const defs = document.createElementNS(SVG_NS, 'defs');
+          const mask = document.createElementNS(SVG_NS, 'mask');
+          mask.setAttribute('id', maskId);
+          mask.setAttribute('maskUnits', 'userSpaceOnUse');
+          mask.setAttribute('x', '0');
+          mask.setAttribute('y', '0');
+          mask.setAttribute('width', String(RENDER_BOX.width));
+          mask.setAttribute('height', String(RENDER_BOX.height));
+
+          const maskBase = document.createElementNS(SVG_NS, 'rect');
+          maskBase.setAttribute('x', '0');
+          maskBase.setAttribute('y', '0');
+          maskBase.setAttribute('width', String(RENDER_BOX.width));
+          maskBase.setAttribute('height', String(RENDER_BOX.height));
+          maskBase.setAttribute('fill', '#000');
+          mask.appendChild(maskBase);
+
+          const revealPath = document.createElementNS(SVG_NS, 'path');
+          revealPath.setAttribute('d', runtime.pathD);
+          revealPath.setAttribute('fill', 'none');
+          revealPath.setAttribute('stroke', '#fff');
+          revealPath.setAttribute('stroke-width', String(revealBrushWidth));
+          revealPath.setAttribute('stroke-linecap', 'round');
+          revealPath.setAttribute('stroke-linejoin', 'round');
+          revealPath.setAttribute('stroke-dasharray', `${runtime.length} ${runtime.length}`);
+          revealPath.setAttribute('stroke-dashoffset', String((1 - visual.drawProgress) * runtime.length));
+          mask.appendChild(revealPath);
+
+          const maskDotPt = getPointAtProgress(runtime, visual.drawProgress);
+          if (maskDotPt) {
+            const revealDot = document.createElementNS(SVG_NS, 'circle');
+            revealDot.setAttribute('cx', String(maskDotPt[0]));
+            revealDot.setAttribute('cy', String(maskDotPt[1]));
+            revealDot.setAttribute('r', String(Math.max(8, revealBrushWidth * 0.26)));
+            revealDot.setAttribute('fill', '#fff');
+            mask.appendChild(revealDot);
+          }
+
+          defs.appendChild(mask);
+          rawGroup.appendChild(defs);
+
+          const activeStroke = document.createElementNS(SVG_NS, 'path');
+          activeStroke.setAttribute('d', activeData.paths[visual.currentIndex]);
+          activeStroke.setAttribute('fill', STROKE_COLOR.active);
+          activeStroke.setAttribute('mask', `url(#${maskId})`);
+          rawGroup.appendChild(activeStroke);
+
+          const glowPath = document.createElementNS(SVG_NS, 'path');
+          glowPath.setAttribute('d', runtime.pathD);
+          glowPath.setAttribute('fill', 'none');
+          glowPath.setAttribute('stroke', TRACE_COLOR.glow);
+          glowPath.setAttribute('stroke-width', String(traceWidth * (ANIMATION_CONFIG.traceGlowScale * 0.9)));
+          glowPath.setAttribute('stroke-linecap', 'round');
+          glowPath.setAttribute('stroke-linejoin', 'round');
+          glowPath.setAttribute('stroke-dasharray', `${runtime.length} ${runtime.length}`);
+          glowPath.setAttribute('stroke-dashoffset', String((1 - visual.drawProgress) * runtime.length));
+          rawGroup.appendChild(glowPath);
+
+          const tracePath = document.createElementNS(SVG_NS, 'path');
+          tracePath.setAttribute('d', runtime.pathD);
+          tracePath.setAttribute('fill', 'none');
+          tracePath.setAttribute('stroke', TRACE_COLOR.core);
+          tracePath.setAttribute('stroke-width', String(Math.max(14, traceWidth * 0.4)));
+          tracePath.setAttribute('stroke-linecap', 'round');
+          tracePath.setAttribute('stroke-linejoin', 'round');
+          tracePath.setAttribute('stroke-dasharray', `${runtime.length} ${runtime.length}`);
+          tracePath.setAttribute('stroke-dashoffset', String((1 - visual.drawProgress) * runtime.length));
+          rawGroup.appendChild(tracePath);
+
+          const dotPt = getPointAtProgress(runtime, visual.drawProgress);
+          if (dotPt) {
+            const dot = document.createElementNS(SVG_NS, 'circle');
+            dot.setAttribute('cx', String(dotPt[0]));
+            dot.setAttribute('cy', String(dotPt[1]));
+            dot.setAttribute('r', String(Math.max(6, traceWidth * 0.18)));
+            dot.setAttribute('fill', TRACE_COLOR.dot);
+            dot.setAttribute('opacity', '0.55');
+            rawGroup.appendChild(dot);
+          }
+        }
+      }
+
+      if (visual.transitionFrom >= 0 && visual.transitionTo >= 0) {
+        const fromRuntime = getStrokeRuntime(activeData, visual.transitionFrom);
+        const toRuntime = getStrokeRuntime(activeData, visual.transitionTo);
+        if (fromRuntime && toRuntime) {
+          const alpha = 0.05 + 0.20 * (1 - Math.abs(visual.transitionProgress - 0.5) * 2);
+          const hintLine = document.createElementNS(SVG_NS, 'line');
+          hintLine.setAttribute('x1', String(fromRuntime.end[0]));
+          hintLine.setAttribute('y1', String(fromRuntime.end[1]));
+          hintLine.setAttribute('x2', String(toRuntime.start[0]));
+          hintLine.setAttribute('y2', String(toRuntime.start[1]));
+          hintLine.setAttribute('stroke', TRACE_COLOR.hint);
+          hintLine.setAttribute('stroke-width', String(Math.max(10, traceWidth * 0.35)));
+          hintLine.setAttribute('stroke-linecap', 'round');
+          hintLine.setAttribute('opacity', String(alpha));
+          rawGroup.appendChild(hintLine);
+        }
+      }
+
+      if (!activeLayout) {
+        svgEl.appendChild(rawGroup);
+        let bounds;
+        try {
+          const b = rawGroup.getBBox();
+          bounds = {
+            minX: b.x,
+            minY: b.y,
+            maxX: b.x + b.width,
+            maxY: b.y + b.height,
+          };
+        } catch {
+          bounds = { minX: 0, minY: 0, maxX: RENDER_BOX.width, maxY: RENDER_BOX.height };
+        }
+        const adaptive = computeAdaptiveStyle(activeData, bounds);
+        activeLayout = `translate(${adaptive.shiftX} ${adaptive.shiftY}) translate(${adaptive.charCx} ${adaptive.charCy}) scale(${adaptive.scaleFinal}) translate(${-adaptive.charCx} ${-adaptive.charCy})`;
+      }
+
+      const fitGroup = document.createElementNS(SVG_NS, 'g');
+      fitGroup.setAttribute('transform', activeLayout);
+      fitGroup.appendChild(rawGroup);
+      svgEl.innerHTML = '';
+      svgEl.appendChild(fitGroup);
+    }
+
+    function renderAll() {
+      if (!activeData) {
+        currentCharEl.textContent = '-';
+        totalCountEl.textContent = '-';
+        currentStrokeEl.textContent = '当前笔画：-';
+        svgEl.innerHTML = '';
+        setButtonsDisabled(true);
+        return;
+      }
+
+      setButtonsDisabled(false);
+      const total = activeData.total;
+      const maxPhase = total + 1;
+
+      currentCharEl.textContent = activeChar;
+      totalCountEl.textContent = String(total);
+      if (phase === 0) {
+        currentStrokeEl.textContent = `当前笔画：准备开始（共 ${total} 笔）`;
+      } else if (phase >= maxPhase) {
+        currentStrokeEl.textContent = `当前笔画：已完成（共 ${total} 笔）`;
+      } else {
+        const currentName = activeData.strokes[phase - 1] || '-';
+        currentStrokeEl.textContent = `当前笔画：第 ${phase} 笔 / 共 ${total} 笔（${currentName}）`;
+      }
+
+      prevBtn.disabled = false;
+      nextBtn.disabled = false;
+
+      renderSVG();
+      updateAutoplayButton();
+    }
+
+    function queryChar(raw) {
+      stopPlay();
+
+      if (!dictReady) {
+        setStatus('离线字库仍在加载中，请稍候。', 'warn');
+        return;
+      }
+
+      const text = raw.trim();
+      if (!isSingleCjk(text)) {
+        activeChar = '';
+        activeData = null;
+        resetPlaybackState(0);
+        activeLayout = null;
+        renderAll();
+        setStatus('请输入且仅输入 1 个汉字。', 'warn');
+        return;
+      }
+
+      const ch = Array.from(text)[0];
+      const item = dict && dict[ch];
+
+      if (!item) {
+        activeChar = ch;
+        activeData = null;
+        resetPlaybackState(0);
+        activeLayout = null;
+        renderAll();
+        setStatus(`“${ch}” 当前字库未收录，请换规范常用字试试。`, 'warn');
+        return;
+      }
+
+      activeChar = ch;
+      activeData = item;
+      ensureStrokeRuntime(activeData);
+      resetPlaybackState(0);
+      activeLayout = null;
+      phase = 0;
+      renderAll();
+      setStatus(`已加载“${ch}”，可以逐步查看写字过程。`);
+    }
+
+    async function loadDict() {
+      try {
+        const loader = window.HanziDataLoader;
+        if (!loader) throw new Error('HanziDataLoader 不可用');
+        dict = await loader.loadShardedMap({
+          dir: 'stroke',
+          baseName: 'char-stroke',
+          shardCount: SHARD_COUNT,
+          concurrency: SHARD_CONCURRENCY,
+          timeoutMs: FETCH_TIMEOUT_MS,
+          retries: MAX_RETRIES,
+          restore: restoreStrokePayload,
+          onProgress: ({ loadedCount, shardCount }) => {
+            setStatus(`正在加载离线字库分片 ${loadedCount}/${shardCount}...`);
+          }
+        });
+        dictReady = true;
+        setStatus(`离线字库就绪：${Object.keys(dict).length} 个规范常用字（一二级）。`);
+      } catch (err) {
+        dict = null;
+        dictReady = false;
+        setStatus('离线字库加载失败，请刷新页面重试。', 'warn');
+      }
+    }
+
+    inputEl.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') queryChar(inputEl.value);
+    });
+
+    autoplayBtn.addEventListener('click', () => {
+      if (!activeData) return;
+      startPlay();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (!activeData) return;
+      stopPlay();
+      const total = activeData.total;
+      if (phase <= 0) {
+        phase = total + 1;
+      } else {
+        phase = phase - 1;
+      }
+      if (phase >= 1 && phase <= total) {
+        startManualStrokeAnimation(phase - 1);
+      } else {
+        syncPlaybackToPhase();
+      }
+      renderAll();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (!activeData) return;
+      stopPlay();
+      const total = activeData.total;
+      if (phase >= total + 1) {
+        phase = 0;
+      } else {
+        phase = Math.max(1, phase + 1);
+      }
+      if (phase >= 1 && phase <= total) {
+        startManualStrokeAnimation(phase - 1);
+      } else {
+        syncPlaybackToPhase();
+      }
+      renderAll();
+    });
+
+    setButtonsDisabled(true);
+    (async () => {
+      await loadDict();
+      if (!dict) return;
+      const param = new URLSearchParams(location.search).get('char');
+      if (param && param.trim()) {
+        inputEl.value = param.trim();
+        queryChar(param.trim());
+      }
+    })();
+  </script>
+</body>
+</html>

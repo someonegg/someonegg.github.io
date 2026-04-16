@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <title>Ally 索引</title>
+  <style>
+    :root {
+      --bg: #f6f8f9;
+      --bg-soft: #fbfcfc;
+      --surface: #ffffff;
+      --text: #182024;
+      --muted: #5d6a70;
+      --accent: #1f6f68;
+      --accent-soft: rgba(31, 111, 104, 0.1);
+      --border: #dde5e7;
+      --border-strong: #c8d4d8;
+      --radius: 10px;
+      --shadow-sm: 0 1px 2px rgba(24, 32, 36, 0.05);
+      --shadow-md: 0 8px 26px rgba(24, 32, 36, 0.06);
+      --focus: 0 0 0 3px rgba(31, 111, 104, 0.18);
+      --trans: 180ms ease;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 0%, #ffffff 0%, var(--bg-soft) 28%, transparent 60%),
+        var(--bg);
+      min-height: 100dvh;
+      padding: 24px 16px 36px;
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      animation: fadeIn 0.6s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .top-nav {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 14px;
+      gap: 8px;
+    }
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.2;
+      transition: background var(--trans), border-color var(--trans), color var(--trans);
+    }
+    .nav-link:hover {
+      background: var(--accent-soft);
+    }
+    .nav-link.active {
+      color: var(--text);
+      border-color: var(--border);
+      background: var(--surface);
+    }
+    .nav-link:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+    .desc {
+      margin: 0 0 26px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 400;
+    }
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .card {
+      display: block;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      background: var(--surface);
+      text-decoration: none;
+      color: inherit;
+      transition: border-color var(--trans), box-shadow var(--trans), background var(--trans), transform var(--trans);
+      box-shadow: var(--shadow-sm);
+    }
+    .card:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      background: #fcfefe;
+    }
+    .card:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+    .title {
+      margin: 0 0 6px;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: -0.2px;
+    }
+    .meta {
+      margin: 0;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    @media (max-width: 720px) {
+      .grid { grid-template-columns: 1fr; }
+      body { padding: 16px 12px 24px; }
+      h1 { font-size: 24px; }
+      .top-nav { justify-content: flex-start; flex-wrap: wrap; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="top-nav">
+      <a class="nav-link active" href="./index.html" aria-current="page">总索引</a>
+      <a class="nav-link" href="./apps/index.html">Apps</a>
+      <a class="nav-link" href="./docs/index.html">Docs</a>
+      <a class="nav-link" href="./kids/index.html">Kids</a>
+      <a class="nav-link" href="./wiki/index.html">Wiki</a>
+    </div>
+    <h1>Ally 总索引</h1>
+    <p class="desc">统一入口，分别进入应用与文档目录。</p>
+    <section class="grid">
+      <a class="card" href="./apps/index.html">
+        <p class="title">Apps 索引</p>
+        <p class="meta">./apps/index.html</p>
+      </a>
+      <a class="card" href="./docs/index.html">
+        <p class="title">Docs 索引</p>
+        <p class="meta">./docs/index.html</p>
+      </a>
+      <a class="card" href="./kids/index.html">
+        <p class="title">Kids 索引</p>
+        <p class="meta">./kids/index.html</p>
+      </a>
+      <a class="card" href="./wiki/index.html">
+        <p class="title">Wiki 索引</p>
+        <p class="meta">./wiki/index.html</p>
+      </a>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+    <title>鸡兔同笼交互式教学演示</title>
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --primary-soft: rgba(74, 144, 226, 0.1);
+            --accent: #7CB342;
+            --accent-soft: rgba(124, 179, 66, 0.1);
+            --bg: #f5f7f9;
+            --surface: #ffffff;
+            --text: #2c3e50;
+            --text-soft: #6c7a89;
+            --border: #e1e8ed;
+            --radius: 12px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --trans: 0.2s ease;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 24px 16px 32px;
+            line-height: 1.6;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 16px;
+            gap: 8px;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 40px;
+            padding: 0 12px;
+            border-radius: var(--radius);
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 13px;
+            transition: background var(--trans);
+        }
+
+        .nav-link:hover { background: var(--primary-soft); }
+        .nav-link.active { color: var(--text); background: var(--surface); }
+
+        h1 {
+            margin-bottom: 24px;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+        }
+
+        .demo-area {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 8px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-weight: 500;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        input[type="number"] {
+            padding: 10px 14px;
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            width: 65px;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.2s ease;
+            background: var(--surface);
+            color: var(--primary);
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+            transform: scale(1.05);
+        }
+
+        button {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 3px 6px rgba(76, 175, 80, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(76, 175, 80, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+        }
+
+        button:disabled {
+            background: #c8c8c8;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            box-shadow: 0 3px 6px rgba(255, 152, 0, 0.3);
+        }
+
+        .reset-btn:hover {
+            box-shadow: 0 5px 10px rgba(255, 152, 0, 0.4);
+        }
+
+        .stage {
+            flex: 1;
+            background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
+            border: 3px dashed #d4a574;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-content: flex-start;
+            overflow-y: auto;
+            min-height: 280px;
+            position: relative;
+        }
+
+        .stage::before {
+            content: "🏠 小小的笼子";
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            color: #a67c52;
+            font-weight: 500;
+        }
+
+        .animal {
+            width: 70px;
+            height: 80px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .animal:hover {
+            transform: scale(1.05);
+        }
+
+        .animal-body {
+            width: 60px;
+            height: 50px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* 鸡的样式 */
+        .animal.chicken .animal-body {
+            background: linear-gradient(180deg, #ffeb3b 0%, #ffc107 100%);
+            border-radius: 50% 50% 45% 45%;
+            border: 2px solid #ff9800;
+        }
+
+        .animal.chicken .animal-body::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 12px;
+            background: #ff5722;
+            border-radius: 50% 50% 0 0;
+            clip-path: polygon(0 100%, 50% 0, 100% 100%);
+        }
+
+        .animal.chicken .animal-body::after {
+            content: '👀';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+        }
+
+        /* 兔子的样式 */
+        .animal.rabbit .animal-body {
+            background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
+            border-radius: 50% 50% 45% 45%;
+            border: 2px solid #bdbdbd;
+        }
+
+        .animal.rabbit .animal-body::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 32px;
+            background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
+            border-radius: 50% 50% 0 0;
+            border: 2px solid #bdbdbd;
+            border-bottom: none;
+            box-shadow: -12px 0 0 -2px #f5f5f5, -12px 0 0 -1px #bdbdbd,
+                        12px 0 0 -2px #f5f5f5, 12px 0 0 -1px #bdbdbd;
+        }
+
+        .animal.rabbit .animal-body::after {
+            content: '👀';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+        }
+
+        /* 未知动物 */
+        .animal.unknown .animal-body {
+            background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 50% 50% 45% 45%;
+            border: 2px solid #64b5f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #1976d2;
+            font-weight: bold;
+        }
+
+        .legs-container {
+            position: absolute;
+            bottom: -2px;
+            width: 100%;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .leg {
+            width: 6px;
+            height: 0;
+            background: #ff9800;
+            border-radius: 3px 3px 0 0;
+            transition: height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
+            position: relative;
+        }
+
+        .leg.show {
+            height: 20px;
+        }
+
+        .leg::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 4px;
+            background: inherit;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .leg.show::after {
+            opacity: 1;
+        }
+
+        .animal.rabbit .leg {
+            background: #9e9e9e;
+        }
+
+        /* 计数器 */
+        .counter {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            margin-top: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .counter-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .counter-item .emoji {
+            font-size: 24px;
+        }
+
+        .counter-item .count {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .counter-item.chicken .count {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .counter-item.rabbit .count {
+            background: #f5f5f5;
+            color: #616161;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .explanation {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .explanation h3 {
+            margin: 0 0 12px;
+            color: var(--text);
+            font-size: 16px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .step-text {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            padding: 10px 12px;
+            background: var(--bg);
+            border-left: 3px solid var(--primary);
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .highlight-blue { color: var(--primary); font-weight: 600; }
+        .highlight-green { color: var(--accent); font-weight: 600; }
+
+        .tips {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .tips h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .tips p {
+            margin: 0;
+            color: var(--text-soft);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            font-size: 13px;
+            margin-left: 8px;
+            display: none;
+            font-weight: 500;
+            background: #ffe0e0;
+            padding: 6px 10px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px 12px 24px; }
+            h1 { font-size: 20px; }
+            .animal { width: 65px; height: 75px; }
+            .animal-body { width: 55px; height: 45px; }
+        }
+
+        @keyframes pop {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <div class="top-nav">
+        <a class="nav-link" href="./index.html">返回索引</a>
+    </div>
+    <h1>鸡兔同笼互动教学</h1>
+
+    <div class="container">
+        <!-- 演示区域 -->
+        <div class="demo-area">
+            <div class="controls">
+                <div class="input-group">
+                    <label>头：</label>
+                    <input type="number" id="headsInput" value="10" min="1" max="50">
+                </div>
+                <div class="input-group">
+                    <label>脚：</label>
+                    <input type="number" id="legsInput" value="32" step="2">
+                </div>
+                <button id="initBtn" onclick="initProblem()">生成题目</button>
+                <button id="nextStepBtn" onclick="nextStep()" disabled>下一步</button>
+                <button onclick="reset()" class="reset-btn">重置</button>
+                <span id="errorMsg" class="error-msg">⚠️ 哎呀，脚的数量不对哦！必须是偶数，而且在 2×头 到 4×头 之间。</span>
+            </div>
+
+            <div class="stage" id="stage">
+                <div style="width: 100%; text-align: center; color: #a67c52; margin-top: 60px; font-size: 15px;">
+                    👆 点击"生成题目"开始吧！
+                </div>
+            </div>
+
+            <!-- 计数器 -->
+            <div class="counter" id="counter" style="display: none;">
+                <div class="counter-item chicken">
+                    <span class="emoji">🐔</span>
+                    <span class="count" id="chickenCount">0</span>
+                </div>
+                <div class="counter-item rabbit">
+                    <span class="emoji">🐰</span>
+                    <span class="count" id="rabbitCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧边栏 -->
+        <div class="sidebar">
+            <!-- 讲解区域 -->
+            <div class="explanation" id="explanationText">
+                <h3>解题步骤</h3>
+                <p style="color: var(--text-soft); font-size: 14px;">请先生成题目，然后点击"下一步"查看演示。</p>
+            </div>
+
+            <!-- 学习提示 -->
+            <div class="tips">
+                <h3>💡 小窍门</h3>
+                <p><strong>假设法</strong>：先想象所有动物都是鸡 🐔（2只脚），算出还差几只脚，再把缺少的脚补给兔子 🐰（每只兔子补2只脚）。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        let heads = 0;
+        let legs = 0;
+        let step = 0;
+        let animals = [];
+        let chickensCount = 0;
+        let rabbitsCount = 0;
+
+        function initProblem() {
+            const h = parseInt(document.getElementById('headsInput').value);
+            const l = parseInt(document.getElementById('legsInput').value);
+            const errorSpan = document.getElementById('errorMsg');
+            const stage = document.getElementById('stage');
+            const explanation = document.getElementById('explanationText');
+            const nextBtn = document.getElementById('nextStepBtn');
+            const counter = document.getElementById('counter');
+
+            if (l % 2 !== 0 || l < h * 2 || l > h * 4) {
+                errorSpan.style.display = 'inline';
+                nextBtn.disabled = true;
+                return;
+            }
+            errorSpan.style.display = 'none';
+
+            heads = h;
+            legs = l;
+            step = 0;
+            rabbitsCount = (legs - 2 * heads) / 2;
+            chickensCount = heads - rabbitsCount;
+
+            stage.innerHTML = '';
+            explanation.innerHTML = '<h3>📝 解题步骤</h3>';
+            animals = [];
+            nextBtn.disabled = false;
+            nextBtn.textContent = "下一步 ➡️";
+            counter.style.display = 'flex';
+            updateCounter(0, 0);
+
+            for (let i = 0; i < heads; i++) {
+                const animalDiv = document.createElement('div');
+                animalDiv.className = 'animal unknown';
+                animalDiv.innerHTML = `
+                    <div class="animal-body">?</div>
+                    <div class="legs-container">
+                        <div class="leg" id="leg-${i}-0"></div>
+                        <div class="leg" id="leg-${i}-1"></div>
+                        <div class="leg" id="leg-${i}-2"></div>
+                        <div class="leg" id="leg-${i}-3"></div>
+                    </div>
+                `;
+                stage.appendChild(animalDiv);
+                animals.push(animalDiv);
+            }
+
+            addExplanation(`第1步：笼子里有 <strong>${heads}</strong> 个头、<strong>${legs}</strong> 只脚。🏠`);
+        }
+
+        function nextStep() {
+            step++;
+            const nextBtn = document.getElementById('nextStepBtn');
+
+            if (step === 1) {
+                // 假设全是鸡
+                animals.forEach((el, index) => {
+                    setTimeout(() => {
+                        const legs = el.querySelectorAll('.leg');
+                        legs[0].classList.add('show');
+                        legs[1].classList.add('show');
+                    }, index * 60);
+                });
+                const usedLegs = heads * 2;
+                addExplanation(`第2步：假设全是鸡 🐔，需要 ${heads} × 2 = <span class="highlight-blue">${usedLegs}</span> 只脚。`);
+            } else if (step === 2) {
+                const usedLegs = heads * 2;
+                const remainingLegs = legs - usedLegs;
+                addExplanation(`第3步：实际有 ${legs} 只脚，还差 ${legs} - ${usedLegs} = <span class="highlight-green">${remainingLegs}</span> 只脚！🤔`);
+            } else if (step === 3) {
+                const remainingLegs = legs - (heads * 2);
+                const rabbits = remainingLegs / 2;
+                addExplanation(`第4步：把缺少的脚补给兔子 🐰，每只补2只脚。`);
+
+                let currentRabbits = 0;
+                for(let i = 0; i < rabbits; i++) {
+                    setTimeout(() => {
+                        const legs = animals[i].querySelectorAll('.leg');
+                        legs[2].classList.add('show');
+                        legs[3].classList.add('show');
+                        animals[i].className = 'animal rabbit';
+                        const body = animals[i].querySelector('.animal-body');
+                        body.innerHTML = '';
+                        currentRabbits++;
+                        updateCounter(0, currentRabbits);
+                    }, i * 180);
+                }
+            } else if (step === 4) {
+                const rabbits = rabbitsCount;
+                const chickens = chickensCount;
+                let currentChickens = 0;
+
+                for(let i = rabbits; i < heads; i++) {
+                    setTimeout(() => {
+                        animals[i].className = 'animal chicken';
+                        const body = animals[i].querySelector('.animal-body');
+                        body.innerHTML = '';
+                        currentChickens++;
+                        updateCounter(currentChickens, rabbits);
+                    }, (i - rabbits) * 120);
+                }
+
+                setTimeout(() => {
+                    addExplanation(`🎉 答案：兔子 <strong>${rabbits}</strong> 只，鸡 <strong>${chickens}</strong> 只！`);
+                    nextBtn.textContent = "完成 ✨";
+                    nextBtn.disabled = true;
+                    celebrate();
+                }, (heads - rabbits) * 120 + 300);
+            }
+        }
+
+        function updateCounter(chickens, rabbits) {
+            document.getElementById('chickenCount').textContent = chickens;
+            document.getElementById('rabbitCount').textContent = rabbits;
+        }
+
+        function celebrate() {
+            const stage = document.getElementById('stage');
+            const celebration = document.createElement('div');
+            celebration.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 48px;
+                animation: pop 0.6s ease;
+                pointer-events: none;
+            `;
+            celebration.textContent = '🎊';
+            stage.appendChild(celebration);
+
+            setTimeout(() => celebration.remove(), 1500);
+        }
+
+        function reset() {
+            document.getElementById('headsInput').value = 10;
+            document.getElementById('legsInput').value = 32;
+            document.getElementById('stage').innerHTML = '<div style="width: 100%; text-align: center; color: #a67c52; margin-top: 60px; font-size: 15px;">👆 点击"生成题目"开始吧！</div>';
+            document.getElementById('explanationText').innerHTML = '<h3>📝 解题步骤</h3><p style="color: var(--text-soft); font-size: 14px;">请先生成题目，然后点击"下一步"查看演示。</p>';
+            document.getElementById('nextStepBtn').disabled = true;
+            document.getElementById('nextStepBtn').textContent = "下一步 ➡️";
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('counter').style.display = 'none';
+            step = 0;
+        }
+
+        function addExplanation(html) {
+            const box = document.getElementById('explanationText');
+            const p = document.createElement('div');
+            p.className = 'step-text';
+            p.innerHTML = html;
+            box.appendChild(p);
+            box.scrollTop = box.scrollHeight;
+        }
+    </script>
+</body>
+</html>

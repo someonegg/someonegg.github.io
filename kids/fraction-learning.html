@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+    <title>分数拓展：图形割补法</title>
+    <style>
+        :root {
+            --primary: #e67e22;
+            --primary-soft: rgba(230, 126, 34, 0.1);
+            --accent: #3498db;
+            --accent-soft: rgba(52, 152, 219, 0.1);
+            --bg: #f5f7f9;
+            --surface: #ffffff;
+            --text: #2c3e50;
+            --text-soft: #6c7a89;
+            --border: #e1e8ed;
+            --radius: 12px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --trans: 0.2s ease;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 24px 16px 32px;
+            line-height: 1.6;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 16px;
+            gap: 8px;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 40px;
+            padding: 0 12px;
+            border-radius: var(--radius);
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 13px;
+            transition: background var(--trans);
+        }
+
+        .nav-link:hover { background: var(--primary-soft); }
+        .nav-link.active { color: var(--text); background: var(--surface); }
+
+        h1 {
+            margin-bottom: 8px;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        p.intro {
+            color: var(--text-soft);
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card h3 {
+            margin: 0 0 12px;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text);
+            align-self: flex-start;
+        }
+
+        .explanation {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 8px;
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .explanation strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .highlight {
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .hl-1 { color: var(--primary); background: var(--primary-soft); }
+        .hl-2 { color: var(--accent); background: var(--accent-soft); }
+        .hl-3 { color: #27ae60; background: rgba(39, 174, 96, 0.1); }
+
+        canvas {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin: 12px 0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background var(--trans);
+            color: white;
+        }
+
+        .btn-play-1 { background: var(--primary); }
+        .btn-play-1:hover { background: #d35400; }
+
+        .btn-play-2 { background: var(--accent); }
+        .btn-play-2:hover { background: #2980b9; }
+
+        .btn-play-3 { background: #27ae60; }
+        .btn-play-3:hover { background: #219a52; }
+
+        .btn-reset { background: #95a5a6; }
+        .btn-reset:hover { background: #7f8c8d; }
+
+        @media (max-width: 720px) {
+            body { padding: 16px 12px 24px; }
+            h1 { font-size: 20px; }
+            .container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <div class="top-nav">
+        <a class="nav-link" href="./index.html">返回索引</a>
+    </div>
+    <h1>分数拓展：图形割补法</h1>
+    <p class="intro">遇到不规则图形不要怕，动动脑筋移一下，把它变成我们熟悉的形状！</p>
+
+    <div class="container">
+        <!-- 题目 1: 圆形 -->
+        <div class="card">
+            <h3>第1题：同心圆</h3>
+            <div class="explanation" id="text1">
+                <strong>观察：</strong>内外两圈，涂色部分分散。<br>
+                <strong>思考：</strong>把外圈的碎片<span class="highlight hl-1">旋转</span>到内圈上方，能拼成扇形吗？
+            </div>
+            <div class="explanation" id="text1-done" style="display: none;">
+                <strong>变形成功！</strong>2个完整的扇形。<br>
+                总共8份，占2份。<br>
+                分数是：2/8 = <span class="highlight hl-1">1/4</span>
+            </div>
+            <canvas id="canvas1" width="220" height="220"></canvas>
+            <div class="btn-group">
+                <button class="btn-play-1" onclick="d1.play()">变身</button>
+                <button class="btn-reset" onclick="d1.reset()">还原</button>
+            </div>
+        </div>
+
+        <!-- 题目 2: 菱形 -->
+        <div class="card">
+            <h3>第2题：中间的菱形</h3>
+            <div class="explanation" id="text2">
+                <strong>观察：</strong>菱形把格子切碎了。<br>
+                <strong>思考：</strong>把右边的三角形<span class="highlight hl-2">上下翻转</span>，填补到左边的空隙里。
+            </div>
+            <div class="explanation" id="text2-done" style="display: none;">
+                <strong>变形成功！</strong>2个完整的矩形。<br>
+                总共8块，占2块。<br>
+                分数是：2/8 = <span class="highlight hl-2">1/4</span>
+            </div>
+            <canvas id="canvas2" width="180" height="260"></canvas>
+            <div class="btn-group">
+                <button class="btn-play-2" onclick="d2.play()">变身</button>
+                <button class="btn-reset" onclick="d2.reset()">还原</button>
+            </div>
+        </div>
+
+        <!-- 题目 3: 角落 -->
+        <div class="card">
+            <h3>第3题：分散的角落</h3>
+            <div class="explanation" id="text3">
+                <strong>观察：</strong>4个角落都有半个格子。<br>
+                <strong>思考：</strong>把上面的角<span class="highlight hl-3">旋转90°</span> 搬下来，和下面的拼在一起。
+            </div>
+            <div class="explanation" id="text3-done" style="display: none;">
+                <strong>变形成功！</strong>2个完整的方块。<br>
+                总共12块，占了2块。<br>
+                分数是：2/12 = <span class="highlight hl-3">1/6</span>
+            </div>
+            <canvas id="canvas3" width="240" height="180"></canvas>
+            <div class="btn-group">
+                <button class="btn-play-3" onclick="d3.play()">变身</button>
+                <button class="btn-reset" onclick="d3.reset()">还原</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const Easing = {
+        easeInOutBack: t => {
+            const c1 = 1.70158; const c2 = c1 * 1.525;
+            return t < 0.5 ? (Math.pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2 : (Math.pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2;
+        },
+        easeInOutCubic: t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+    };
+
+    class CircleDemo {
+        constructor() {
+            this.canvas = document.getElementById('canvas1');
+            this.ctx = this.canvas.getContext('2d');
+            this.cw = this.canvas.width; this.ch = this.canvas.height;
+            this.progress = 0;
+            this.radius = 100;
+            this.draw();
+        }
+
+        drawSector(idx, isInner, color, offsetAngle = 0) {
+            const step = (Math.PI * 2) / 8;
+            const startAngle = idx * step + offsetAngle - Math.PI/2;
+            const endAngle = startAngle + step;
+            const rInner = isInner ? 0 : this.radius * 0.7;
+            const rOuter = isInner ? this.radius * 0.7 : this.radius;
+
+            this.ctx.beginPath();
+            this.ctx.arc(this.cw/2, this.ch/2, rOuter, startAngle, endAngle, false);
+            this.ctx.arc(this.cw/2, this.ch/2, rInner, endAngle, startAngle, true);
+            this.ctx.closePath();
+            this.ctx.fillStyle = color; this.ctx.fill();
+            this.ctx.strokeStyle = '#fff'; this.ctx.lineWidth = 2; this.ctx.stroke();
+        }
+
+        drawGrid() {
+            this.ctx.strokeStyle = '#ddd'; this.ctx.lineWidth = 1; this.ctx.setLineDash([4, 4]);
+            this.ctx.beginPath(); this.ctx.arc(this.cw/2, this.ch/2, this.radius, 0, 6.3); this.ctx.stroke();
+            this.ctx.beginPath(); this.ctx.arc(this.cw/2, this.ch/2, this.radius*0.7, 0, 6.3); this.ctx.stroke();
+            for(let i=0;i<8;i++){
+                const a = (i * Math.PI * 2)/8;
+                this.ctx.beginPath(); this.ctx.moveTo(this.cw/2, this.ch/2);
+                this.ctx.lineTo(this.cw/2 + Math.cos(a)*this.radius, this.ch/2 + Math.sin(a)*this.radius);
+                this.ctx.stroke();
+            }
+            this.ctx.setLineDash([]);
+        }
+
+        draw() {
+            this.ctx.clearRect(0,0,this.cw,this.ch);
+            this.drawGrid();
+
+            this.drawSector(0, true, '#ffd4a8');
+            this.drawSector(4, true, '#ffd4a8');
+
+            const ease = Easing.easeInOutBack(this.progress);
+            const angleMove = -(Math.PI*2/8) * ease;
+
+            this.drawSector(1, false, '#e67e22', angleMove);
+            this.drawSector(5, false, '#e67e22', angleMove);
+        }
+
+        animate(target) {
+            const loop = () => {
+                const diff = target - this.progress;
+                if(Math.abs(diff)<0.06) {
+                    this.progress = target;
+                    this.draw();
+                    if (target == 1) {
+                        document.getElementById('text1').style.display = 'none';
+                        document.getElementById('text1-done').style.display = 'block';
+                    } else {
+                        document.getElementById('text1').style.display = 'block';
+                        document.getElementById('text1-done').style.display = 'none';
+                    }
+                    return;
+                }
+                this.progress += diff * 0.06;
+                this.draw();
+                requestAnimationFrame(loop);
+            }
+            loop();
+        }
+    }
+
+    const d1 = new CircleDemo();
+    d1.play = () => d1.animate(1);
+    d1.reset = () => d1.animate(0);
+
+    class GridDemo {
+        constructor(id, cols, rows, drawLogic, textId) {
+            this.canvas = document.getElementById(id);
+            this.ctx = this.canvas.getContext('2d');
+            this.cols = cols; this.rows = rows;
+            this.cw = this.canvas.width / cols; this.ch = this.canvas.height / rows;
+            this.progress = 0;
+            this.drawLogic = drawLogic;
+            this.textId = textId;
+            this.draw();
+        }
+
+        drawTriangle(c, r, type, color, tf = {}) {
+            const ctx = this.ctx;
+            ctx.save();
+            const x = c * this.cw; const y = r * this.ch;
+            const cx = x + this.cw/2; const cy = y + this.ch/2;
+
+            if (tf.x || tf.y || tf.rotate || tf.scaleY) {
+                const tx = (tf.x||0)*this.cw; const ty = (tf.y||0)*this.ch;
+                ctx.translate(cx + tx, cy + ty);
+                if(tf.rotate) ctx.rotate(tf.rotate * Math.PI/180);
+                if(tf.scaleY !== undefined) ctx.scale(1, tf.scaleY);
+                ctx.translate(-cx, -cy);
+            }
+
+            ctx.fillStyle = color; ctx.beginPath();
+            if (type===0) { ctx.moveTo(x,y); ctx.lineTo(x+this.cw,y); ctx.lineTo(x,y+this.ch); }
+            else if (type===1) { ctx.moveTo(x,y); ctx.lineTo(x+this.cw,y); ctx.lineTo(x+this.cw,y+this.ch); }
+            else if (type===2) { ctx.moveTo(x+this.cw,y); ctx.lineTo(x+this.cw,y+this.ch); ctx.lineTo(x,y+this.ch); }
+            else if (type===3) { ctx.moveTo(x,y); ctx.lineTo(x+this.cw,y+this.ch); ctx.lineTo(x,y+this.ch); }
+            ctx.fill(); ctx.strokeStyle='white'; ctx.lineWidth=2; ctx.stroke();
+            ctx.restore();
+        }
+
+        drawGrid() {
+            const ctx = this.ctx;
+            ctx.strokeStyle = '#eee'; ctx.setLineDash([5,5]); ctx.beginPath();
+            for(let i=0; i<=this.cols; i++) { ctx.moveTo(i*this.cw,0); ctx.lineTo(i*this.cw,this.canvas.height); }
+            for(let i=0; i<=this.rows; i++) { ctx.moveTo(0,i*this.ch); ctx.lineTo(this.canvas.width,i*this.ch); }
+            ctx.stroke(); ctx.setLineDash([]);
+        }
+
+        draw() {
+            this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+            this.drawGrid();
+            this.drawLogic(this, Easing.easeInOutCubic(this.progress));
+        }
+
+        animate(target) {
+            const loop = () => {
+                const diff = target - this.progress;
+                if(Math.abs(diff)<0.06) {
+                    this.progress = target;
+                    this.draw();
+                    if (target == 1) {
+                        document.getElementById(this.textId).style.display = 'none';
+                        document.getElementById(this.textId + '-done').style.display = 'block';
+                    } else {
+                        document.getElementById(this.textId).style.display = 'block';
+                        document.getElementById(this.textId + '-done').style.display = 'none';
+                    }
+                    return;
+                }
+                this.progress += diff * 0.06;
+                this.draw();
+                requestAnimationFrame(loop);
+            }
+            loop();
+        }
+    }
+
+    const d2 = new GridDemo('canvas2', 2, 4, (d, p) => {
+        d.drawTriangle(0, 1, 2, '#d6eaf8');
+        d.drawTriangle(0, 2, 1, '#d6eaf8');
+        d.drawTriangle(1, 1, 3, '#3498db', { x: -p, scaleY: 1-(2*p) });
+        d.drawTriangle(1, 2, 0, '#3498db', { x: -p, scaleY: 1-(2*p) });
+    }, 'text2');
+
+    d2.play = () => d2.animate(1);
+    d2.reset = () => d2.animate(0);
+
+    const d3 = new GridDemo('canvas3', 4, 3, (d, p) => {
+        d.drawTriangle(0, 2, 3, '#d5f4e6');
+        d.drawTriangle(3, 2, 2, '#d5f4e6');
+        d.drawTriangle(0, 0, 0, '#27ae60', { y: p*2, rotate: p*90 });
+        d.drawTriangle(3, 0, 1, '#27ae60', { y: p*2, rotate: p*-90 });
+    }, 'text3');
+
+    d3.play = () => d3.animate(1);
+    d3.reset = () => d3.animate(0);
+
+</script>
+</body>
+</html>

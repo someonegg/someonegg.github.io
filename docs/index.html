@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="/vendor/katex.min.css" />
+  <link rel="stylesheet" href="/assets/site/shell.css" />
+  <link rel="stylesheet" href="/assets/site/markdown.css" />
+  <title>Docs 索引</title>
+</head>
+<body>
+  <main class="wrap is-doc-viewer">
+    <div id="topNav" class="top-nav"></div>
+
+    <section class="layout">
+      <aside id="sidebar" class="sidebar card"></aside>
+      <article id="viewer" class="viewer card is-hidden">
+        <p class="hint">请选择左侧文档进行预览。</p>
+      </article>
+    </section>
+  </main>
+  <button id="backTopBtn" class="back-top" type="button" aria-label="回到顶部">回到顶部</button>
+
+  <script src="/vendor/marked.min.js"></script>
+  <script src="/vendor/katex.min.js"></script>
+  <script src="/vendor/katex-auto-render.min.js"></script>
+  <script src="/assets/site/nav.js"></script>
+  <script src="/assets/site/doc-viewer.js"></script>
+  <script>
+    initTopNav({
+      containerEl: document.getElementById("topNav"),
+      current: "docs",
+    });
+
+    initDocViewer({
+      sidebarEl: document.getElementById("sidebar"),
+      viewerEl: document.getElementById("viewer"),
+      backTopBtnEl: document.getElementById("backTopBtn"),
+      indexUrl: "./index.md",
+      sidebarTitle: "文档索引",
+      hideViewerByDefault: true,
+      showRawLinkOnLoadError: true,
+      showRawLinkOnIndexError: true,
+      enableHistorySync: true,
+      enableInDocFileLink: true,
+      convertWikiLinks: true,
+      titleCaseFallback: false,
+      errorIncludeFile: false,
+      emptyText: "index.md 中没有可展示条目。",
+    });
+  </script>
+</body>
+</html>

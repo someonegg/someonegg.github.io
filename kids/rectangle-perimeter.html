@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <title>小方块拼大图：周长的秘密</title>
+  <style>
+    :root {
+      --bg: #f5f7f9;
+      --surface: #ffffff;
+      --surface-soft: #f9fcfd;
+      --text: #223036;
+      --muted: #617178;
+      --accent: #2c7a72;
+      --accent-soft: rgba(44, 122, 114, 0.12);
+      --assist: #e8f3f1;
+      --warn: #b45309;
+      --warn-soft: #fff7ed;
+      --border: #dbe5e8;
+      --radius: 12px;
+      --shadow-sm: 0 1px 3px rgba(24, 32, 36, 0.05);
+      --shadow-md: 0 8px 24px rgba(24, 32, 36, 0.07);
+      --focus: 0 0 0 3px rgba(44, 122, 114, 0.2);
+      --trans: 180ms ease;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 12% 0%, #ffffff 0%, #f8fbfc 28%, transparent 70%),
+        var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+      padding: 20px 14px 30px;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .nav-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 8px;
+      transition: background var(--trans);
+    }
+
+    .nav-link:hover { background: var(--accent-soft); }
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: -0.3px;
+      font-weight: 650;
+    }
+
+    .desc {
+      margin: 8px 0 14px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-soft);
+    }
+
+    .input-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    label {
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    input[type="number"] {
+      width: 92px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0 10px;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      background: #fff;
+    }
+
+    input:focus-visible,
+    button:focus-visible,
+    .layout-btn:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+
+    .btn-row {
+      display: inline-flex;
+      gap: 8px;
+    }
+
+    button {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color var(--trans), color var(--trans), background var(--trans);
+    }
+
+    button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: #fcfefe;
+    }
+
+    .summary {
+      margin-left: auto;
+      display: inline-flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .chip strong {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .hint {
+      width: 100%;
+      margin: 0;
+      border-radius: 9px;
+      padding: 8px 10px;
+      font-size: 13px;
+      color: var(--muted);
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+
+    .hint.warn {
+      color: var(--warn);
+      border-color: rgba(180, 83, 9, 0.3);
+      background: var(--warn-soft);
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      min-height: 460px;
+    }
+
+    .main,
+    .side {
+      padding: 14px;
+    }
+
+    .side {
+      border-left: 1px solid var(--border);
+      background: #fbfdfd;
+    }
+
+    .section-title {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .grid-stage {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+      padding: 12px;
+    }
+
+    .grid-board {
+      width: min(100%, 540px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .grid-svg {
+      width: 100%;
+      height: auto;
+      max-height: 320px;
+      display: block;
+    }
+
+    .grid-legend {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-swatch {
+      width: 14px;
+      border-radius: 2px;
+    }
+
+    .swatch-perimeter {
+      background: #1f766e;
+      height: 2px;
+    }
+
+    .swatch-overlap {
+      background: #d97706;
+      height: 4px;
+    }
+
+    .current {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .current strong {
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .explain {
+      margin: 10px 0 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+    .layout-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 330px;
+      overflow: auto;
+    }
+
+    .layout-item {
+      list-style: none;
+    }
+
+    .layout-btn {
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: #fff;
+      cursor: pointer;
+      text-align: left;
+      line-height: 1.5;
+      transition: border-color var(--trans), background var(--trans), transform var(--trans);
+    }
+
+    .layout-btn:hover {
+      border-color: var(--accent);
+      background: #fcfefe;
+      transform: translateY(-1px);
+    }
+
+    .layout-btn.is-active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .layout-btn.is-min .row-top::after {
+      content: "最小周长";
+      display: inline-flex;
+      align-items: center;
+      margin-left: 8px;
+      font-size: 11px;
+      color: #156157;
+      background: rgba(44, 122, 114, 0.12);
+      border-radius: 999px;
+      padding: 2px 7px;
+    }
+
+    .row-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .row-sub {
+      margin-top: 3px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .empty {
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      background: #fff;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 920px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+      .side {
+        border-left: 0;
+        border-top: 1px solid var(--border);
+      }
+      .summary {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 16px 10px 24px; }
+      h1 { font-size: 24px; }
+      .toolbar { padding: 10px; }
+      .main, .side { padding: 12px; }
+      .grid-stage { min-height: 240px; }
+      button { min-width: 44px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="top-nav">
+      <a class="nav-link" href="./index.html">返回索引</a>
+    </div>
+
+    <h1>小方块拼大图：周长的秘密</h1>
+    <p class="desc">输入小方块总数 N（4~144），看看它能拼成哪些长方形，并比较每种拼法的周长。</p>
+
+    <section class="panel">
+      <div class="toolbar">
+        <div class="input-row">
+          <label for="nInput">小方块总数 N：</label>
+          <input id="nInput" type="number" min="4" max="144" step="1" value="36" />
+        </div>
+
+        <div class="btn-row">
+          <button id="prevBtn" type="button">←</button>
+          <button id="nextBtn" type="button">→</button>
+        </div>
+
+        <div class="summary">
+          <span class="chip">拼法数量：<strong id="countChip">0</strong></span>
+          <span class="chip">最小周长：<strong id="minChip">-</strong></span>
+        </div>
+
+        <p id="hint" class="hint" aria-live="polite"></p>
+      </div>
+
+      <div class="content">
+        <section class="main">
+          <h2 class="section-title">当前拼法</h2>
+          <div class="grid-stage" id="gridStage"></div>
+          <p class="current" id="currentText"></p>
+          <div class="explain" id="explainText"></div>
+        </section>
+
+        <aside class="side">
+          <h2 class="section-title">全部整齐拼法（去重）</h2>
+          <ul class="layout-list" id="layoutList"></ul>
+          <p class="sr-only" id="a11ySummary" aria-live="polite"></p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      n: 36,
+      minN: 4,
+      maxN: 144,
+      layouts: [],
+      selectedIndex: 0,
+      minPerimeter: null,
+      message: "输入 N 后可查看所有拼法，点击右侧任意拼法可切换。",
+      warning: false
+    };
+
+    const refs = {
+      nInput: document.getElementById('nInput'),
+      prevBtn: document.getElementById('prevBtn'),
+      nextBtn: document.getElementById('nextBtn'),
+      countChip: document.getElementById('countChip'),
+      minChip: document.getElementById('minChip'),
+      hint: document.getElementById('hint'),
+      gridStage: document.getElementById('gridStage'),
+      currentText: document.getElementById('currentText'),
+      explainText: document.getElementById('explainText'),
+      layoutList: document.getElementById('layoutList'),
+      a11ySummary: document.getElementById('a11ySummary')
+    };
+
+    function getOverlapEdges(a, b) {
+      return a * (b - 1) + (a - 1) * b;
+    }
+
+    function getLayouts(n) {
+      const layouts = [];
+      for (let a = 1; a * a <= n; a += 1) {
+        if (n % a !== 0) continue;
+        const b = n / a;
+        const p = 2 * (a + b);
+        const overlap = getOverlapEdges(a, b);
+        layouts.push({ a, b, p, overlap });
+      }
+      return layouts;
+    }
+
+    function getMinPerimeter(layouts) {
+      if (!layouts.length) return null;
+      let min = layouts[0].p;
+      for (let i = 1; i < layouts.length; i += 1) {
+        if (layouts[i].p < min) min = layouts[i].p;
+      }
+      return min;
+    }
+
+    function getCellSize(rows, cols) {
+      const maxSide = Math.max(rows, cols);
+      if (maxSide <= 8) return 26;
+      if (maxSide <= 12) return 20;
+      if (maxSide <= 18) return 16;
+      if (maxSide <= 36) return 12;
+      return 8;
+    }
+
+    function getClosestText(layout, n, minPerimeter, layoutCount) {
+      if (!layout) return '';
+      if (layoutCount === 1) {
+        return '这个数只能拼成长条形，长和宽差很多，所以周长会比较大。';
+      }
+      if (layout.p === minPerimeter) {
+        if (layout.a === layout.b) {
+          return '这个拼法是正方形，长和宽完全一样，所以周长最小。';
+        }
+        return '这个拼法最接近正方形，长和宽差得最少，所以周长最小。';
+      }
+
+      const delta = layout.b - layout.a;
+      return '这个拼法更像长条形，长和宽相差 ' + delta + '，所以周长会更大。';
+    }
+
+    function renderGrid(layout) {
+      refs.gridStage.innerHTML = '';
+      if (!layout) return;
+
+      const { a, b } = layout;
+      const cellSize = getCellSize(a, b);
+      const width = b * cellSize;
+      const height = a * cellSize;
+
+      const board = document.createElement('div');
+      board.className = 'grid-board';
+
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.classList.add('grid-svg');
+      svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+      svg.setAttribute('aria-label', '当前拼法网格图');
+      const perimeterStrokeWidth = 1.6;
+      const overlapStrokeWidth = 3.2;
+
+      const bg = document.createElementNS(svgNS, 'rect');
+      bg.setAttribute('x', '0');
+      bg.setAttribute('y', '0');
+      bg.setAttribute('width', String(width));
+      bg.setAttribute('height', String(height));
+      bg.setAttribute('fill', '#e8f3f1');
+      svg.appendChild(bg);
+
+      for (let c = 1; c < b; c += 1) {
+        const x = c * cellSize;
+        const line = document.createElementNS(svgNS, 'line');
+        line.setAttribute('x1', String(x));
+        line.setAttribute('y1', '0');
+        line.setAttribute('x2', String(x));
+        line.setAttribute('y2', String(height));
+        line.setAttribute('stroke', '#d97706');
+        line.setAttribute('stroke-width', String(overlapStrokeWidth));
+        svg.appendChild(line);
+      }
+
+      for (let r = 1; r < a; r += 1) {
+        const y = r * cellSize;
+        const line = document.createElementNS(svgNS, 'line');
+        line.setAttribute('x1', '0');
+        line.setAttribute('y1', String(y));
+        line.setAttribute('x2', String(width));
+        line.setAttribute('y2', String(y));
+        line.setAttribute('stroke', '#d97706');
+        line.setAttribute('stroke-width', String(overlapStrokeWidth));
+        svg.appendChild(line);
+      }
+
+      const border = document.createElementNS(svgNS, 'rect');
+      border.setAttribute('x', '0');
+      border.setAttribute('y', '0');
+      border.setAttribute('width', String(width));
+      border.setAttribute('height', String(height));
+      border.setAttribute('fill', 'none');
+      border.setAttribute('stroke', '#1f766e');
+      border.setAttribute('stroke-width', String(perimeterStrokeWidth));
+      svg.appendChild(border);
+
+      const legend = document.createElement('div');
+      legend.className = 'grid-legend';
+      legend.innerHTML = ''
+        + '<span class="legend-item"><span class="legend-swatch swatch-perimeter"></span>绿色：周长外边</span>'
+        + '<span class="legend-item"><span class="legend-swatch swatch-overlap"></span>橙色：重叠内边</span>';
+
+      board.appendChild(svg);
+      board.appendChild(legend);
+      refs.gridStage.appendChild(board);
+    }
+
+    function renderList() {
+      refs.layoutList.innerHTML = '';
+      if (!state.layouts.length) {
+        const empty = document.createElement('li');
+        empty.className = 'empty';
+        empty.textContent = '当前没有可展示的拼法。';
+        refs.layoutList.appendChild(empty);
+        return;
+      }
+
+      state.layouts.forEach((layout, index) => {
+        const li = document.createElement('li');
+        li.className = 'layout-item';
+        const btn = document.createElement('button');
+        btn.className = 'layout-btn';
+        btn.type = 'button';
+
+        if (index === state.selectedIndex) {
+          btn.classList.add('is-active');
+        }
+        if (layout.p === state.minPerimeter) {
+          btn.classList.add('is-min');
+        }
+
+        btn.dataset.index = String(index);
+        btn.setAttribute('aria-label', layout.a + '乘' + layout.b + '，周长' + layout.p);
+
+        const top = document.createElement('div');
+        top.className = 'row-top';
+        top.innerHTML = '<span>' + layout.a + ' × ' + layout.b + '</span><span>P = ' + layout.p + '</span>';
+
+        const sub = document.createElement('div');
+        sub.className = 'row-sub';
+        sub.textContent = '面积 N=' + state.n + '，边长差=' + (layout.b - layout.a) + '，重叠边=' + layout.overlap + '条';
+
+        btn.appendChild(top);
+        btn.appendChild(sub);
+        li.appendChild(btn);
+        refs.layoutList.appendChild(li);
+      });
+    }
+
+    function renderCurrent() {
+      const current = state.layouts[state.selectedIndex];
+      if (!current) {
+        refs.currentText.textContent = '暂无拼法';
+        refs.explainText.textContent = '';
+        refs.a11ySummary.textContent = '';
+        return;
+      }
+
+      refs.currentText.innerHTML = '<strong>' + current.a + ' × ' + current.b + '</strong>，周长 <strong>P = ' + current.p + '</strong>，重叠边 <strong>' + current.overlap + ' 条</strong>';
+      const explain = '小方块总数固定是 ' + state.n + '。' + getClosestText(current, state.n, state.minPerimeter, state.layouts.length) + ' 用公式看是 P=2(a+b)。';
+      refs.explainText.textContent = explain;
+      refs.a11ySummary.textContent = '当前选择 ' + current.a + '乘' + current.b + '，周长' + current.p + '。';
+      renderGrid(current);
+    }
+
+    function renderToolbar() {
+      refs.countChip.textContent = String(state.layouts.length);
+      refs.minChip.textContent = state.minPerimeter === null ? '-' : String(state.minPerimeter);
+      refs.hint.textContent = state.message;
+      refs.hint.classList.toggle('warn', state.warning);
+      refs.prevBtn.disabled = state.layouts.length <= 1;
+      refs.nextBtn.disabled = state.layouts.length <= 1;
+    }
+
+    function render() {
+      renderToolbar();
+      renderList();
+      renderCurrent();
+    }
+
+    function setN(nextN) {
+      if (!Number.isInteger(nextN)) {
+        state.warning = true;
+        state.message = '请输入整数。';
+        refs.nInput.value = String(state.n);
+        renderToolbar();
+        return;
+      }
+
+      if (nextN < state.minN || nextN > state.maxN) {
+        state.warning = true;
+        state.message = '请输入 ' + state.minN + ' 到 ' + state.maxN + ' 之间的整数。';
+        refs.nInput.value = String(state.n);
+        renderToolbar();
+        return;
+      }
+
+      state.n = nextN;
+      state.layouts = getLayouts(state.n);
+      state.minPerimeter = getMinPerimeter(state.layouts);
+      state.selectedIndex = state.layouts.findIndex(item => item.p === state.minPerimeter);
+      if (state.selectedIndex < 0) state.selectedIndex = 0;
+
+      if (state.layouts.length === 1) {
+        state.message = '这个数只有一种整齐拼法：1 × ' + state.n + '。';
+      } else {
+        state.message = '越接近正方形，重叠边数越多，周长也就越小。';
+      }
+      state.warning = false;
+      refs.nInput.value = String(state.n);
+      render();
+    }
+
+    function shiftSelection(step) {
+      if (!state.layouts.length) return;
+      const size = state.layouts.length;
+      state.selectedIndex = (state.selectedIndex + step + size) % size;
+      render();
+    }
+
+    refs.nInput.addEventListener('change', (event) => {
+      const value = Number(event.target.value);
+      setN(value);
+    });
+
+    refs.prevBtn.addEventListener('click', () => shiftSelection(-1));
+    refs.nextBtn.addEventListener('click', () => shiftSelection(1));
+
+    refs.layoutList.addEventListener('click', (event) => {
+      const item = event.target.closest('.layout-btn');
+      if (!item) return;
+      const idx = Number(item.dataset.index);
+      if (Number.isNaN(idx)) return;
+      state.selectedIndex = idx;
+      render();
+    });
+
+    setN(state.n);
+  </script>
+</body>
+</html>

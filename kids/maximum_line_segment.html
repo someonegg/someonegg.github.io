@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+    <title>连线规律：新增线段演示</title>
+    <style>
+        :root {
+            --primary: #9b59b6;
+            --primary-soft: rgba(155, 89, 182, 0.1);
+            --accent: #27ae60;
+            --accent-soft: rgba(39, 174, 96, 0.1);
+            --bg: #f5f7f9;
+            --surface: #ffffff;
+            --text: #2c3e50;
+            --text-soft: #6c7a89;
+            --border: #e1e8ed;
+            --radius: 12px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --trans: 0.2s ease;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 24px 16px 32px;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wrap {
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 16px;
+            gap: 8px;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 40px;
+            padding: 0 12px;
+            border-radius: var(--radius);
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 13px;
+            transition: background var(--trans);
+        }
+
+        .nav-link:hover { background: var(--primary-soft); }
+        .nav-link.active { color: var(--text); background: var(--surface); }
+
+        h1 {
+            margin-bottom: 8px;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+            text-align: center;
+        }
+
+        p {
+            color: var(--text-soft);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stats-panel {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            width: 100%;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 20px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .stat-desc {
+            font-size: 12px;
+            color: var(--text-soft);
+        }
+
+        .color-new { color: var(--accent); }
+        .color-total { color: var(--primary); }
+
+        .canvas-wrapper {
+            position: relative;
+            margin: 0 auto 16px;
+        }
+
+        canvas {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: block;
+        }
+
+        .formula-bar {
+            background: var(--bg);
+            color: var(--text);
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            text-align: center;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background var(--trans);
+            color: white;
+        }
+
+        #btn-add { background: var(--accent); }
+        #btn-add:hover { background: #219a52; }
+
+        #btn-reset { background: #95a5a6; }
+        #btn-reset:hover { background: #7f8c8d; }
+
+        @media (max-width: 500px) {
+            .stats-panel { flex-direction: column; gap: 8px; }
+            canvas { width: 280px; height: 280px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <div class="top-nav">
+        <a class="nav-link" href="./index.html">返回索引</a>
+    </div>
+    <h1>连线规律教学</h1>
+    <p>观察 <span class="color-new" style="font-weight: 600;">绿色</span> 线条是如何增加的</p>
+
+    <div class="container">
+        <div class="stats-panel">
+            <div class="stat-box">
+                <span class="stat-num" id="n-val">2</span>
+                <span class="stat-desc">点数 (N)</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-num color-new" id="new-lines-val">+1</span>
+                <span class="stat-desc">新增线段</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-num color-total" id="total-val">1</span>
+                <span class="stat-desc">总线段数</span>
+            </div>
+        </div>
+
+        <div class="canvas-wrapper">
+            <canvas id="myCanvas" width="360" height="360"></canvas>
+        </div>
+
+        <div class="formula-bar" id="formula-text">
+            计算：1 = 1
+        </div>
+
+        <div class="btn-group">
+            <button id="btn-add">增加一点</button>
+            <button id="btn-reset">重置</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    const nVal = document.getElementById('n-val');
+    const newLinesVal = document.getElementById('new-lines-val');
+    const totalVal = document.getElementById('total-val');
+    const formulaText = document.getElementById('formula-text');
+
+    let currentN = 2;
+    const CENTER_X = 180;
+    const CENTER_Y = 180;
+    const RADIUS = 140;
+    const FIX_THRESHOLD = 10;
+
+    const fixedPoints = [];
+    for (let i = 0; i < FIX_THRESHOLD; i++) {
+        const angle = (Math.PI * 2 * i) / FIX_THRESHOLD - Math.PI / 2;
+        fixedPoints.push({
+            x: CENTER_X + RADIUS * Math.cos(angle),
+            y: CENTER_Y + RADIUS * Math.sin(angle)
+        });
+    }
+
+    function init() {
+        draw();
+        updateUI();
+    }
+
+    document.getElementById('btn-add').addEventListener('click', () => {
+        if (currentN >= 35) {
+            alert("点太多啦！先重置一下吧。");
+            return;
+        }
+        currentN++;
+        draw();
+        updateUI();
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', reset);
+
+    function reset() {
+        currentN = 2;
+        draw();
+        updateUI();
+    }
+
+    function getPointPosition(index, totalPoints) {
+        if (totalPoints <= FIX_THRESHOLD) {
+            return fixedPoints[index];
+        } else {
+            const angle = (Math.PI * 2 * index) / totalPoints - Math.PI / 2;
+            return {
+                x: CENTER_X + RADIUS * Math.cos(angle),
+                y: CENTER_Y + RADIUS * Math.sin(angle)
+            };
+        }
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        let points = [];
+        for (let i = 0; i < currentN; i++) {
+            points.push(getPointPosition(i, currentN));
+        }
+
+        for (let i = 0; i < currentN - 1; i++) {
+            for (let j = i + 1; j < currentN - 1; j++) {
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = 'rgba(155, 89, 182, 0.3)';
+                ctx.beginPath();
+                ctx.moveTo(points[i].x, points[i].y);
+                ctx.lineTo(points[j].x, points[j].y);
+                ctx.stroke();
+            }
+        }
+
+        const newPointIdx = currentN - 1;
+
+        for (let i = 0; i < newPointIdx; i++) {
+            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = '#27ae60';
+            ctx.beginPath();
+            ctx.moveTo(points[newPointIdx].x, points[newPointIdx].y);
+            ctx.lineTo(points[i].x, points[i].y);
+            ctx.stroke();
+        }
+
+        for (let i = 0; i < currentN; i++) {
+            const radius = 8;
+            ctx.beginPath();
+            ctx.arc(points[i].x, points[i].y, radius, 0, Math.PI * 2);
+
+            if (i === currentN - 1) {
+                ctx.fillStyle = '#27ae60';
+            } else {
+                ctx.fillStyle = '#9b59b6';
+            }
+            ctx.fill();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 10px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(i + 1, points[i].x, points[i].y);
+        }
+    }
+
+    function updateUI() {
+        nVal.textContent = currentN;
+        const newLines = currentN - 1;
+        const totalLines = (currentN * (currentN - 1)) / 2;
+
+        newLinesVal.textContent = `+${newLines}`;
+        totalVal.textContent = totalLines;
+
+        let formula = "";
+        let parts = [];
+        for(let i = 1; i < currentN; i++) {
+            parts.push(i);
+        }
+        formula = parts.join(" + ") + " = " + totalLines;
+
+        if (currentN === 2) {
+             formulaText.innerHTML = "2个点：连接 <strong>1</strong> 条线";
+        } else {
+             formulaText.innerHTML = `累加计算： ${formula}`;
+        }
+    }
+
+    init();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="/assets/site/shell.css" />
+  <title>Apps 索引</title>
+</head>
+<body>
+  <main class="wrap is-catalog">
+    <div id="topNav" class="top-nav"></div>
+    <h1 class="page-title">应用索引</h1>
+
+    <section id="list" class="catalog-list">
+      <p class="hint hint-block">正在加载索引...</p>
+    </section>
+  </main>
+
+  <script src="/assets/site/nav.js"></script>
+  <script src="/assets/site/catalog-page.js"></script>
+  <script>
+    initTopNav({
+      containerEl: document.getElementById("topNav"),
+      current: "apps",
+    });
+
+    initCatalogPage({
+      listEl: document.getElementById("list"),
+      indexUrl: "./index.md",
+      errorLinkText: "直接打开 index.md",
+      emptyText: "index.md 中没有可展示条目。",
+    });
+  </script>
+</body>
+</html>
