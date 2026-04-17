@@ -21,3 +21,11 @@
 
 - [[2026-04-14-thinking-and-decision-playbook.md]] 思考与决策实践手册
 - [[2026-04-14-context-graph-digest.md]] 上下文图谱
+- [[2026-04-17-ieee754-floating-point-notes.md]] IEEE 754 浮点数工程备忘
+
+## Windows
+
+- [[2026-04-17-mfc-comctl-static-link-notes.md]] MFC COMCTL 静态链接风险与规避
+- [[2026-04-17-windows-dll-load-unload-exception-visibility.md]] DLL 加载卸载中的异常可见性
+- [[2026-04-17-multi-hooks-cooperation.md]] 多 Hook 协作逻辑
+- [[2026-04-17-stack-frame-x86-x64.md]] X86 与 X64 栈帧要点
