@@ -2,10 +2,10 @@
 
 ## Current Status
 
-- Source pages: 17
-- Entity pages: 12
-- Concept pages: 30
-- Persisted query pages: 0
+- Source pages: 18
+- Entity pages: 15
+- Concept pages: 37
+- Persisted query pages: 2
 
 ## Active Themes
 
@@ -17,7 +17,7 @@
 - 注意力变体应区分“机制层”和“架构层”：`MHA/GQA/MLA/SWA/DeepSeek Sparse/Gated` 属于机制或模块改造，`Hybrid` 属于层级编排模式。
 - 在线并行推理可作为独立预算控制问题处理：用全局信号同时调度深度（早停）与宽度（剪枝），优先减少长尾无效计算。
 - `Concept` 关系可按“上位分类（Taxonomy）+ 横向关系（Related Concepts）”双轨组织，降低后续扩展时的结构漂移。
-- 当前已形成三条主分类轴：推理阶段优化、Agent 运行时可靠性原语、学习与思维方法。
+- 当前已形成四条主分类轴：推理阶段优化、Agent 运行时可靠性原语、学习与思维方法、媒介理论与 AI。
 - `Prompt Optimization` 可独立为一条方法学主线：从离散搜索到文本梯度，再到合成反馈驱动的闭环优化。
 - 新增后训练策略学习主线：`OPD` 可理解为 `on-policy` 采样与 `dense` 教师监督的结合，目标是同时降低复合错误风险与训练成本。
 - `PPO` 仍是 post-training policy learning 的关键基线；`DPO` 与 `GRPO` 分别沿“偏好对齐流程简化”和“推理任务资源效率”两个方向改写该基线。
@@ -26,6 +26,7 @@
 - 面向生产级 Agent，应把“语义正确恢复”视作基础可靠性能力，并以 `Effect Log -> Capability Gateway -> Forkable Checkpoint` 作为建设顺序。
 - 对长程高权限 Agent，单看 `Uptime` 或一次成功率不足以覆盖风险，需单独跟踪 `Resumability` 指标。
 - 新增机制线索：长上下文退化可能包含“答案后验证收缩（Reasoning Shift）”，工程上需补充复查触发与拥挤度监控。
+- 新增媒介理论分析主线：可用“媒介即讯息/延伸与截肢/冷热媒介/后视镜/四联体”解释 AI 对认知结构与社会分层的影响路径。
 
 ## Open Questions
 
@@ -39,3 +40,4 @@
 - `Reasoning Shift` 在代码 Agent 与工具调用任务上是否同样显著，触发阈值（上下文长度/并发子任务数）如何量化？
 - `OPD` 在当前业务任务上的真实成本/收益拐点在哪里（教师模型规模、batch 结构、上下文长度）？
 - 在当前任务分布下，`PPO`、`DPO`、`GRPO` 的最优切换条件是什么（数据质量、在线采样成本、显存预算）？
+- “认知分化”相关判断在教育、编程、医疗咨询等场景是否可被量化观测（提问质量、复查行为、误判率）？

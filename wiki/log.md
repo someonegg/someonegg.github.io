@@ -507,3 +507,42 @@
   - `log.md`
 - Open validation questions
   - 是否要在该 query 页补一个可直接映射到训练代码的张量维度约定（batch/group/token）与数值稳定性检查清单？
+
+## [2026-04-17] ingest | 用麦克卢汉的手术刀解剖AI
+
+- Processed sources
+  - `llm-wiki/raw/2026-04-17-wechat-OuMddSNqMUH-TB9xGTmP9Q.txt`
+  - `llm-wiki/raw/2026-04-17-wechat-OuMddSNqMUH-TB9xGTmP9Q.json`
+  - `https://mp.weixin.qq.com/s/OuMddSNqMUH-TB9xGTmP9Q`
+- New pages
+  - `sources/2026-04-17-mcluhan-dissects-ai-wechat.md`
+  - `entities/marshall-mcluhan.md`
+  - `entities/ivan-zhao.md`
+  - `entities/daniel-kahneman.md`
+  - `concepts/media-theory-and-ai.md`
+  - `concepts/media-is-the-message.md`
+  - `concepts/media-extension-and-amputation.md`
+  - `concepts/hot-and-cold-media.md`
+  - `concepts/rearview-mirror-effect.md`
+  - `concepts/media-tetrad.md`
+  - `concepts/cognitive-stratification.md`
+- Updated pages
+  - `overview.md`
+  - `index.md`
+  - `log.md`
+- Open validation questions
+  - 该来源为理论阐释文，是否需要补充 1-2 篇实证研究来源（教育/开发者行为数据）来验证“认知分化”与“慢思考压缩”的可观测性？
+  - `Media Tetrad` 在 AI 场景下的四维结论，是否需要补充跨来源对照页以区分“作者推断”与“多源共识”？
+
+## [2026-04-17] lint | semantic-check
+
+- semantic_findings:
+  - id: semantic-2026-04-17-001
+    severity: medium
+    page: concepts/cognitive-stratification.md
+    issue: 核心结论目前仅由单一理论评论来源支撑，缺少跨来源或实证证据锚点。
+    why_it_matters: 用户可能将“认知分化”为已验证结论，而非截至 2026-02-18 的理论推断，影响后续决策可信度分层。
+    fix_action: 在该概念页新增 `Limits` 段，明确“当前为单来源理论推断”；并补充至少 1 个实证来源后再将结论上调为多源共识。
+    evidence: sources/2026-04-17-mcluhan-dissects-ai-wechat; concepts/cognitive-stratification.md
+- follow_up_todos:
+  - [ ] (medium) concepts/cognitive-stratification.md: 在该概念页新增 `Limits` 段，明确“当前为单来源理论推断”；并补充至少 1 个实证来源后再将结论上调为多源共识。

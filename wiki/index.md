@@ -8,6 +8,7 @@
 
 ## Sources
 
+- [[sources/2026-04-17-mcluhan-dissects-ai-wechat]] 微信理论分析文（发布时间 2026-02-18），用麦克卢汉媒介理论框架解构 AI 的认知与社会效应。
 - [[sources/2026-04-15-ppo-paper]] PPO 一手论文（发布时间 2017-07-20），提供 clipped on-policy 更新的经典基线。
 - [[sources/2026-04-15-dpo-paper]] DPO 一手论文（发布时间 2023-05-29），用偏好对目标直接优化策略，简化 `RLHF`。
 - [[sources/2026-04-15-deepseekmath-grpo-paper]] DeepSeekMath 一手论文（发布时间 2024-02-05），提出 `GRPO` 作为 `PPO` 变体并强调内存效率。
@@ -28,6 +29,9 @@
 
 ## Entities
 
+- [[entities/marshall-mcluhan]] 在来源中作为 AI 媒介分析框架的核心理论实体。
+- [[entities/ivan-zhao]] 在来源中作为 AI 工业隐喻叙事的引用入口。
+- [[entities/daniel-kahneman]] 在来源中用于“系统二/慢思考”概念参照。
 - [[entities/openai]] 在来源中与 InstructGPT 的 `RLHF` 基线流程和 `PPO` 方法落地相关。
 - [[entities/deepseek-ai]] 在来源中与 `GRPO` 提出及数学推理任务强化学习实践相关。
 - [[entities/thinking-machines-lab]] 在来源中与 `OPD` 定义、后训练效率叙事及理论解释关联的机构实体。
@@ -43,6 +47,13 @@
 
 ## Concepts
 
+- [[concepts/media-theory-and-ai]] 媒介理论视角下的 AI 分析上位分类。
+- [[concepts/media-is-the-message]] 从媒介结构变化而非内容优劣理解 AI 影响。
+- [[concepts/media-extension-and-amputation]] AI 能力延伸与能力退化的联动机制。
+- [[concepts/hot-and-cold-media]] AI 的双温属性：高完整输出与高参与门槛并存。
+- [[concepts/rearview-mirror-effect]] 用旧媒介框架解释新媒介的认知惯性。
+- [[concepts/media-tetrad]] 用增强/淘汰/复活/逆转四联体分析 AI。
+- [[concepts/cognitive-stratification]] 提问与元认知差异驱动的人群能力分层。
 - [[concepts/post-training-policy-learning]] post-training 策略学习上位分类，组织 `SFT/RL/OPD` 等方法。
 - [[concepts/reinforcement-learning-from-human-feedback]] `RLHF`：`SFT -> reward model -> policy optimization` 的经典对齐流程基线。
 - [[concepts/proximal-policy-optimization]] `PPO`：on-policy 强化学习稳健更新基线。
