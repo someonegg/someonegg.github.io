@@ -19,6 +19,7 @@
 
 ## General
 
+- [[2026-04-20-hermes-agent-evomap-plagiarism-analysis.md]] Hermes Agent vs EvoMap 抄袭争议分析
 - [[2026-04-14-thinking-and-decision-playbook.md]] 思考与决策实践手册
 - [[2026-04-14-context-graph-digest.md]] 上下文图谱
 - [[2026-04-17-ieee754-floating-point-notes.md]] IEEE 754 浮点数工程备忘
