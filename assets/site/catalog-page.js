@@ -6,6 +6,13 @@
       .replace(/>/g, "&gt;");
   }
 
+  function encodeHrefPath(path) {
+    return String(path)
+      .split("/")
+      .map((part) => encodeURIComponent(part))
+      .join("/");
+  }
+
   function parseIndex(indexMd) {
     const groups = [];
     const lines = indexMd.split(/\r?\n/);
@@ -56,7 +63,7 @@
       group.items.forEach((item) => {
         const li = document.createElement("li");
         li.innerHTML =
-          '<a class="catalog-item" href="./' + encodeURIComponent(item.file) + '">' +
+          '<a class="catalog-item" href="./' + encodeHrefPath(item.file) + '">' +
             '<div><p class="catalog-item-title">' + escapeHtml(item.title) + "</p>" +
             '<div class="catalog-item-file">' + escapeHtml(item.file) + "</div></div>" +
           "</a>";

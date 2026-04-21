@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <title>Save the Doge</title>
+  <style>
+    :root {
+      --bg: #f6f7f4;
+      --line: #d8ddd2;
+      --text: #1f2a22;
+      --accent: #3f6a4f;
+      --danger: #b33b2e;
+      --ok: #2a7447;
+      --bottom-actions-reserved: 76px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100dvh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    .wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 12px 12px env(safe-area-inset-bottom, 8px);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* canvas */
+    .canvas-wrap {
+      --bg-layer-1: radial-gradient(circle at 16% 20%, rgba(255,255,255,.95) 0 9%, rgba(255,255,255,0) 11%);
+      --bg-layer-2: radial-gradient(circle at 24% 22%, rgba(255,255,255,.9) 0 7%, rgba(255,255,255,0) 9%);
+      --bg-layer-3: radial-gradient(circle at 72% 16%, rgba(255,255,255,.92) 0 10%, rgba(255,255,255,0) 12%);
+      --bg-layer-4: linear-gradient(180deg, #dff4ff 0%, #c5ecff 49%, #b9e7b5 56%, #9cd985 63%, #7fc96a 100%);
+      --sun-layer-1: radial-gradient(circle at 90% 11%, rgba(255,227,123,.95) 0 6.3%, rgba(255,227,123,.35) 8.3%, rgba(255,227,123,0) 13%);
+      --sun-layer-2: radial-gradient(circle at 90% 11%, rgba(255,173,55,.32) 0 11%, rgba(255,173,55,0) 18.5%);
+      --sun-layer-3: radial-gradient(circle at 18% 36%, rgba(255,255,255,.7) 0 2.2%, rgba(255,255,255,0) 3.2%);
+      --sun-layer-4: radial-gradient(circle at 28% 32%, rgba(255,255,255,.62) 0 1.9%, rgba(255,255,255,0) 2.9%);
+      --sun-layer-5: radial-gradient(circle at 74% 34%, rgba(255,255,255,.66) 0 2.1%, rgba(255,255,255,0) 3.1%);
+      --sun-layer-6: radial-gradient(circle at 67% 40%, rgba(255,255,255,.6) 0 1.8%, rgba(255,255,255,0) 2.7%);
+      --ground-spot-1-pos: 14% 88%;
+      --ground-spot-1-size: 11.2% 5.1%;
+      --ground-spot-1-alpha: .42;
+      --ground-spot-2-pos: 36% 86%;
+      --ground-spot-2-size: 13.4% 5.9%;
+      --ground-spot-2-alpha: .4;
+      --ground-spot-3-pos: 64% 88%;
+      --ground-spot-3-size: 12.1% 5.6%;
+      --ground-spot-3-alpha: .4;
+      --ground-spot-4-pos: 86% 90%;
+      --ground-spot-4-size: 10.4% 4.8%;
+      --ground-spot-4-alpha: .36;
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background:
+        var(--bg-layer-1),
+        var(--bg-layer-2),
+        var(--bg-layer-3),
+        var(--bg-layer-4);
+      touch-action: none;
+      user-select: none;
+    }
+
+    .canvas-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        var(--sun-layer-1),
+        var(--sun-layer-2),
+        var(--sun-layer-3),
+        var(--sun-layer-4),
+        var(--sun-layer-5),
+        var(--sun-layer-6);
+      opacity: .95;
+    }
+
+    .canvas-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(120% 18% at 8% 60.5%, rgba(118,196,103,.22) 0 36%, rgba(118,196,103,0) 39%),
+        radial-gradient(120% 20% at 34% 59.2%, rgba(121,200,106,.2) 0 36%, rgba(121,200,106,0) 39%),
+        radial-gradient(120% 18% at 62% 60.5%, rgba(116,192,101,.19) 0 36%, rgba(116,192,101,0) 39%),
+        radial-gradient(120% 20% at 89% 59.2%, rgba(112,187,97,.19) 0 36%, rgba(112,187,97,0) 39%),
+        linear-gradient(180deg, rgba(188,231,255,0) 51%, rgba(167,220,170,.18) 56.5%, rgba(142,205,130,0) 63.5%),
+        radial-gradient(ellipse var(--ground-spot-1-size) at var(--ground-spot-1-pos), rgb(77 150 63 / var(--ground-spot-1-alpha)) 0 70%, rgba(77,150,63,0) 100%),
+        radial-gradient(ellipse var(--ground-spot-2-size) at var(--ground-spot-2-pos), rgb(70 142 58 / var(--ground-spot-2-alpha)) 0 70%, rgba(70,142,58,0) 100%),
+        radial-gradient(ellipse var(--ground-spot-3-size) at var(--ground-spot-3-pos), rgb(65 137 54 / var(--ground-spot-3-alpha)) 0 70%, rgba(65,137,54,0) 100%),
+        radial-gradient(ellipse var(--ground-spot-4-size) at var(--ground-spot-4-pos), rgb(62 130 51 / var(--ground-spot-4-alpha)) 0 70%, rgba(62,130,51,0) 100%);
+      opacity: .85;
+    }
+
+    #gameCanvas {
+      width: 100%;
+      display: block;
+      position: relative;
+      z-index: 2;
+    }
+
+    .bg-decor {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .cloud,
+    .flower,
+    .bird,
+    .sprout,
+    .pebble {
+      position: absolute;
+    }
+
+    .cloud {
+      width: 52px;
+      height: 19px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.86);
+      box-shadow:
+        14px -9px 0 2px rgba(255,255,255,.84),
+        30px -3px 0 0 rgba(255,255,255,.82),
+        40px 4px 0 -3px rgba(255,255,255,.78);
+    }
+
+    .flower {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, #ffd34d 0 26%, transparent 28%),
+        radial-gradient(circle at 50% 7%, rgba(255,255,255,.95) 0 23%, rgba(255,255,255,0) 25%),
+        radial-gradient(circle at 93% 50%, rgba(255,255,255,.95) 0 23%, rgba(255,255,255,0) 25%),
+        radial-gradient(circle at 50% 93%, rgba(255,255,255,.95) 0 23%, rgba(255,255,255,0) 25%),
+        radial-gradient(circle at 7% 50%, rgba(255,255,255,.95) 0 23%, rgba(255,255,255,0) 25%);
+      filter: drop-shadow(0 1px 0 rgba(31,42,34,.12));
+    }
+
+    .sprout {
+      width: 16px;
+      height: 13px;
+      opacity: .86;
+    }
+
+    .sprout::before,
+    .sprout::after {
+      content: "";
+      position: absolute;
+      bottom: 2px;
+      width: 8px;
+      height: 10px;
+      background: linear-gradient(180deg, #9ad98a 0%, #67b157 100%);
+      border-radius: 100% 100% 30% 30%;
+      box-shadow: inset 0 -1px 0 rgba(41,94,43,.18);
+    }
+
+    .sprout::before {
+      left: 1px;
+      transform: rotate(-18deg);
+      transform-origin: bottom center;
+    }
+
+    .sprout::after {
+      right: 1px;
+      transform: rotate(16deg);
+      transform-origin: bottom center;
+    }
+
+    .pebble {
+      width: 16px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #d3d9de 0%, #b7c0c8 100%);
+      border: 1px solid rgba(122,132,143,.35);
+      opacity: .82;
+    }
+
+    .bird {
+      width: 24px;
+      height: 10px;
+      opacity: .88;
+    }
+
+    .bird::before,
+    .bird::after {
+      content: "";
+      position: absolute;
+      top: 1px;
+      width: 12px;
+      height: 8px;
+      border-top: 2px solid rgba(31,42,34,.5);
+      border-radius: 100% 100% 0 0;
+    }
+
+    .bird::before {
+      left: 0;
+      transform: rotate(11deg);
+      transform-origin: right bottom;
+    }
+
+    .bird::after {
+      right: 0;
+      transform: rotate(-11deg);
+      transform-origin: left bottom;
+    }
+
+    /* canvas hud overlay */
+    .hud-left, .hud-right {
+      position: absolute;
+      top: 10px;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      pointer-events: none;
+    }
+    .hud-left { left: 10px; }
+    .hud-right { right: 10px; align-items: flex-end; }
+
+    .hud-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ink-bar-wrap {
+      height: 5px;
+      background: rgba(255,255,255,.35);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: opacity .3s;
+    }
+    .ink-bar-wrap.hidden { opacity: 0; }
+    .ink-bar-fill {
+      height: 100%;
+      background: rgba(26,95,160,.75);
+      border-radius: 3px;
+      transition: width .08s linear, background .2s;
+    }
+    .ink-bar-fill.depleted { background: rgba(179,59,46,.8); }
+
+    .info-time {
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(31,42,34,.9);
+      background: rgba(255,255,255,.62);
+      backdrop-filter: blur(4px);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-variant-numeric: tabular-nums;
+      min-width: 88px;
+    }
+    .info-time.time-hidden {
+      min-width: 0;
+      padding: 0;
+      background: transparent;
+      opacity: 0;
+    }
+    .time-build { color: #1a5fa0; }
+    .time-attack { color: var(--danger); }
+
+    .info-status {
+      font-weight: 600;
+      font-size: 12px;
+      color: rgba(31,42,34,.75);
+      background: rgba(255,255,255,.52);
+      backdrop-filter: blur(4px);
+      border-radius: 6px;
+      padding: 3px 8px;
+    }
+    .status-ok { color: var(--ok); }
+    .status-danger { color: var(--danger); }
+
+    .info-level {
+      font-size: 12px;
+      color: rgba(31,42,34,.55);
+      background: rgba(255,255,255,.45);
+      backdrop-filter: blur(4px);
+      border-radius: 6px;
+      padding: 3px 8px;
+    }
+
+
+    /* controls */
+    .controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-size: 14px;
+      padding: 9px 14px;
+      border-radius: 9px;
+      cursor: pointer;
+      white-space: nowrap;
+      touch-action: manipulation;
+    }
+
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background .2s;
+    }
+    .nav-link:hover { background: rgba(63, 106, 79, .08); }
+
+
+    @media (max-width: 600px) {
+      .wrap { padding: 8px 0 env(safe-area-inset-bottom, 6px); gap: 6px; }
+      .canvas-wrap { border-radius: 0; border-left: none; border-right: none; }
+      .controls { padding: 0 10px; }
+      button { padding: 10px 14px; flex: 1; min-height: 44px; }
+    }
+
+    @media (orientation: portrait) {
+      .wrap {
+        padding: 8px 0 calc(var(--bottom-actions-reserved) + env(safe-area-inset-bottom, 0px));
+        gap: 6px;
+      }
+
+      .top-nav {
+        padding: 0 10px;
+      }
+
+      .canvas-wrap {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+      }
+
+      .bottom-actions {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 24;
+        padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+        border-top: 1px solid var(--line);
+        background: rgba(246, 247, 244, 0.97);
+        backdrop-filter: blur(5px);
+        box-shadow: 0 -8px 18px rgba(31, 42, 34, 0.08);
+      }
+
+      .bottom-actions button {
+        flex: 1;
+        min-height: 54px;
+        padding: 12px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="top-nav">
+      <a class="nav-link" href="../index.html">返回索引</a>
+    </nav>
+
+    <div class="canvas-wrap" id="canvasWrap">
+      <div class="bg-decor" aria-hidden="true"></div>
+      <canvas id="gameCanvas"></canvas>
+      <div class="hud-left">
+        <div class="hud-chips">
+          <span id="timeText" class="info-time">-</span>
+          <span id="statusText" class="info-status">准备中</span>
+        </div>
+        <div class="ink-bar-wrap" id="inkBarWrap">
+          <div class="ink-bar-fill" id="inkFill" style="width:100%"></div>
+        </div>
+      </div>
+      <div class="hud-right">
+        <span id="levelText" class="info-level">-</span>
+      </div>
+    </div>
+
+    <div class="controls bottom-actions">
+      <button id="restartBtn">重开</button>
+      <button class="primary" id="nextBtn">下一关</button>
+    </div>
+
+  </main>
+
+  <script src="/vendor/matter.min.js"></script>
+  <script src="./data/levels.js"></script>
+  <script src="./data/backgrounds.js"></script>
+  <script src="./save-the-doge.js"></script>
+</body>
+</html>
