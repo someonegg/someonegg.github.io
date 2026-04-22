@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="/vendor/katex.min.css" />
+  <link rel="stylesheet" href="/assets/site/shell.css" />
+  <link rel="stylesheet" href="/assets/site/markdown.css" />
+  <title>Docs Single View</title>
+  <style>
+    .single-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .single-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .single-head-title {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .single-head-file {
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      color: #334155;
+      word-break: break-all;
+    }
+
+    .single-viewer {
+      padding: 18px 20px;
+    }
+
+    .single-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .single-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 12px;
+      background: #fff;
+    }
+
+    .single-link:hover {
+      background: var(--accent-soft);
+    }
+
+    @media (max-width: 720px) {
+      .single-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .single-viewer {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="single-wrap">
+    <section class="single-head">
+      <div>
+        <p class="single-head-title">Single Markdown View</p>
+        <p id="fileLabel" class="single-head-file">-</p>
+      </div>
+      <div class="single-actions">
+        <a id="rawLink" class="single-link" href="#" target="_blank" rel="noopener noreferrer">Open Raw</a>
+      </div>
+    </section>
+
+    <article id="viewer" class="card single-viewer">
+      <p class="hint">Loading...</p>
+    </article>
+  </main>
+
+  <script src="/vendor/marked.min.js"></script>
+  <script src="/vendor/katex.min.js"></script>
+  <script src="/vendor/katex-auto-render.min.js"></script>
+  <script>
+    (function () {
+      const viewerEl = document.getElementById("viewer");
+      const fileLabelEl = document.getElementById("fileLabel");
+      const rawLinkEl = document.getElementById("rawLink");
+
+      function escapeHtml(text) {
+        return String(text)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function getFileFromQuery() {
+        const params = new URLSearchParams(window.location.search);
+        let file = (params.get("file") || "").trim();
+        if (!file) return "";
+
+        file = file.replace(/^\.\//, "");
+        if (!file.endsWith(".md")) file += ".md";
+
+        if (
+          file.startsWith("/") ||
+          file.includes("..") ||
+          /^[a-zA-Z]+:\/\//.test(file)
+        ) {
+          return "";
+        }
+        return file;
+      }
+
+      function convertWikiLinks(md) {
+        return String(md || "").replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, function (_, path, alias) {
+          let target = String(path || "").trim();
+          if (!target.endsWith(".md")) target += ".md";
+          const label = String(alias || path || "").trim();
+          return "[" + label + "](" + "./view.html?file=" + encodeURIComponent(target) + ")";
+        });
+      }
+
+      function renderMath(container) {
+        if (!window.renderMathInElement) return;
+        window.renderMathInElement(container, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true }
+          ],
+          throwOnError: false
+        });
+      }
+
+      async function load() {
+        const file = getFileFromQuery();
+        if (!file) {
+          viewerEl.innerHTML = '<p class="hint">Missing or invalid file. Use <code>?file=xxx.md</code>.</p>';
+          return;
+        }
+
+        fileLabelEl.textContent = file;
+        rawLinkEl.href = "./" + file;
+
+        try {
+          const resp = await fetch("./" + file, { cache: "no-store" });
+          if (!resp.ok) throw new Error("HTTP " + resp.status);
+          const md = await resp.text();
+          const source = convertWikiLinks(md);
+          const html = window.marked && window.marked.parse
+            ? window.marked.parse(source)
+            : "<pre>" + escapeHtml(source) + "</pre>";
+          viewerEl.innerHTML = '<div class="markdown">' + html + "</div>";
+          renderMath(viewerEl);
+
+          const firstHeading = viewerEl.querySelector(".markdown h1");
+          if (firstHeading && firstHeading.textContent.trim()) {
+            document.title = firstHeading.textContent.trim() + " - Docs";
+          } else {
+            document.title = file + " - Docs";
+          }
+        } catch (err) {
+          viewerEl.innerHTML = '<p class="hint">Load failed: ' + escapeHtml((err && err.message) || String(err)) + "</p>";
+        }
+      }
+
+      load();
+    })();
+  </script>
+</body>
+</html>
