@@ -104,7 +104,8 @@
     #log {
       margin: 0;
       padding: 12px;
-      max-height: 60vh;
+      height: clamp(140px, 24vh, 220px);
+      max-height: 30vh;
       overflow: auto;
       white-space: pre-wrap;
       word-break: break-word;
@@ -183,11 +184,12 @@
     function line(type, extra = '') {
       seq += 1;
       const value = ta.value;
-      const msg = `[${now()}] #${seq} ${type} len=${value.length} ${selInfo()} value="${short(value)}"${extra ? ' ' + extra : ''}`;
-      logNode.textContent = msg + '\n' + logNode.textContent;
+      const msg = `[${now()}] #${seq} ${type} text="${short(value)}" len=${value.length} ${selInfo()}${extra ? ' ' + extra : ''}`;
+      logNode.textContent += msg + '\n';
       if (logNode.textContent.length > 120000) {
-        logNode.textContent = logNode.textContent.slice(0, 120000);
+        logNode.textContent = logNode.textContent.slice(-120000);
       }
+      logNode.scrollTop = logNode.scrollHeight;
       statusNode.textContent = `${type}`;
     }
 

@@ -133,7 +133,8 @@
     #log {
       margin: 0;
       padding: 12px;
-      max-height: 58vh;
+      height: clamp(140px, 24vh, 220px);
+      max-height: 30vh;
       overflow: auto;
       white-space: pre-wrap;
       word-break: break-word;
@@ -232,10 +233,11 @@
     function pushLog(type, detail) {
       seq += 1;
       const line = `[${now()}] #${seq} ${type} ${detail}`;
-      logNode.textContent = `${line}\n${logNode.textContent}`;
+      logNode.textContent += `${line}\n`;
       if (logNode.textContent.length > LOG_LIMIT) {
-        logNode.textContent = logNode.textContent.slice(0, LOG_LIMIT);
+        logNode.textContent = logNode.textContent.slice(-LOG_LIMIT);
       }
+      logNode.scrollTop = logNode.scrollHeight;
       statusNode.textContent = type;
     }
 
