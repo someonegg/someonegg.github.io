@@ -546,3 +546,51 @@
     evidence: sources/2026-04-17-mcluhan-dissects-ai-wechat; concepts/cognitive-stratification.md
 - follow_up_todos:
   - [ ] (medium) concepts/cognitive-stratification.md: 在该概念页新增 `Limits` 段，明确“当前为单来源理论推断”；并补充至少 1 个实证来源后再将结论上调为多源共识。
+
+## [2026-04-24] ingest | DeepSeek-V4: Parallelism Meets Efficiency in Ultra-Long Context Training
+
+- Processed sources
+  - `llm-wiki/raw/2026-04-24-hf-deepseek-v4-paper.pdf`
+  - `llm-wiki/raw/2026-04-24-hf-deepseek-v4-paper.txt`
+  - `https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/main/DeepSeek_V4.pdf`
+- New pages
+  - `sources/2026-04-24-deepseek-v4-paper.md`
+  - `concepts/training-stability-and-optimization.md`
+  - `concepts/manifold-constrained-hyper-connections.md`
+  - `concepts/muon-optimizer.md`
+  - `concepts/compressed-sparse-attention.md`
+  - `concepts/heavily-compressed-attention.md`
+  - `concepts/on-disk-kv-prefix-reuse.md`
+- Updated pages
+  - `entities/deepseek-ai.md`
+  - `concepts/attention-compute-pattern-optimization.md`
+  - `concepts/hybrid-attention-architecture.md`
+  - `concepts/deepseek-sparse-attention.md`
+  - `concepts/kv-cache-serving-optimization.md`
+  - `concepts/on-policy-distillation.md`
+  - `overview.md`
+  - `index.md`
+  - `log.md`
+- Open validation questions
+  - 论文给出的 1M context 成本与质量优势主要来自内部评测框架；是否需要在本地统一评测栈复刻 `CSA/HCA` 与 `DSA` 组合的关键对照？
+  - `Hybrid Attention` 在不同来源中的定义口径已出现分化；是否要新增术语规范页，明确“跨模块 hybrid”与“attention 内部 hybrid”的命名边界？
+
+## [2026-04-24] lint | semantic-check
+
+- semantic_findings:
+- follow_up_todos:
+
+## [2026-04-24] ingest | OPD objective refinement (full-vocabulary reverse KL)
+
+- Processed sources
+  - `sources/2026-04-24-deepseek-v4-paper.md`
+- New pages
+  - `concepts/full-vocabulary-reverse-kl-distillation.md`
+- Updated pages
+  - `concepts/on-policy-distillation.md`
+  - `concepts/post-training-policy-learning.md`
+  - `overview.md`
+  - `index.md`
+  - `log.md`
+- Open validation questions
+  - `full-vocabulary reverse KL` 相比 token-level 近似在当前任务分布上的稳定性收益是否可量化复现（如 loss 波动、收敛步数、最终质量）？

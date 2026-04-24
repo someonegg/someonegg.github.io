@@ -1,9 +1,10 @@
 ---
 id: concept-kv-cache-serving-optimization
 type: concept
-updated_at: 2026-04-15
+updated_at: 2026-04-24
 source_refs:
   - sources/2026-04-14-kv-cache-engineering-guide
+  - sources/2026-04-24-deepseek-v4-paper
 ---
 
 # KV Cache Serving Optimization
@@ -21,6 +22,7 @@ source_refs:
 
 - [[concepts/decode-memory-bandwidth-bottleneck]]：瓶颈识别前提。
 - [[concepts/kv-cache-optimization-stack]]：分层推进方法。
+- [[concepts/on-disk-kv-prefix-reuse]]：共享前缀请求的磁盘 KV 复用与重计算权衡策略。
 
 ## Related Concepts
 

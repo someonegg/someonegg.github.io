@@ -8,6 +8,7 @@
 
 ## Sources
 
+- [[sources/2026-04-24-deepseek-v4-paper]] DeepSeek-V4 一手论文（发布时间 2026-04-24），系统提出 `CSA/HCA + mHC + Muon` 协同路线并给出 1M context 工程叙事。
 - [[sources/2026-04-17-mcluhan-dissects-ai-wechat]] 微信理论分析文（发布时间 2026-02-18），用麦克卢汉媒介理论框架解构 AI 的认知与社会效应。
 - [[sources/2026-04-15-ppo-paper]] PPO 一手论文（发布时间 2017-07-20），提供 clipped on-policy 更新的经典基线。
 - [[sources/2026-04-15-dpo-paper]] DPO 一手论文（发布时间 2023-05-29），用偏好对目标直接优化策略，简化 `RLHF`。
@@ -33,7 +34,7 @@
 - [[entities/ivan-zhao]] 在来源中作为 AI 工业隐喻叙事的引用入口。
 - [[entities/daniel-kahneman]] 在来源中用于“系统二/慢思考”概念参照。
 - [[entities/openai]] 在来源中与 InstructGPT 的 `RLHF` 基线流程和 `PPO` 方法落地相关。
-- [[entities/deepseek-ai]] 在来源中与 `GRPO` 提出及数学推理任务强化学习实践相关。
+- [[entities/deepseek-ai]] 在来源中同时关联 `GRPO` 与超长上下文路线（`DSA/CSA/HCA/mHC/Muon`）的提出与工程化实践。
 - [[entities/thinking-machines-lab]] 在来源中与 `OPD` 定义、后训练效率叙事及理论解释关联的机构实体。
 - [[entities/gleb-rodionov]] 在来源中与 `Reasoning Shift` 机制假设关联的研究者实体。
 - [[entities/anthropic]] 在来源中与“模型内部状态驱动行为”研究线索关联的机构实体。
@@ -60,12 +61,16 @@
 - [[concepts/direct-preference-optimization]] `DPO`：偏好对齐的单阶段直接优化路径。
 - [[concepts/group-relative-policy-optimization]] `GRPO`：面向推理任务的 `PPO` 组相对优势变体。
 - [[concepts/on-policy-distillation]] 基于学生在线轨迹与教师 token 级监督的后训练蒸馏方法。
+- [[concepts/full-vocabulary-reverse-kl-distillation]] `OPD` 中的全词表 reverse KL 目标，用于降低梯度方差并增强蒸馏稳定性。
 - [[concepts/prompt-optimization]] Prompt 级方法学分类，从离散搜索到文本梯度再到闭环反馈优化。
 - [[concepts/closed-loop-prompt-optimization]] 通过“难例生成 + 失败修复 + 全局回归”持续演化 prompt 的闭环范式。
 - [[concepts/reasoning-phase-optimization]] 推理阶段优化的上位分类概念，覆盖 test-time 的预算与调度策略。
+- [[concepts/training-stability-and-optimization]] 训练稳定性与优化的上位分类，组织优化器与稳定化连接机制。
 - [[concepts/reasoning-shift]] 长上下文拥挤下“答案后验证收缩”机制假设。
 - [[concepts/attention-compute-pattern-optimization]] 注意力机制/架构路径的推理优化分类（机制层与架构层）。
 - [[concepts/kv-cache-serving-optimization]] `KV cache` 与 serving 系统路径的推理优化分类（瓶颈判断与分层落地）。
+- [[concepts/manifold-constrained-hyper-connections]] 通过双随机流形约束残差映射，提升深层训练稳定性的连接机制。
+- [[concepts/muon-optimizer]] 大规模训练下基于正交化更新的优化器路线，并与 `AdamW` 参数分治搭配。
 - [[concepts/agent-runtime-reliability-primitives]] 生产级 Agent 运行时可靠性原语分类（权限、副作用、续跑、指标）。
 - [[concepts/thinking-and-learning-methods]] 学习与分析方法分类（问题建模与理解校验）。
 - [[concepts/parallel-reasoning-budget-control]] 通过“共识早停 + 偏差剪枝”联合控制并行推理的深度与宽度预算。
@@ -78,8 +83,11 @@
 - [[concepts/multi-head-latent-attention]] 通过潜在表示压缩缓存的升级路线，复杂度高于 GQA。
 - [[concepts/sliding-window-attention]] 以局部窗口替代全局可见性的长上下文降本机制。
 - [[concepts/deepseek-sparse-attention]] 通过学习式索引与筛选构造稀疏注意力子集的 DeepSeek 路线。
+- [[concepts/compressed-sparse-attention]] DeepSeek-V4 的“压缩 KV + 稀疏 top-k 选择”机制。
+- [[concepts/heavily-compressed-attention]] DeepSeek-V4 的高压缩率长距离注意力主通道。
 - [[concepts/gated-attention]] 对 full-attention 块做门控与归一化改造的稳定性增强组件。
-- [[concepts/hybrid-attention-architecture]] 以线性/状态空间模块替代多数全注意力层的长上下文架构模式。
+- [[concepts/hybrid-attention-architecture]] `Hybrid Attention` 的多口径概念页，区分“跨模块混排”与“attention 内部交错编排”两种用法。
+- [[concepts/on-disk-kv-prefix-reuse]] 将共享前缀 KV 持久化到磁盘以减少重复 prefill 的 serving 策略。
 - [[concepts/effect-log]] 副作用级 WAL 语义：intent/completion 双记录与恢复重放策略。
 - [[concepts/capability-gateway]] 通过网关签发短时最小权限 token，隔离 Agent 可调用能力边界。
 - [[concepts/forkable-checkpoint]] 将执行状态封装为可分叉 checkpoint，支持精确节点续跑。

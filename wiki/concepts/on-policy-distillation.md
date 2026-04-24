@@ -1,11 +1,12 @@
 ---
 id: concept-on-policy-distillation
 type: concept
-updated_at: 2026-04-15
+updated_at: 2026-04-24
 source_refs:
   - sources/2026-04-14-thinking-machines-on-policy-distillation
   - sources/2026-04-14-thinking-machines-lora-without-regret
   - sources/2026-04-14-note-llm-opd-on-policy-distillation
+  - sources/2026-04-24-deepseek-v4-paper
 ---
 
 # On-Policy Distillation
@@ -29,6 +30,7 @@ source_refs:
 
 - 截至 2025-10-27，`Thinking Machines` 在公开实验中报告 `OPD` 可在部分设置下达到优于纯 `SFT` 的计算效率，并显著快于对齐同策略的 `RL` 训练步数。
 - 截至 2026-04-14，个人笔记来源与官方博客结论一致，均强调“on-policy 状态相关性 + dense 监督”是关键增益来源。
+- 截至 2026-04-24，`DeepSeek-V4` 论文报告在多教师融合阶段采用 full-vocabulary reverse KL，并给出工程可扩展实现（teacher 权重按需加载、logits 延迟重构）。
 
 ## Limits
 
@@ -38,6 +40,7 @@ source_refs:
 ## Notes
 
 - 方法选型上，`OPD` 更依赖在线轨迹与教师 token 级稠密监督；`DPO` 更依赖离线偏好对数据与分类式目标优化。
+- 在 `DeepSeek-V4` 口径中，`OPD` 的关键实现细节之一是采用 full-vocabulary reverse KL，而非 token-level KL 近似。
 
 ## Related Concepts
 
@@ -45,3 +48,4 @@ source_refs:
 - contrast: [[concepts/direct-preference-optimization]]
 - contrast: [[concepts/group-relative-policy-optimization]]
 - application: [[concepts/reasoning-phase-optimization]]
+- dependency: [[concepts/full-vocabulary-reverse-kl-distillation]]

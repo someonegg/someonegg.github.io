@@ -1,11 +1,12 @@
 ---
 id: concept-attention-compute-pattern-optimization
 type: concept
-updated_at: 2026-04-15
+updated_at: 2026-04-24
 source_refs:
   - sources/2026-04-14-visual-attention-variants
   - sources/2026-04-14-gated-attention-llms-paper
   - sources/2026-04-14-deepseek-v3-2-paper
+  - sources/2026-04-24-deepseek-v4-paper
 ---
 
 # Attention Compute Pattern Optimization
@@ -26,6 +27,8 @@ source_refs:
 - [[concepts/multi-head-latent-attention]]：潜在表示压缩缓存路径。
 - [[concepts/sliding-window-attention]]：局部窗口可见性机制。
 - [[concepts/deepseek-sparse-attention]]：学习式稀疏选择机制。
+- [[concepts/compressed-sparse-attention]]：压缩 KV + top-k 稀疏选择的 DeepSeek-V4 路线。
+- [[concepts/heavily-compressed-attention]]：高压缩率的长距离语义主通道。
 - [[concepts/gated-attention]]：块内门控稳定性增强机制。
 - [[concepts/hybrid-attention-architecture]]：层级混合架构模式。
 

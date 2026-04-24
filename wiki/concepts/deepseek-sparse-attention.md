@@ -1,10 +1,11 @@
 ---
 id: concept-deepseek-sparse-attention
 type: concept
-updated_at: 2026-04-15
+updated_at: 2026-04-24
 source_refs:
   - sources/2026-04-14-visual-attention-variants
   - sources/2026-04-14-deepseek-v3-2-paper
+  - sources/2026-04-24-deepseek-v4-paper
 ---
 
 # DeepSeek Sparse Attention
@@ -23,6 +24,7 @@ source_refs:
 - 根据一手论文（2025-12-02），`DSA` 在 DeepSeek-V3.2 中作为核心架构改动引入。
 - 文中实现采用 `MLA` 下的 `MQA mode`，以满足 kernel 共享与效率要求。
 - 训练上采用“indexer warm-up + sparse joint training”的两阶段流程，并用 `KL` 对齐 indexer 与主注意力分布。
+- 截至 2026-04-24，`DSA` 被作为 `CSA` 的稀疏选择器继续使用，但选择对象从原 token 粒度转向“压缩 KV 块”粒度。
 
 ## Complexity Interpretation
 

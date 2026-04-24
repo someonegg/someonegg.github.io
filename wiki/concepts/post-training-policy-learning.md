@@ -1,7 +1,7 @@
 ---
 id: concept-post-training-policy-learning
 type: concept
-updated_at: 2026-04-15
+updated_at: 2026-04-24
 source_refs:
   - sources/2026-04-14-thinking-machines-on-policy-distillation
   - sources/2026-04-14-thinking-machines-lora-without-regret
@@ -10,6 +10,7 @@ source_refs:
   - sources/2026-04-15-dpo-paper
   - sources/2026-04-15-deepseekmath-grpo-paper
   - sources/2026-04-15-instructgpt-rlhf-paper
+  - sources/2026-04-24-deepseek-v4-paper
 ---
 
 # Post-Training Policy Learning
@@ -27,6 +28,7 @@ source_refs:
 
 - [[concepts/reinforcement-learning-from-human-feedback]]：`SFT -> reward model -> policy optimization` 的经典对齐流程基线。
 - [[concepts/on-policy-distillation]]：在学生自身轨迹上以教师 token 级信号进行策略蒸馏。
+- [[concepts/full-vocabulary-reverse-kl-distillation]]：`OPD` 中以全词表分布约束学生策略的目标函数实现路线。
 - [[concepts/proximal-policy-optimization]]：后训练强化学习常用基线，以 clipped objective 稳定 on-policy 更新。
 - [[concepts/direct-preference-optimization]]：用偏好对目标直接优化策略，简化传统 `RLHF` 两阶段流程。
 - [[concepts/group-relative-policy-optimization]]：以组内相对优势进行更新的 `PPO` 变体，强调推理任务与资源效率。

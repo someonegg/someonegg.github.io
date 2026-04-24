@@ -2,6 +2,7 @@
 
 ## LLM
 
+- [[2026-04-24-deepseek-v4-paper-notes.md]] DeepSeek-V4 论文精读笔记
 - [[2026-04-14-rl-llm-integration.md]] LLM 后训练
 - [[2026-04-14-transformer-build-from-scratch.md]] Transformer 基础
 - [[2026-04-14-cnn-core-concepts-clarified.md]] CNN 基础
