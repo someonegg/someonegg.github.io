@@ -13,6 +13,8 @@
 
 ## Agent
 
+- [[2026-04-27-openai-agent-monitoring.md]] OpenAI 智能体监控
+- [[2026-04-27-openai-model-spec.md]] OpenAI Model Spec
 - [[2026-04-27-anthropic-harness-design.md]] Anthropic Harness Design
 - [[2026-04-27-anthropic-managed-agents.md]] Anthropic Managed Agents
 - [[2026-04-10-ai-agent-2026q1-whitepaper.md]] 2026 Q1 AI 趋势白皮书精读
