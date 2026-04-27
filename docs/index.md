@@ -22,6 +22,7 @@
 
 ## General
 
+- [[2026-04-27-aurora-guard.md]] Aurora Guard 论文精读
 - [[2026-04-22-traffic-light-countdown-t-theta.md]] 导航红绿灯倒计时原理：T 与 θ
 - [[2026-04-20-hermes-agent-evomap-plagiarism-analysis.md]] Hermes Agent vs EvoMap 抄袭争议分析
 - [[2026-04-14-thinking-and-decision-playbook.md]] 思考与决策实践手册
