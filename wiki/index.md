@@ -8,6 +8,7 @@
 
 ## Sources
 
+- [[sources/2026-04-28-google-reasoningbank]] Google ReasoningBank 博客（发布时间 2026-04-21），提出从成功与失败经验蒸馏结构化推理记忆的 agent 框架，并引入 MaTTS。
 - [[sources/2026-04-24-deepseek-v4-paper]] DeepSeek-V4 一手论文（发布时间 2026-04-24），系统提出 `CSA/HCA + mHC + Muon` 协同路线并给出 1M context 工程叙事。
 - [[sources/2026-04-17-mcluhan-dissects-ai-wechat]] 微信理论分析文（发布时间 2026-02-18），用麦克卢汉媒介理论框架解构 AI 的认知与社会效应。
 - [[sources/2026-04-15-ppo-paper]] PPO 一手论文（发布时间 2017-07-20），提供 clipped on-policy 更新的经典基线。
@@ -30,24 +31,28 @@
 
 ## Entities
 
-- [[entities/marshall-mcluhan]] 在来源中作为 AI 媒介分析框架的核心理论实体。
-- [[entities/ivan-zhao]] 在来源中作为 AI 工业隐喻叙事的引用入口。
-- [[entities/daniel-kahneman]] 在来源中用于“系统二/慢思考”概念参照。
-- [[entities/openai]] 在来源中与 InstructGPT 的 `RLHF` 基线流程和 `PPO` 方法落地相关。
-- [[entities/deepseek-ai]] 在来源中同时关联 `GRPO` 与超长上下文路线（`DSA/CSA/HCA/mHC/Muon`）的提出与工程化实践。
-- [[entities/thinking-machines-lab]] 在来源中与 `OPD` 定义、后训练效率叙事及理论解释关联的机构实体。
-- [[entities/gleb-rodionov]] 在来源中与 `Reasoning Shift` 机制假设关联的研究者实体。
-- [[entities/anthropic]] 在来源中与“模型内部状态驱动行为”研究线索关联的机构实体。
-- [[entities/haohan-wang]] 在来源中与 SIPDO 论文及闭环 prompt 优化叙事关联的研究者实体。
-- [[entities/vllm]] 引用其 PagedAttention 与 prefix caching 设计实践。
-- [[entities/tensorrt-llm]] 引用其 KV 复用、优先级驱逐与 KV-aware 路由能力。
-- [[entities/hugging-face-transformers]] 引用其 bounded growth 与 offload 等缓存策略。
-- [[entities/enrico-fermi]] 在来源中作为费米估算命名关联人物与经典案例框架引用。
-- [[entities/richard-feynman]] 在来源中作为费曼技巧命名关联人物引用。
-- [[entities/sebastian-raschka]] 以可视化模型卡片归纳注意力演进路线，并强调跨模型比较的证据边界。
+- [[entities/google-research]] Google 旗下研究机构，涵盖 AI/ML 等方向。
+- [[entities/marshall-mcluhan]] 媒介理论学者，”媒介即讯息”提出者。
+- [[entities/ivan-zhao]] Notion 联合创始人 CEO。
+- [[entities/daniel-kahneman]] 行为经济学家，”系统一/系统二”双过程理论提出者。
+- [[entities/openai]] AI 研究机构，GPT 系列与 RLHF 工程化实践主导方。
+- [[entities/deepseek-ai]] 中国 AI 研究机构，DeepSeek 系列模型提出方。
+- [[entities/thinking-machines-lab]] AI 研究机构，On-Policy Distillation（OPD）定义方。
+- [[entities/gleb-rodionov]] AI 研究者，Reasoning Shift 机制假设提出者。
+- [[entities/anthropic]] AI 安全研究机构，Claude 系列模型开发方。
+- [[entities/haohan-wang]] AI 研究者，SIPDO 闭环 prompt 优化论文作者。
+- [[entities/vllm]] 高吞吐 LLM 推理框架，PagedAttention 设计方。
+- [[entities/tensorrt-llm]] NVIDIA LLM 推理优化库，支持 KV 复用与量化加速。
+- [[entities/hugging-face-transformers]] Hugging Face 开源 Transformers 库，广泛用于模型加载与推理。
+- [[entities/enrico-fermi]] 物理学家，费米估算方法命名来源。
+- [[entities/richard-feynman]] 物理学家，费曼技巧命名来源。
+- [[entities/sebastian-raschka]] ML 研究者与教育者，以系统性注意力机制可视化综述著称。
 
 ## Concepts
 
+- [[concepts/agent-memory]] agent 记忆机制的上位分类，组织轨迹记忆、工作流记忆与推理记忆的定义与区别。
+- [[concepts/reasoning-bank]] 从成功与失败蒸馏结构化推理模式的 agent 记忆框架（Google，2026）。
+- [[concepts/memory-aware-test-time-scaling]] 将 agent 记忆与测试时扩展关联的 MaTTS 框架，形成记忆↔扩展正向飞轮。
 - [[concepts/media-theory-and-ai]] 媒介理论视角下的 AI 分析上位分类。
 - [[concepts/media-is-the-message]] 从媒介结构变化而非内容优劣理解 AI 影响。
 - [[concepts/media-extension-and-amputation]] AI 能力延伸与能力退化的联动机制。

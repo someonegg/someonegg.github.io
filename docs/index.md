@@ -13,6 +13,7 @@
 
 ## Agent
 
+- [[2026-04-28-google-reasoningbank.md]] Google ReasoningBank
 - [[2026-04-27-openai-agent-monitoring.md]] OpenAI 智能体监控
 - [[2026-04-27-openai-model-spec.md]] OpenAI Model Spec
 - [[2026-04-27-anthropic-harness-design.md]] Anthropic Harness Design

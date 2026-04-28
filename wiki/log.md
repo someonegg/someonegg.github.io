@@ -2,6 +2,25 @@
 
 > Chronological log. Append-only.
 
+## [2026-04-28] ingest | ReasoningBank: Enabling Agents to Learn from Experience
+
+- Processed sources
+  - Google Research Blog: https://research.google/blog/reasoningbank-enabling-agents-to-learn-from-experience/
+- New pages
+  - `sources/2026-04-28-google-reasoningbank.md`
+  - `entities/google-research.md`
+  - `concepts/agent-memory.md`
+  - `concepts/reasoning-bank.md`
+  - `concepts/memory-aware-test-time-scaling.md`
+- Updated pages
+  - `concepts/reasoning-phase-optimization.md`：新增 MaTTS 为 Sub-concepts
+  - `wiki/index.md`：新增 source、entity、concept 条目
+  - `wiki/overview.md`：新增 ReasoningBank 相关主题与 open question
+- Open validation questions
+  - 最优并行扩展因子 $k$ 的任务类型依赖关系尚未量化
+  - ReasoningBank 在工具调用型 agent（非导航型）的泛化性无直接数据
+  - 记忆整合策略（append-only）在大规模积累后的冲突消解效果待验证
+
 ## [2026-04-10] init | workspace-bootstrap
 
 - Initialized `llm-wiki` workspace

@@ -2,9 +2,9 @@
 
 ## Current Status
 
-- Source pages: 19
-- Entity pages: 15
-- Concept pages: 43
+- Source pages: 20
+- Entity pages: 16
+- Concept pages: 46
 - Persisted query pages: 2
 
 ## Active Themes
@@ -32,6 +32,11 @@
 - 新增机制线索：长上下文退化可能包含“答案后验证收缩（Reasoning Shift）”，工程上需补充复查触发与拥挤度监控。
 - 新增媒介理论分析主线：可用“媒介即讯息/延伸与截肢/冷热媒介/后视镜/四联体”解释 AI 对认知结构与社会分层的影响路径。
 
+- Agent 记忆应区分三类：轨迹记忆（细节但难迁移）、工作流记忆（成功经验但忽略失败）、推理记忆（高层可迁移模式，覆盖成功与失败）——ReasoningBank 代表第三类路线。
+- 失败经验是 agent 记忆中被系统性低估的信号源；反事实信号与陷阱蒸馏可以构建更强的策略护栏。
+- 测试时扩展（TTS）与 agent 记忆可形成正向飞轮（MaTTS）：记忆引导扩展探索，扩展轨迹反馈更高质量记忆。
+- 当前已形成五条主分类轴：推理阶段优化、Agent 运行时可靠性原语、Agent 记忆机制、学习与思维方法、媒介理论与 AI。
+
 ## Open Questions
 
 - 在上线前，是否需要用业务域质量指标验证 TurboQuant 风格超低比特 KV（2-bit/3-bit）？
@@ -47,3 +52,6 @@
 - `CSA/HCA` 的压缩率与 `top-k` 在不同任务族（精确引用、跨文档检索、agent 工具链）上的质量回退阈值分别是多少？
 - `on-disk KV` 的三种 `SWA` 缓存策略在当前 SSD 与请求分布下，最佳的“存储开销 vs 重计算”折中点在哪里？
 - “认知分化”相关判断在教育、编程、医疗咨询等场景是否可被量化观测（提问质量、复查行为、误判率）？
+- ReasoningBank 的 append-only 记忆整合策略在长时间积累后是否会产生记忆冲突或质量退化？
+- MaTTS 并行扩展因子 $k$ 的最优值是否随任务类型（导航型 vs 工具调用型）显著变化？
+- 在工具调用密集型 agent（而非 WebArena 导航型）上，ReasoningBank 的失败反事实信号是否同样有效？

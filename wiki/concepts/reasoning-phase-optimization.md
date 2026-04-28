@@ -22,9 +22,10 @@ source_refs:
 ## Sub-concepts
 
 - [[concepts/parallel-reasoning-budget-control]]：通过共识早停与偏差剪枝联合控制并行推理的深度与宽度预算。
-- [[concepts/reasoning-shift]]：上下文拥挤导致“答案后验证”收缩的机制假设。
+- [[concepts/reasoning-shift]]：上下文拥挤导致”答案后验证”收缩的机制假设。
 - [[concepts/attention-compute-pattern-optimization]]：注意力机制与架构层的推理优化分类。
 - [[concepts/kv-cache-serving-optimization]]：`KV cache` 与 serving 系统层的推理优化分类。
+- [[concepts/memory-aware-test-time-scaling]]：将 agent 记忆与测试时扩展显式关联，探索轨迹作为学习信号反馈记忆积累。
 
 ## Notes
 
