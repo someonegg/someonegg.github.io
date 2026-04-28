@@ -48,3 +48,8 @@ source_refs: []
 
 - 截至 2026-02-03，`Parallel-Probe` 提供了不改模型参数的在线并行推理预算控制范式（宽度剪枝 + 深度早停）。
 - 截至 2026-02-03，在论文实验设定下该范式可显著降本降时延，但准确率保持情况需结合具体业务任务复核。
+
+## Derived Concepts
+
+- [[concepts/parallel-reasoning-budget-control]]
+- [[concepts/reasoning-phase-optimization]]

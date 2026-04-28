@@ -3,8 +3,8 @@ id: concept-parallel-reasoning-budget-control
 type: concept
 updated_at: 2026-04-15
 source_refs:
-  - sources/2026-04-14-parallel-probe-paper
-  - sources/2026-04-14-parallel-probe-wechat-report
+  - "[[sources/2026-04-14-parallel-probe-paper]]"
+  - "[[sources/2026-04-14-parallel-probe-wechat-report]]"
 ---
 
 # Parallel Reasoning Budget Control

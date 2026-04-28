@@ -613,3 +613,16 @@
   - `log.md`
 - Open validation questions
   - `full-vocabulary reverse KL` 相比 token-level 近似在当前任务分布上的稳定性收益是否可量化复现（如 loss 波动、收敛步数、最终质量）？
+
+## [2026-04-28] lint | semantic-check
+
+- semantic_findings:
+  - id: semantic-2026-04-28-001
+    severity: low
+    page: concepts/agent-memory.md
+    issue: Trajectory Memory / Workflow Memory / Reasoning Memory 已在多个页面反复出现，但尚无独立概念页
+    why_it_matters: 这些子概念已出现在 sources、overview 与 agent-memory 概念页中。若后续继续扩展相关来源，缺少独立页面会削弱交叉引用、冲突跟踪与证据沉淀的粒度。
+    fix_action: 为这三个子概念各建最小概念页，或在 concepts/agent-memory.md 明确标注它们当前作为内联子类而非独立页面维护的策略。
+    evidence: sources/2026-04-28-google-reasoningbank.md; concepts/agent-memory.md; overview.md
+- follow_up_todos:
+  - [ ] (low) concepts/agent-memory.md: 为这三个子概念各建最小概念页，或在 concepts/agent-memory.md 明确标注它们当前作为内联子类而非独立页面维护的策略。

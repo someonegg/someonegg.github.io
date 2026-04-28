@@ -3,7 +3,7 @@ id: entity-anthropic
 type: entity
 updated_at: 2026-04-14
 source_refs:
-  - sources/2026-04-14-harness-reasoning-shift-wechat
+  - "[[sources/2026-04-14-harness-reasoning-shift-wechat]]"
 ---
 
 # Anthropic

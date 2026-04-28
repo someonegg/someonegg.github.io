@@ -43,3 +43,8 @@ source_refs: []
 
 - 截至 2026-04-15，`GRPO` 可作为 post-training policy learning 中“面向推理任务、兼顾显存效率”的 `PPO` 分支。
 - 截至 2026-04-15，`GRPO` 的核心价值主张是组内相对比较带来的稳健更新信号与更可控资源开销。
+
+## Derived Concepts
+
+- [[concepts/group-relative-policy-optimization]]
+- [[concepts/post-training-policy-learning]]

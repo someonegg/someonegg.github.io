@@ -3,7 +3,7 @@ id: entity-sebastian-raschka
 type: entity
 updated_at: 2026-04-14
 source_refs:
-  - sources/2026-04-14-visual-attention-variants
+  - "[[sources/2026-04-14-visual-attention-variants]]"
 ---
 
 # Sebastian Raschka

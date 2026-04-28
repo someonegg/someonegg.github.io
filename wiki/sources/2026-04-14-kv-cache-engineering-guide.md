@@ -47,3 +47,9 @@ source_refs: []
 
 - 截至 2026-04-14，稳健的 KV 优化路线应先做结构性降体积（如 GQA/MQA/MLA 或有界上下文注意力），再考虑低比特压缩。
 - 截至 2026-04-14，缓存系统手段（分页分配、前缀复用、基于信息的驱逐/路由）是提升服务稳定性与 TTFT 的高 ROI 选项。
+
+## Derived Concepts
+
+- [[concepts/decode-memory-bandwidth-bottleneck]]
+- [[concepts/kv-cache-optimization-stack]]
+- [[concepts/kv-cache-serving-optimization]]

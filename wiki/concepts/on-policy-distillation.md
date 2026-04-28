@@ -3,10 +3,10 @@ id: concept-on-policy-distillation
 type: concept
 updated_at: 2026-04-24
 source_refs:
-  - sources/2026-04-14-thinking-machines-on-policy-distillation
-  - sources/2026-04-14-thinking-machines-lora-without-regret
-  - sources/2026-04-14-note-llm-opd-on-policy-distillation
-  - sources/2026-04-24-deepseek-v4-paper
+  - "[[sources/2026-04-14-thinking-machines-on-policy-distillation]]"
+  - "[[sources/2026-04-14-thinking-machines-lora-without-regret]]"
+  - "[[sources/2026-04-14-note-llm-opd-on-policy-distillation]]"
+  - "[[sources/2026-04-24-deepseek-v4-paper]]"
 ---
 
 # On-Policy Distillation

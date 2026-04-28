@@ -3,7 +3,7 @@ id: entity-haohan-wang
 type: entity
 updated_at: 2026-04-14
 source_refs:
-  - sources/2026-04-14-sipdo-prompt-optimization-wechat
+  - "[[sources/2026-04-14-sipdo-prompt-optimization-wechat]]"
 ---
 
 # Haohan Wang

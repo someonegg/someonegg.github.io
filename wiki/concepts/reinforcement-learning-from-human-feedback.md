@@ -3,9 +3,9 @@ id: concept-reinforcement-learning-from-human-feedback
 type: concept
 updated_at: 2026-04-15
 source_refs:
-  - sources/2026-04-15-instructgpt-rlhf-paper
-  - sources/2026-04-15-ppo-paper
-  - sources/2026-04-15-dpo-paper
+  - "[[sources/2026-04-15-instructgpt-rlhf-paper]]"
+  - "[[sources/2026-04-15-ppo-paper]]"
+  - "[[sources/2026-04-15-dpo-paper]]"
 ---
 
 # Reinforcement Learning from Human Feedback

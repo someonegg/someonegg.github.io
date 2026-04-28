@@ -148,6 +148,15 @@
     return /^(sources|entities|concepts|queries)\//.test(String(value || "").trim());
   }
 
+  function extractWikiRefPath(value) {
+    const text = String(value || "").trim();
+    if (!text) return "";
+    const match = text.match(/^\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|[^\]]+)?\]\]$/);
+    if (!match) return "";
+    const target = match[1].trim();
+    return isWikiRefPath(target) ? target : "";
+  }
+
   function renderFrontmatterCardValue(key, value, options) {
     if (Array.isArray(value)) {
       if (value.length === 0) {
@@ -155,9 +164,10 @@
       }
       const tags = value.map((item) => {
         const text = String(item || "").trim();
-        if (key === "source_refs" && options.frontmatterLinkRefs && isWikiRefPath(text)) {
-          const href = "?file=" + encodeURIComponent(toFilePath(text));
-          return '<a class="frontmatter-tag is-link" href="' + href + '">' + escapeHtml(text) + "</a>";
+        const refPath = key === "source_refs" && options.frontmatterLinkRefs ? extractWikiRefPath(text) : "";
+        if (refPath) {
+          const href = "?file=" + encodeURIComponent(toFilePath(refPath));
+          return '<a class="frontmatter-tag is-link" href="' + href + '">' + escapeHtml(refPath) + "</a>";
         }
         return '<span class="frontmatter-tag">' + escapeHtml(text) + "</span>";
       });
@@ -165,9 +175,10 @@
     }
 
     const text = String(value || "").trim();
-    if (key === "source_refs" && options.frontmatterLinkRefs && isWikiRefPath(text)) {
-      const href = "?file=" + encodeURIComponent(toFilePath(text));
-      return '<a class="frontmatter-tag is-link" href="' + href + '">' + escapeHtml(text) + "</a>";
+    const refPath = key === "source_refs" && options.frontmatterLinkRefs ? extractWikiRefPath(text) : "";
+    if (refPath) {
+      const href = "?file=" + encodeURIComponent(toFilePath(refPath));
+      return '<a class="frontmatter-tag is-link" href="' + href + '">' + escapeHtml(refPath) + "</a>";
     }
     if (!text) {
       return '<span class="frontmatter-empty">-</span>';

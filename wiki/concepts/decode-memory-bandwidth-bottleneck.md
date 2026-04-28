@@ -3,7 +3,7 @@ id: concept-decode-memory-bandwidth-bottleneck
 type: concept
 updated_at: 2026-04-15
 source_refs:
-  - sources/2026-04-14-kv-cache-engineering-guide
+  - "[[sources/2026-04-14-kv-cache-engineering-guide]]"
 ---
 
 # Decode Memory-Bandwidth Bottleneck

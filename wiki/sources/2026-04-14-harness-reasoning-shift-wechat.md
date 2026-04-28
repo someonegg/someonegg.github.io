@@ -50,3 +50,8 @@ source_refs: []
 - 截至 2026-04-13（文章发布日期），该来源提供了一个高价值机制假设：长上下文退化可能包含“答案后验证收缩”，而不仅是检索或记忆失败。
 - 截至 2026-04-13，该来源可作为 `Reasoning Shift` 与“内部状态驱动捷径行为”研究线索的入口，但不宜单独作为工程决策的最终证据。
 - 截至 2026-04-13，`Harness` 更稳妥的定位是“风险控制层”，而非可立即移除的过渡层。
+
+## Derived Concepts
+
+- [[concepts/reasoning-phase-optimization]]
+- [[concepts/reasoning-shift]]

@@ -3,7 +3,7 @@ id: concept-training-stability-and-optimization
 type: concept
 updated_at: 2026-04-24
 source_refs:
-  - sources/2026-04-24-deepseek-v4-paper
+  - "[[sources/2026-04-24-deepseek-v4-paper]]"
 ---
 
 # Training Stability and Optimization

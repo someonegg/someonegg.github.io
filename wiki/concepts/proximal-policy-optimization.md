@@ -3,8 +3,8 @@ id: concept-proximal-policy-optimization
 type: concept
 updated_at: 2026-04-15
 source_refs:
-  - sources/2026-04-15-ppo-paper
-  - sources/2026-04-15-instructgpt-rlhf-paper
+  - "[[sources/2026-04-15-ppo-paper]]"
+  - "[[sources/2026-04-15-instructgpt-rlhf-paper]]"
 ---
 
 # Proximal Policy Optimization

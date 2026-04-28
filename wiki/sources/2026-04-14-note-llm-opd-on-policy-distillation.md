@@ -48,3 +48,8 @@ source_refs: []
 
 - 截至 2026-04-14（笔记读取日期），该笔记可作为 `OPD` 核心机制的高质量中文归纳，但定量主张需依赖一手英文来源复核。
 - 截至 2026-04-14，该笔记对“持续学习中的行为恢复”给出了明确工程方向，适合后续与一手实验数据联动验证。
+
+## Derived Concepts
+
+- [[concepts/on-policy-distillation]]
+- [[concepts/post-training-policy-learning]]

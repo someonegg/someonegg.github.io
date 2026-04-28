@@ -3,9 +3,9 @@ id: concept-reasoning-phase-optimization
 type: concept
 updated_at: 2026-04-15
 source_refs:
-  - sources/2026-04-14-parallel-probe-paper
-  - sources/2026-04-14-parallel-probe-wechat-report
-  - sources/2026-04-14-harness-reasoning-shift-wechat
+  - "[[sources/2026-04-14-parallel-probe-paper]]"
+  - "[[sources/2026-04-14-parallel-probe-wechat-report]]"
+  - "[[sources/2026-04-14-harness-reasoning-shift-wechat]]"
 ---
 
 # Reasoning Phase Optimization

@@ -3,7 +3,7 @@ id: entity-richard-feynman
 type: entity
 updated_at: 2026-04-14
 source_refs:
-  - sources/2026-04-14-fermi-feynman-thinking-tools
+  - "[[sources/2026-04-14-fermi-feynman-thinking-tools]]"
 ---
 
 # Richard Feynman

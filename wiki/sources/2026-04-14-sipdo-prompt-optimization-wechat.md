@@ -50,3 +50,8 @@ source_refs: []
 - 截至 2026-02-27，该来源可作为 `prompt optimization` 演进脉络和 `SIPDO` 机制的高层入口资料。
 - 截至 2026-02-27，若目标是降低 prompt 迭代中的回退与脆弱性，`failure-driven + difficulty progression + global regression check` 是该来源强调的三项核心机制。
 - 截至 2026-02-27，该来源不应单独作为“方法效果已被充分验证”的最终证据，需结合论文全文或复现实验。
+
+## Derived Concepts
+
+- [[concepts/closed-loop-prompt-optimization]]
+- [[concepts/prompt-optimization]]

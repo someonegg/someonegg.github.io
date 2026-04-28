@@ -50,3 +50,13 @@ source_refs: []
 - 截至 2026-02-18，该来源将 AI 定位为“媒介层变化”的驱动项，主张从认知与社会结构角度评估 AI 影响。
 - 截至 2026-02-18，该来源给出一个一致的解释链：`媒介属性变化 -> 使用者参与方式变化 -> 人群能力分化强化`。
 - 截至 2026-02-18，该来源将“知道何时不用 AI”描述为 AI 普及条件下的重要能力约束。
+
+## Derived Concepts
+
+- [[concepts/cognitive-stratification]]
+- [[concepts/hot-and-cold-media]]
+- [[concepts/media-extension-and-amputation]]
+- [[concepts/media-is-the-message]]
+- [[concepts/media-tetrad]]
+- [[concepts/media-theory-and-ai]]
+- [[concepts/rearview-mirror-effect]]

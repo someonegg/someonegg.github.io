@@ -3,7 +3,7 @@ id: concept-agent-memory
 type: concept
 updated_at: 2026-04-28
 source_refs:
-  - sources/2026-04-28-google-reasoningbank
+  - "[[sources/2026-04-28-google-reasoningbank]]"
 ---
 
 # Agent Memory

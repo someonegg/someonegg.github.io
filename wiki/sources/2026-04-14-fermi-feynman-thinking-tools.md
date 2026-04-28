@@ -48,3 +48,9 @@ source_refs: []
 
 - 截至 2026-04-14，可把 `Fermi Estimation` 与 `Feynman Technique` 视为一套“外部建模 + 内部校验”的互补思维流程。
 - 截至 2026-04-14，该来源可支持“先显式暴露假设，再针对卡壳点补证据”的学习/决策实践框架，但不支持其效果量化结论。
+
+## Derived Concepts
+
+- [[concepts/fermi-estimation]]
+- [[concepts/feynman-technique]]
+- [[concepts/thinking-and-learning-methods]]

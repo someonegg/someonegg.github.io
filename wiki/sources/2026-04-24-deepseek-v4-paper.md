@@ -62,3 +62,19 @@ source_refs: []
 
 - 截至 2026-04-24，`DeepSeek-V4` 的核心贡献可归纳为：`CSA/HCA` 长上下文注意力路线、`mHC` 稳定化残差连接、`Muon` 大规模训练优化、以及与其配套的 `KV/FP4/OPD` 系统实现。
 - 截至 2026-04-24，1M context 的可用性主张在该论文中已给出较完整的端到端叙事，但其真实性能边界仍依赖部署栈与任务分布验证。
+
+## Derived Concepts
+
+- [[concepts/attention-compute-pattern-optimization]]
+- [[concepts/compressed-sparse-attention]]
+- [[concepts/deepseek-sparse-attention]]
+- [[concepts/full-vocabulary-reverse-kl-distillation]]
+- [[concepts/heavily-compressed-attention]]
+- [[concepts/hybrid-attention-architecture]]
+- [[concepts/kv-cache-serving-optimization]]
+- [[concepts/manifold-constrained-hyper-connections]]
+- [[concepts/muon-optimizer]]
+- [[concepts/on-disk-kv-prefix-reuse]]
+- [[concepts/on-policy-distillation]]
+- [[concepts/post-training-policy-learning]]
+- [[concepts/training-stability-and-optimization]]

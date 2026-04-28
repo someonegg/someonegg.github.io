@@ -51,3 +51,9 @@ source_refs: []
 
 - 截至 2025-12-02，`DeepSeek Sparse Attention` 已在论文中给出可执行的机制定义（indexer + top-k selector）与训练流程。
 - 截至 2025-12-02，`DSA` 的复杂度收益主张是“主注意力 `O(Lk)` + 辅助 indexer `O(L^2)` 的组合”，其端到端收益依赖具体实现与部署环境。
+
+## Derived Concepts
+
+- [[concepts/attention-compute-pattern-optimization]]
+- [[concepts/compressed-sparse-attention]]
+- [[concepts/deepseek-sparse-attention]]

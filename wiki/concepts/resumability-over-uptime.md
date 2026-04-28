@@ -3,7 +3,7 @@ id: concept-resumability-over-uptime
 type: concept
 updated_at: 2026-04-15
 source_refs:
-  - sources/2026-04-14-agent-infra-production-primitives
+  - "[[sources/2026-04-14-agent-infra-production-primitives]]"
 ---
 
 # Resumability over Uptime

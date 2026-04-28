@@ -3,10 +3,8 @@ id: query-2026-04-15-grpo-principle-and-how-it-works
 type: query
 updated_at: 2026-04-15
 source_refs:
-  - sources/2026-04-15-deepseekmath-grpo-paper
-  - sources/2026-04-15-ppo-paper
-  - concepts/group-relative-policy-optimization
-  - concepts/proximal-policy-optimization
+  - "[[sources/2026-04-15-deepseekmath-grpo-paper]]"
+  - "[[sources/2026-04-15-ppo-paper]]"
 ---
 
 # GRPO 的原理与工作机制（含公式与步骤）

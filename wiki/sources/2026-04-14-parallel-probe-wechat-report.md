@@ -44,3 +44,8 @@ source_refs: []
 ## Extracted Conclusions (dated)
 
 - 截至 2026-03-07，该资讯来源可作为 `Parallel-Probe` 方法与资源入口索引，但不宜单独作为效果结论的最终证据。
+
+## Derived Concepts
+
+- [[concepts/parallel-reasoning-budget-control]]
+- [[concepts/reasoning-phase-optimization]]

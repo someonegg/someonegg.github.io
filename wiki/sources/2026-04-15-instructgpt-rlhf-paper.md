@@ -43,3 +43,9 @@ source_refs: []
 
 - 截至 2026-04-15，InstructGPT 仍是 LLM post-training policy learning 的历史基线证据，定义了主流 `RLHF` 工作流。
 - 截至 2026-04-15，后续 `DPO/OPD/GRPO` 可理解为沿“稳定性、效率、监督密度”三个方向对该基线进行改写。
+
+## Derived Concepts
+
+- [[concepts/post-training-policy-learning]]
+- [[concepts/proximal-policy-optimization]]
+- [[concepts/reinforcement-learning-from-human-feedback]]

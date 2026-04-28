@@ -3,9 +3,9 @@ id: entity-deepseek-ai
 type: entity
 updated_at: 2026-04-24
 source_refs:
-  - sources/2026-04-15-deepseekmath-grpo-paper
-  - sources/2026-04-14-deepseek-v3-2-paper
-  - sources/2026-04-24-deepseek-v4-paper
+  - "[[sources/2026-04-15-deepseekmath-grpo-paper]]"
+  - "[[sources/2026-04-14-deepseek-v3-2-paper]]"
+  - "[[sources/2026-04-24-deepseek-v4-paper]]"
 ---
 
 # DeepSeek-AI

@@ -3,8 +3,8 @@ id: concept-kv-cache-serving-optimization
 type: concept
 updated_at: 2026-04-24
 source_refs:
-  - sources/2026-04-14-kv-cache-engineering-guide
-  - sources/2026-04-24-deepseek-v4-paper
+  - "[[sources/2026-04-14-kv-cache-engineering-guide]]"
+  - "[[sources/2026-04-24-deepseek-v4-paper]]"
 ---
 
 # KV Cache Serving Optimization

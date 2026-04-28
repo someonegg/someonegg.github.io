@@ -51,3 +51,11 @@ source_refs: []
 - 截至 2026-03-05（文章发布日期），若缺少 `Effect Log` 与恢复语义分类，长程 Agent 在中断后难以避免重复副作用或语义偏移。
 - 截至 2026-03-05，`Capability Gateway` 与短时可撤销 token 是应对“非可信输入 + 高权限执行”耦合风险的基础控制面。
 - 截至 2026-03-05，对生产 Agent 的可靠性评估应单独纳入 `Resumability` 指标，而非仅用可用性或一次成功率替代。
+
+## Derived Concepts
+
+- [[concepts/agent-runtime-reliability-primitives]]
+- [[concepts/capability-gateway]]
+- [[concepts/effect-log]]
+- [[concepts/forkable-checkpoint]]
+- [[concepts/resumability-over-uptime]]

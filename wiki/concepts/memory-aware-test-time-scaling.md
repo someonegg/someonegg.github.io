@@ -3,7 +3,7 @@ id: concept-memory-aware-test-time-scaling
 type: concept
 updated_at: 2026-04-28
 source_refs:
-  - sources/2026-04-28-google-reasoningbank
+  - "[[sources/2026-04-28-google-reasoningbank]]"
 ---
 
 # Memory-Aware Test-Time Scaling (MaTTS)

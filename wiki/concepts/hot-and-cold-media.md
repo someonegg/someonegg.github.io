@@ -3,7 +3,7 @@ id: concept-hot-and-cold-media
 type: concept
 updated_at: 2026-04-17
 source_refs:
-  - sources/2026-04-17-mcluhan-dissects-ai-wechat
+  - "[[sources/2026-04-17-mcluhan-dissects-ai-wechat]]"
 ---
 
 # Hot and Cold Media

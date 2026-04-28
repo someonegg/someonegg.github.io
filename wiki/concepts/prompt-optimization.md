@@ -3,7 +3,7 @@ id: concept-prompt-optimization
 type: concept
 updated_at: 2026-04-15
 source_refs:
-  - sources/2026-04-14-sipdo-prompt-optimization-wechat
+  - "[[sources/2026-04-14-sipdo-prompt-optimization-wechat]]"
 ---
 
 # Prompt Optimization

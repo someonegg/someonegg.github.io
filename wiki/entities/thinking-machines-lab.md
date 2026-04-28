@@ -3,8 +3,8 @@ id: entity-thinking-machines-lab
 type: entity
 updated_at: 2026-04-14
 source_refs:
-  - sources/2026-04-14-thinking-machines-on-policy-distillation
-  - sources/2026-04-14-thinking-machines-lora-without-regret
+  - "[[sources/2026-04-14-thinking-machines-on-policy-distillation]]"
+  - "[[sources/2026-04-14-thinking-machines-lora-without-regret]]"
 ---
 
 # Thinking Machines Lab

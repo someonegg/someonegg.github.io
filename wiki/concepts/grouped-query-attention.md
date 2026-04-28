@@ -3,7 +3,7 @@ id: concept-grouped-query-attention
 type: concept
 updated_at: 2026-04-15
 source_refs:
-  - sources/2026-04-14-visual-attention-variants
+  - "[[sources/2026-04-14-visual-attention-variants]]"
 ---
 
 # Grouped-Query Attention (GQA)

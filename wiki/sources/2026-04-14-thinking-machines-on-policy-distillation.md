@@ -49,3 +49,8 @@ source_refs: []
 
 - 截至 2025-10-27，`OPD` 被系统化呈现为“on-policy + dense”后训练范式，并给出较强的效率主张。
 - 截至 2025-10-27，`OPD` 在持续学习里具备“恢复行为而非只学新知识”的潜在优势，但工程外推仍需任务级实证。
+
+## Derived Concepts
+
+- [[concepts/on-policy-distillation]]
+- [[concepts/post-training-policy-learning]]

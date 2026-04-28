@@ -3,11 +3,8 @@ id: query-2026-04-15-dpo-principle-and-how-it-works
 type: query
 updated_at: 2026-04-15
 source_refs:
-  - sources/2026-04-15-dpo-paper
-  - sources/2026-04-15-instructgpt-rlhf-paper
-  - concepts/direct-preference-optimization
-  - concepts/reinforcement-learning-from-human-feedback
-  - concepts/proximal-policy-optimization
+  - "[[sources/2026-04-15-dpo-paper]]"
+  - "[[sources/2026-04-15-instructgpt-rlhf-paper]]"
 ---
 
 # DPO 的原理与工作机制

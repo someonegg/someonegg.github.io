@@ -38,3 +38,7 @@ source_refs: []
 ## Extracted Conclusions (dated)
 
 - 截至 2025-09-29，该来源可为 `OPD` 中“dense supervision 提升效率”主张提供理论背景，但不能替代 `OPD` 自身实验证据。
+
+## Derived Concepts
+
+- [[concepts/post-training-policy-learning]]

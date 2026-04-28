@@ -45,3 +45,9 @@ source_refs: []
 - 提取阶段记忆整合策略目前仅为"追加"（append-only），更复杂的记忆合并与冲突消解留待未来工作。
 - 并行扩展因子 k 的最优值与任务类型的依赖关系尚未量化。
 - 在工具调用型 agent（而非导航型）上的泛化性尚无直接数据。
+
+## Derived Concepts
+
+- [[concepts/agent-memory]]
+- [[concepts/memory-aware-test-time-scaling]]
+- [[concepts/reasoning-bank]]

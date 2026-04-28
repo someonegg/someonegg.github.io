@@ -50,3 +50,14 @@ source_refs: []
 - 截至 2026-03-22（文章发布日期），`GQA` 仍是兼顾实现复杂度与推理成本的高可用默认解。
 - 截至 2026-03-22，`MLA` 与 `Hybrid` 更像“规模与长上下文继续上探时的升级方向”，但会引入实现和服务复杂度。
 - 截至 2026-03-22，`Hybrid Attention` 在定义上应指“层级混合的架构模式”，不应与 “`MLA+Sparse` 或 `SWA+GQA` 的组合”混为同一概念层级。
+
+## Derived Concepts
+
+- [[concepts/attention-compute-pattern-optimization]]
+- [[concepts/deepseek-sparse-attention]]
+- [[concepts/gated-attention]]
+- [[concepts/grouped-query-attention]]
+- [[concepts/hybrid-attention-architecture]]
+- [[concepts/multi-head-attention]]
+- [[concepts/multi-head-latent-attention]]
+- [[concepts/sliding-window-attention]]

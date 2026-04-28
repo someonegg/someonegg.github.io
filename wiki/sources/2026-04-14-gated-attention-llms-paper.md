@@ -54,3 +54,8 @@ source_refs: []
 
 - 截至 2025-05-10，`SDPA` 后置 `head-specific sigmoid gate` 是 `Gated Attention` 的高证据强度实现之一。
 - 截至 2025-05-10，gating 的实证收益可被分解为非线性增强与输入相关稀疏化，两者共同影响稳定性与外推表现。
+
+## Derived Concepts
+
+- [[concepts/attention-compute-pattern-optimization]]
+- [[concepts/gated-attention]]

@@ -3,7 +3,7 @@ id: entity-tensorrt-llm
 type: entity
 updated_at: 2026-04-14
 source_refs:
-  - sources/2026-04-14-kv-cache-engineering-guide
+  - "[[sources/2026-04-14-kv-cache-engineering-guide]]"
 ---
 
 # TensorRT-LLM
