@@ -2,9 +2,7 @@
 
 ## 汉字学习
 
-- [[hanzi-stroke.html]] 汉字写字演示
-- [[hanzi-pinyin.html]] 汉字注音练习
-- [[hanzi-word-grouping.html]] 汉字组词练习
+- [[hanzi/index.html]] 汉字学习：拼音、笔顺、组词
 
 ## 数学思维
 

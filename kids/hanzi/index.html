@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <title>汉字学习</title>
+  <style>
+    :root {
+      --bg: #f4efe4;
+      --surface: rgba(251, 247, 238, 0.92);
+      --surface-soft: #f7f1e5;
+      --text: #2b241d;
+      --muted: #6f6255;
+      --accent: #6f4b2f;
+      --accent-soft: rgba(111, 75, 47, 0.12);
+      --border: #ddd0bd;
+      --shadow: 0 14px 36px rgba(24, 32, 36, 0.08);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(255, 253, 248, 0.95), transparent 34%),
+        linear-gradient(180deg, #f7f1e7 0%, #f4efe4 100%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+      padding: 22px 16px 32px;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 18px;
+    }
+
+    .nav-link,
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-link {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+
+    .nav-link:hover {
+      background: var(--accent-soft);
+    }
+
+    .hero {
+      padding: 26px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      font-weight: 650;
+      letter-spacing: -0.04em;
+    }
+
+    .desc {
+      max-width: 44rem;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .card-link {
+      display: block;
+      height: 100%;
+    }
+
+    .card {
+      height: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #fffdfa 0%, var(--surface-soft) 100%);
+      padding: 18px 18px 20px;
+      box-shadow: 0 10px 24px rgba(24, 32, 36, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card-link:hover .card,
+    .card-link:focus-visible .card {
+      transform: translateY(-2px);
+      border-color: rgba(111, 75, 47, 0.45);
+      box-shadow: 0 14px 28px rgba(24, 32, 36, 0.08);
+    }
+
+    .card-kind {
+      display: inline-flex;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .card h2 {
+      margin: 14px 0 8px;
+      font-size: 22px;
+      font-weight: 620;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 860px) {
+      body { padding: 14px 10px 20px; }
+      .top-nav { margin-bottom: 10px; }
+      .hero { padding: 18px; }
+      h1 { font-size: 28px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="top-nav">
+      <a href="../index.html" class="nav-link">返回索引</a>
+    </nav>
+
+    <section class="hero">
+      <p class="eyebrow">HANZI LEARNING</p>
+      <h1>汉字学习</h1>
+      <p class="desc">适合识字、拼音、笔顺、组词练习。先选一种任务进入，再围绕同一个字反复查看、朗读和书写。</p>
+
+      <div class="grid">
+        <a class="card-link" href="./pinyin.html">
+          <article class="card">
+            <span class="card-kind">拼音</span>
+            <h2>拼音标注练习</h2>
+            <p>输入词语或短句，自动标出拼音，并支持多音字候选切换。</p>
+          </article>
+        </a>
+
+        <a class="card-link" href="./stroke.html">
+          <article class="card">
+            <span class="card-kind">笔顺</span>
+            <h2>笔顺演示</h2>
+            <p>按步骤查看单字写法，从起笔到完整字逐步建立字形印象。</p>
+          </article>
+        </a>
+
+        <a class="card-link" href="./words.html">
+          <article class="card">
+            <span class="card-kind">组词</span>
+            <h2>组词参考</h2>
+            <p>输入一个汉字，查看常见组词和对应拼音，便于朗读与扩词。</p>
+          </article>
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

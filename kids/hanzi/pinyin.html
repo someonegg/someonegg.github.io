@@ -401,7 +401,7 @@
   </main>
 
   <script src="/vendor/msgpack.min.js"></script>
-  <script src="/assets/site/hanzi-data-loader.js"></script>
+  <script src="./loader.js"></script>
   <script>
     const inputText = document.getElementById('inputText');
     const resultBox = document.getElementById('resultBox');
@@ -497,7 +497,7 @@
     }
 
     function charLinkHtml(char, innerHtml) {
-      return `<a class="char-link" href="./hanzi-stroke.html?char=${encodeURIComponent(char)}" target="_blank" rel="noopener noreferrer">${innerHtml}</a>`;
+      return `<a class="char-link" href="./stroke.html?char=${encodeURIComponent(char)}" target="_blank" rel="noopener noreferrer">${innerHtml}</a>`;
     }
 
     function escapeHtml(text) {
@@ -827,7 +827,7 @@
       } catch (err) {
         dictReady = false;
         console.error(err);
-        resultHint.textContent = '开源词库加载失败，请检查 data 目录词库文件。';
+        resultHint.textContent = '开源词库加载失败，请刷新页面重试。';
         resultHint.className = 'hint warn';
       }
     }

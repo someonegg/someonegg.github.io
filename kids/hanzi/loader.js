@@ -1,4 +1,7 @@
 (function () {
+  const scriptUrl = document.currentScript ? new URL(document.currentScript.src, location.href) : new URL(location.href);
+  const distBaseUrl = new URL('./dist/', scriptUrl);
+
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -14,8 +17,9 @@
     const timeoutMs = Number(opts.timeoutMs) || 0;
     const controller = timeoutMs > 0 ? new AbortController() : null;
     const timer = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
+    const assetUrl = new URL(String(logicalPath).replace(/^\/+/, ''), distBaseUrl);
     const response = await fetch(
-      `/data/${logicalPath}`,
+      assetUrl,
       controller ? { signal: controller.signal } : undefined
     ).finally(() => {
       if (timer) clearTimeout(timer);

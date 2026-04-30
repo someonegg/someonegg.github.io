@@ -319,7 +319,7 @@
   </main>
 
   <script src="/vendor/msgpack.min.js"></script>
-  <script src="/assets/site/hanzi-data-loader.js"></script>
+  <script src="./loader.js"></script>
   <script>
     const DEFAULT_LIMIT = 15;
     const SHARD_COUNT = 8;
@@ -436,7 +436,7 @@
       return Array.from(String(word))
         .map((ch) => {
           if (!isCjk(ch)) return escapeHtml(ch);
-          return `<a class="char-link" href="./hanzi-stroke.html?char=${encodeURIComponent(ch)}">${escapeHtml(ch)}</a>`;
+          return `<a class="char-link" href="./stroke.html?char=${encodeURIComponent(ch)}">${escapeHtml(ch)}</a>`;
         })
         .join('');
     }
@@ -633,8 +633,8 @@
       } catch (err) {
         console.error(err);
         dictReady = false;
-        setStatus('词库加载失败，请先执行构建脚本。', 'warn');
-        resultBox.innerHTML = '<p class="empty">词库未就绪，无法查询组词。</p>';
+        setStatus('词库加载失败，请刷新页面重试。', 'warn');
+        resultBox.innerHTML = '<p class="empty">词库加载失败，请刷新页面重试。</p>';
       }
     }
 
