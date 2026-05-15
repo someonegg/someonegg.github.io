@@ -13,7 +13,7 @@ source_refs:
 
 ## Taxonomy
 
-- Belongs to: [[concepts/reasoning-phase-optimization]]
+- Belongs to: [[concepts/reasoning-phase-control]]
 - Role: 推理阶段中“注意力计算模式与结构”方向的优化分类。
 
 ## Definition

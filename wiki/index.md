@@ -72,7 +72,7 @@
 - [[concepts/full-vocabulary-reverse-kl-distillation]] `OPD` 中的全词表 reverse KL 目标，用于降低梯度方差并增强蒸馏稳定性。
 - [[concepts/prompt-optimization]] Prompt 级方法学分类，从离散搜索到文本梯度再到闭环反馈优化。
 - [[concepts/closed-loop-prompt-optimization]] 通过“难例生成 + 失败修复 + 全局回归”持续演化 prompt 的闭环范式。
-- [[concepts/reasoning-phase-optimization]] 推理阶段优化的上位分类概念，覆盖 test-time 的预算与调度策略。
+- [[concepts/reasoning-phase-control]] 推理阶段控制的上位分类概念，覆盖 test-time 的行为、预算与调度问题。
 - [[concepts/training-stability-and-optimization]] 训练稳定性与优化的上位分类，组织优化器与稳定化连接机制。
 - [[concepts/reasoning-shift]] 长上下文拥挤下“答案后验证收缩”机制假设。
 - [[concepts/attention-compute-pattern-optimization]] 注意力机制/架构路径的推理优化分类（机制层与架构层）。

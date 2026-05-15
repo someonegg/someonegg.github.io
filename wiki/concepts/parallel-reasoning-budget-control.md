@@ -11,7 +11,7 @@ source_refs:
 
 ## Taxonomy
 
-- Belongs to: [[concepts/reasoning-phase-optimization]]
+- Belongs to: [[concepts/reasoning-phase-control]]
 - Role: 并行推理阶段的在线预算控制技术。
 
 ## Definition

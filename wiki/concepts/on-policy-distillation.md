@@ -47,5 +47,5 @@ source_refs:
 - contrast: [[concepts/proximal-policy-optimization]]
 - contrast: [[concepts/direct-preference-optimization]]
 - contrast: [[concepts/group-relative-policy-optimization]]
-- application: [[concepts/reasoning-phase-optimization]]
+- application: [[concepts/reasoning-phase-control]]
 - dependency: [[concepts/full-vocabulary-reverse-kl-distillation]]

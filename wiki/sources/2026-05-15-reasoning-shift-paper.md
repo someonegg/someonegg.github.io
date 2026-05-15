@@ -63,4 +63,4 @@ source_refs: []
 ## Derived Concepts
 
 - [[concepts/reasoning-shift]]
-- [[concepts/reasoning-phase-optimization]]
+- [[concepts/reasoning-phase-control]]

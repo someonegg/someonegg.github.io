@@ -31,5 +31,5 @@ source_refs:
 ## Related Concepts
 
 - contrast: [[concepts/proximal-policy-optimization]]
-- application: [[concepts/reasoning-phase-optimization]]
+- application: [[concepts/reasoning-phase-control]]
 - complement: [[concepts/on-policy-distillation]]

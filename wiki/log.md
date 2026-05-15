@@ -13,7 +13,7 @@
   - `concepts/reasoning-bank.md`
   - `concepts/memory-aware-test-time-scaling.md`
 - Updated pages
-  - `concepts/reasoning-phase-optimization.md`：新增 MaTTS 为 Sub-concepts
+  - `concepts/reasoning-phase-control.md`：新增 MaTTS 为 Sub-concepts
   - `wiki/index.md`：新增 source、entity、concept 条目
   - `wiki/overview.md`：新增 ReasoningBank 相关主题与 open question
 - Open validation questions
@@ -214,19 +214,19 @@
 - Open validation questions
   - 是否需要为 taxonomy 关系增加统一模板字段（例如固定 `Taxonomy` 和 `Sub-concepts` 小节），避免后续概念页风格漂移？
 
-## [2026-04-14] ingest | Taxonomy uplift: reasoning-phase-optimization
+## [2026-04-14] ingest | Taxonomy uplift: reasoning-phase-control
 
 - Processed sources
   - `sources/2026-04-14-parallel-probe-paper.md`
   - `sources/2026-04-14-parallel-probe-wechat-report.md`
 - New pages
-  - `concepts/reasoning-phase-optimization.md` (renamed from `concepts/parallel-reasoning-optimization.md`)
+  - `concepts/reasoning-phase-control.md` (renamed from `concepts/parallel-reasoning-optimization.md`)
 - Updated pages
   - `concepts/parallel-reasoning-budget-control.md`
   - `index.md`
   - `log.md`
 - Open validation questions
-  - 是否要将 `reasoning-phase-optimization` 进一步拆成“序列推理优化 / 并行推理优化 / 系统协同优化”三个二级分类，避免后续概念堆叠？
+  - 是否要将 `reasoning-phase-control` 进一步拆成“序列推理控制 / 并行推理控制 / 系统协同控制”三个二级分类，避免后续概念堆叠？
 
 ## [2026-04-14] ingest | Concept relation pattern rollout (taxonomy + related)
 
@@ -240,7 +240,7 @@
   - `concepts/attention-compute-pattern-optimization.md`
   - `concepts/kv-cache-serving-optimization.md`
 - Updated pages
-  - `concepts/reasoning-phase-optimization.md`
+  - `concepts/reasoning-phase-control.md`
   - `concepts/decode-memory-bandwidth-bottleneck.md`
   - `concepts/kv-cache-optimization-stack.md`
   - `concepts/multi-head-attention.md`
@@ -272,7 +272,7 @@
   - `concepts/resumability-over-uptime.md`
   - `concepts/fermi-estimation.md`
   - `concepts/feynman-technique.md`
-  - `concepts/reasoning-phase-optimization.md`
+  - `concepts/reasoning-phase-control.md`
   - `concepts/parallel-reasoning-budget-control.md`
   - `index.md`
   - `overview.md`
@@ -291,13 +291,13 @@
   - `concepts/prompt-optimization.md`
   - `concepts/closed-loop-prompt-optimization.md`
 - Updated pages
-  - `concepts/reasoning-phase-optimization.md`
+  - `concepts/reasoning-phase-control.md`
   - `overview.md`
   - `index.md`
   - `log.md`
 - Open validation questions
   - 资讯稿中的量化结果来自二次转述；是否要补 ingest `arXiv:2505.19514` 一手全文并校正指标口径？
-  - `Prompt Optimization` 与 `Reasoning Phase Optimization` 的边界在工程落地上是否需要更细的子分类（离线提示词优化 vs 在线推理控制）？
+  - `Prompt Optimization` 与 `Reasoning Phase Control` 的边界在工程落地上是否需要更细的子分类（离线提示词优化 vs 在线推理控制）？
 
 ## [2026-04-14] ingest | Harness 刚火，可能就要成为过去时了｜Hao好聊论文
 
@@ -310,7 +310,7 @@
   - `entities/gleb-rodionov.md`
   - `entities/anthropic.md`
 - Updated pages
-  - `concepts/reasoning-phase-optimization.md`
+  - `concepts/reasoning-phase-control.md`
   - `overview.md`
   - `index.md`
   - `log.md`
@@ -673,7 +673,7 @@
 - Updated pages
   - `entities/gleb-rodionov.md`
   - `concepts/reasoning-shift.md`
-  - `concepts/reasoning-phase-optimization.md`
+  - `concepts/reasoning-phase-control.md`
   - `overview.md`
   - `index.md`
   - `log.md`
@@ -701,3 +701,59 @@
 - follow_up_todos:
   - [ ] (medium) concepts/reasoning-shift.md: 补 ingest `Reasoning Shift` 的一手论文或作者原始长文；在补齐前，保留当前 Limits，并在 overview/相关 query 中继续明确其为假设性机制线索。
   - [ ] (low) concepts/entropy-ratio-clipping.md: 新增最小概念页 `concepts/dapo.md` 与 `concepts/gppo.md`，至少记录其定义、与 PPO-clip 的关系、在 ERC 论文中的使用语境；随后把 ERC、PPO、post-training policy learning 页互链起来。
+
+## [2026-05-15] lint | semantic-check
+
+- semantic_findings:
+  - id: semantic-2026-05-15-003
+    severity: medium
+    page: overview.md
+    issue: 分类轴汇总口径仍然落后于页面前文新增内容，末尾“五条主分类轴”总结未覆盖已新增的“训练稳定性与优化”和“后训练策略学习”等主线。
+    why_it_matters: overview 是全局入口页；若分类总览与正文演进不同步，后续读者会误判当前 wiki 的知识骨架，进而影响新增页面挂载与导航一致性。
+    fix_action: 统一 overview 中“主分类轴/主线”的口径：明确哪些属于顶层分类，哪些只是主题线索；随后重写末尾汇总句，保证数量与枚举完全一致。
+    evidence: overview.md
+  - id: semantic-2026-05-15-004
+    severity: low
+    page: concepts/reasoning-phase-control.md
+    issue: 概念页定义将该页限定为“优化方法集合”，但子概念同时纳入了 `Reasoning Shift` 这类失败机制，分类语义混合了“干预方法”与“退化现象”。
+    why_it_matters: 如果顶层分类边界不清，后续在该页挂载方法、症状、诊断信号时会持续混杂，削弱 taxonomy 的可扩展性与检索可预测性。
+    fix_action: 二选一处理：要么把页面定义扩展为“推理阶段行为与控制”上位分类，并显式允许机制/症状页；要么把 `Reasoning Shift` 挪到单独的 failure/mechanism 分类下，再在 Related Concepts 中互链。
+    evidence: concepts/reasoning-phase-control.md; concepts/reasoning-shift.md
+- follow_up_todos:
+  - [ ] (medium) overview.md: 统一 overview 中“主分类轴/主线”的口径：明确哪些属于顶层分类，哪些只是主题线索；随后重写末尾汇总句，保证数量与枚举完全一致。
+  - [ ] (low) concepts/reasoning-phase-control.md: 二选一处理：要么把页面定义扩展为“推理阶段行为与控制”上位分类，并显式允许机制/症状页；要么把 `Reasoning Shift` 挪到单独的 failure/mechanism 分类下，再在 Related Concepts 中互链。
+
+## [2026-05-15] maintenance | normalize overview taxonomy
+
+- Updated pages
+  - `overview.md`
+  - `log.md`
+- What changed
+  - 将 `overview.md` 的口径统一为“两层结构”：`8` 条顶层分类轴 + 若干跨轴主题线索。
+  - 删除“5 条主分类轴”这一过时汇总，避免与已新增的“训练稳定性与优化”“后训练策略学习”“Prompt Optimization”相冲突。
+- Rationale
+  - `overview` 是 wiki 全局入口，分类轴与主题线索必须分层表达，否则后续页面挂载与导航会持续漂移。
+
+## [2026-05-15] maintenance | broaden reasoning-phase taxonomy
+
+- Updated pages
+  - `concepts/reasoning-phase-control.md`
+  - `log.md`
+- What changed
+  - 将 `Reasoning Phase Control` 从“优化方法集合”扩展为“推理阶段行为、退化机制与控制方法”上位分类。
+  - 在 `Scope` 中显式允许三类子概念：优化方法、退化现象、诊断/控制信号。
+  - 重写子概念说明，明确 `Reasoning Shift` 属于退化机制，而非优化手段。
+- Rationale
+  - 当前 wiki 中 `Reasoning Shift` 与预算控制、上下文管理属于同一 test-time 问题域；在规模尚小时，扩充现有上位分类比提前拆出独立 failure 轴更稳妥。
+
+## [2026-05-15] maintenance | rename reasoning-phase-control
+
+- Updated pages
+  - `concepts/reasoning-phase-control.md`
+  - `index.md`
+  - `overview.md`
+  - `log.md`
+- What changed
+  - 将概念页、文件名、wikilink 与相关文案从 `Reasoning Phase Optimization` / `reasoning-phase-optimization` 统一重命名为 `Reasoning Phase Control` / `reasoning-phase-control`。
+- Rationale
+  - 该上位分类当前已同时容纳 test-time 的行为变化、退化机制与控制方法；使用 `Control` 比 `Optimization` 更贴合其实际边界。

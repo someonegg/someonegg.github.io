@@ -52,4 +52,4 @@ source_refs: []
 ## Derived Concepts
 
 - [[concepts/parallel-reasoning-budget-control]]
-- [[concepts/reasoning-phase-optimization]]
+- [[concepts/reasoning-phase-control]]

@@ -19,4 +19,4 @@ source_refs:
 
 ## Related Concepts
 
-- application: [[concepts/reasoning-phase-optimization]]
+- application: [[concepts/reasoning-phase-control]]

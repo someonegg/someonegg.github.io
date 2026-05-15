@@ -24,12 +24,12 @@ source_refs:
 - `ERC` 的核心定义来自 `arXiv 2512.05591 v2`：
   - 用新旧策略熵比值衡量全局探索变化。
   - 当 entropy ratio 超出区间时，对对应 token 更新做 clipping / 丢弃梯度。
-  - 作者明确把它定位为对 `PPO-clip`“只约束 sampled actions”缺陷的补充或替代性稳定化约束。[[sources/2026-05-15-erc-paper]]
+  - 作者明确把它定位为对 `PPO-clip`“只约束 sampled actions”缺陷的补充或替代性稳定化约束。[[sources/2026-05-15-erc-paper]] [[concepts/entropy-ratio-clipping]]
 - `Full-Vocabulary Reverse KL Distillation` 的核心定义来自 `DeepSeek-V4` 论文及其概念页：
   - 在 `OPD` 中直接用 full-vocabulary logits 计算学生到教师的 reverse `KL`。
   - 目标是降低 token-level 近似带来的梯度方差，并在多教师融合时更好保留教师行为边界。[[sources/2026-04-24-deepseek-v4-paper]] [[concepts/full-vocabulary-reverse-kl-distillation]]
 - 两者的结构性差异：
-  - `ERC` 控制的是“**policy update 是否偏离允许的探索区间**”。[[sources/2026-05-15-erc-paper]]
+  - `ERC` 控制的是“**policy update 是否偏离允许的探索区间**”。[[sources/2026-05-15-erc-paper]] [[concepts/entropy-ratio-clipping]]
   - `Full-vocab reverse KL` 控制的是“**student policy 以什么分布目标拟合 teacher**”。[[sources/2026-04-24-deepseek-v4-paper]] [[concepts/full-vocabulary-reverse-kl-distillation]]
 
 ## Conflicts and Limitations

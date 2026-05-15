@@ -27,4 +27,4 @@ source_refs:
 ## Related Concepts
 
 - complement: [[concepts/post-training-policy-learning]]
-- contrast: [[concepts/reasoning-phase-optimization]]
+- contrast: [[concepts/reasoning-phase-control]]

@@ -11,7 +11,7 @@ source_refs:
 
 ## Taxonomy
 
-- Belongs to: [[concepts/reasoning-phase-optimization]]
+- Belongs to: [[concepts/reasoning-phase-control]]
 - Role: 推理阶段中 `KV cache` 与 serving 协同优化的分类。
 
 ## Definition

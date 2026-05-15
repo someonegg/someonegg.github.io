@@ -14,7 +14,7 @@ source_refs:
 
 ## Taxonomy
 
-Belongs to: [[concepts/reasoning-phase-optimization]]
+Belongs to: [[concepts/reasoning-phase-control]]
 
 ## Two Scaling Forms
 

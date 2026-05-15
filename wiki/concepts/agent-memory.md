@@ -31,4 +31,4 @@ source_refs:
 
 - complement: [[concepts/agent-runtime-reliability-primitives]]（前者关注经验积累，后者关注执行可靠性）
 - complement: [[concepts/memory-aware-test-time-scaling]]（记忆驱动的测试时扩展，与记忆质量形成正向飞轮）
-- contrast: [[concepts/reasoning-phase-optimization]]（前者跨任务持久化经验，后者优化单次推理内的资源分配）
+- contrast: [[concepts/reasoning-phase-control]]（前者跨任务持久化经验，后者关注单次推理内的行为控制与资源分配）

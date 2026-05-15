@@ -24,5 +24,4 @@ source_refs:
 ## Related Concepts
 
 - complement: [[concepts/thinking-and-learning-methods]]
-- contrast: [[concepts/reasoning-phase-optimization]]
-
+- contrast: [[concepts/reasoning-phase-control]]

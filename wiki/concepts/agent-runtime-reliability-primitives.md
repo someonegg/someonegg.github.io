@@ -21,4 +21,4 @@ source_refs:
 
 ## Related Concepts
 
-- contrast: [[concepts/reasoning-phase-optimization]]（前者偏执行可靠性，后者偏推理效率）。
+- contrast: [[concepts/reasoning-phase-control]]（前者偏执行可靠性，后者偏推理阶段的行为控制与效率）。

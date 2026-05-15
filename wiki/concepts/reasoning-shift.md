@@ -11,7 +11,7 @@ source_refs:
 
 ## Taxonomy
 
-- Belongs to: [[concepts/reasoning-phase-optimization]]
+- Belongs to: [[concepts/reasoning-phase-control]]
 - Role: 长上下文场景下推理过程质量退化的机制假设。
 
 ## Definition
