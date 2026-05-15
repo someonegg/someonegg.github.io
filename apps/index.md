@@ -9,3 +9,4 @@
 ## Creative
 
 - [[ripple_resonance.html]] Ripple Resonance - Generative Art
+- [[formal-logic-notes.html]] Formal Logic Notes
