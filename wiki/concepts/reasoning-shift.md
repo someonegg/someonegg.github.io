@@ -1,8 +1,9 @@
 ---
 id: concept-reasoning-shift
 type: concept
-updated_at: 2026-04-15
+updated_at: 2026-05-15
 source_refs:
+  - "[[sources/2026-05-15-reasoning-shift-paper]]"
   - "[[sources/2026-04-14-harness-reasoning-shift-wechat]]"
 ---
 
@@ -15,13 +16,18 @@ source_refs:
 
 ## Definition
 
-- 指模型在上下文拥挤条件下，保持“找到候选答案”速度近似不变，但减少答案后的自我验证与反思，导致推理深度收缩与准确率下滑。
+- 指 reasoning model 在非隔离上下文条件下，对同一问题产生显著更短的 reasoning traces，并伴随自我验证、复查与不确定性管理行为下降的现象；在困难任务上，这种收缩可能带来性能回退。
 
 ## Observable Signals
 
 - 在非基线（多子任务、长前缀、多轮上下文）条件下，推理 token 相对干净单任务基线系统性缩短。
 - 候选答案首次出现位置近似不变，但“答案后继续检查”概率下降。
 - 代表犹豫与复查的语言信号（如 `wait`、`but`、`maybe`）频率下降。
+
+## Evidence Snapshot (dated)
+
+- 截至 2026-04-01，`Reasoning Shift` 一手论文在 `Long input`、`Subtask`、`Multi-turn` 三类场景下报告同题 reasoning trace 最多可压缩约 `50%`，并将其与 `double-checking` 等行为下降关联。
+- 截至 2026-04-13，资讯解读来源进一步把这一现象上升为 Agent / `Harness Engineering` 的工程线索，但该外推强于原论文直接证据。
 
 ## Why it matters
 
@@ -30,7 +36,7 @@ source_refs:
 
 ## Limits
 
-- 当前在本 wiki 的证据主要来自资讯解读页（截至 2026-04-14），仍需补充 `Reasoning Shift` 一手论文页与复现实验。
+- 当前本 wiki 已补入一手论文页，但仍缺少第三方复现实验与更丰富任务覆盖。
 - 从数学推理任务到工具密集型代码 Agent 的外推尚未验证。
 
 ## Related Concepts

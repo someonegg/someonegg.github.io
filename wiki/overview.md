@@ -2,10 +2,10 @@
 
 ## Current Status
 
-- Source pages: 20
+- Source pages: 22
 - Entity pages: 16
-- Concept pages: 46
-- Persisted query pages: 2
+- Concept pages: 47
+- Persisted query pages: 3
 
 ## Active Themes
 
@@ -22,14 +22,16 @@
 - `Prompt Optimization` 可独立为一条方法学主线：从离散搜索到文本梯度，再到合成反馈驱动的闭环优化。
 - 新增后训练策略学习主线：`OPD` 可理解为 `on-policy` 采样与 `dense` 教师监督的结合，目标是同时降低复合错误风险与训练成本。
 - `PPO` 仍是 post-training policy learning 的关键基线；`DPO` 与 `GRPO` 分别沿“偏好对齐流程简化”和“推理任务资源效率”两个方向改写该基线。
+- 新增 `ERC` 线索：`PPO-clip` 可能系统性漏管未采样动作的全局分布漂移；`ERC` 试图用 entropy ratio 对探索强度变化施加双向约束。
 - 在 `OPD` 路线里，`full-vocabulary reverse KL` 可视为稳定性增强的目标函数细化：代价是系统实现复杂度上升。
+- `ERC` 与 `full-vocabulary reverse KL` 不能混为一类：前者是 `RL` 更新约束，后者是 `OPD` 分布级蒸馏目标。
 - `InstructGPT (2022)` 仍可作为 LLM 对齐历史基准线：定义了 `SFT -> reward model -> RLHF` 的主流工程流程。
 - 现已补齐 `RLHF` 独立概念页，用于统一承载“偏好监督 -> 奖励建模 -> 策略优化”的定义与与 `PPO/DPO/OPD` 的关系边界。
 - `DeepSeek-V4 (2026-04-24)` 主线可归纳为“`CSA/HCA` + `mHC` + `Muon` + `KV/FP4/OPD` 基建协同”，其工程目标是把 `1M context` 从展示能力推向常态化能力。
 - `Hybrid Attention` 在现有来源中出现口径分化：既可指 attention 与非-attention 的层级混排，也可指 attention 家族内部的多机制交错编排。
 - 面向生产级 Agent，应把“语义正确恢复”视作基础可靠性能力，并以 `Effect Log -> Capability Gateway -> Forkable Checkpoint` 作为建设顺序。
 - 对长程高权限 Agent，单看 `Uptime` 或一次成功率不足以覆盖风险，需单独跟踪 `Resumability` 指标。
-- 新增机制线索：长上下文退化可能包含“答案后验证收缩（Reasoning Shift）”，工程上需补充复查触发与拥挤度监控。
+- 新增机制线索：`Reasoning Shift` 一手论文表明，长上下文/多轮/子任务打包会系统性压缩 reasoning traces，并减少答案后复查；工程上需补充复查触发与拥挤度监控。
 - 新增媒介理论分析主线：可用“媒介即讯息/延伸与截肢/冷热媒介/后视镜/四联体”解释 AI 对认知结构与社会分层的影响路径。
 
 - Agent 记忆应区分三类：轨迹记忆（细节但难迁移）、工作流记忆（成功经验但忽略失败）、推理记忆（高层可迁移模式，覆盖成功与失败）——ReasoningBank 代表第三类路线。
@@ -49,6 +51,7 @@
 - `Reasoning Shift` 在代码 Agent 与工具调用任务上是否同样显著，触发阈值（上下文长度/并发子任务数）如何量化？
 - `OPD` 在当前业务任务上的真实成本/收益拐点在哪里（教师模型规模、batch 结构、上下文长度）？
 - 在当前任务分布下，`PPO`、`DPO`、`GRPO` 的最优切换条件是什么（数据质量、在线采样成本、显存预算）？
+- `ERC` 在当前业务任务上对 entropy 漂移、loss 波动与最终质量的真实收益是否独立于作者实验栈成立？
 - `CSA/HCA` 的压缩率与 `top-k` 在不同任务族（精确引用、跨文档检索、agent 工具链）上的质量回退阈值分别是多少？
 - `on-disk KV` 的三种 `SWA` 缓存策略在当前 SSD 与请求分布下，最佳的“存储开销 vs 重计算”折中点在哪里？
 - “认知分化”相关判断在教育、编程、医疗咨询等场景是否可被量化观测（提问质量、复查行为、误判率）？

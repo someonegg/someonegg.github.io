@@ -9,6 +9,8 @@
 ## Sources
 
 - [[sources/2026-04-28-google-reasoningbank]] Google ReasoningBank 博客（发布时间 2026-04-21），提出从成功与失败经验蒸馏结构化推理记忆的 agent 框架，并引入 MaTTS。
+- [[sources/2026-05-15-reasoning-shift-paper]] `Reasoning Shift` 一手论文（发布时间 2026-04-01），提出长上下文会压缩 reasoning trace，并削弱自我验证与不确定性管理。
+- [[sources/2026-05-15-erc-paper]] ERC 一手论文（首发 2025-12-05，当前版本 2026-04-23），提出用 entropy ratio 对 post-training `RL` 的全局分布漂移做双向 clipping 约束。
 - [[sources/2026-04-24-deepseek-v4-paper]] DeepSeek-V4 一手论文（发布时间 2026-04-24），系统提出 `CSA/HCA + mHC + Muon` 协同路线并给出 1M context 工程叙事。
 - [[sources/2026-04-17-mcluhan-dissects-ai-wechat]] 微信理论分析文（发布时间 2026-02-18），用麦克卢汉媒介理论框架解构 AI 的认知与社会效应。
 - [[sources/2026-04-15-ppo-paper]] PPO 一手论文（发布时间 2017-07-20），提供 clipped on-policy 更新的经典基线。
@@ -63,6 +65,7 @@
 - [[concepts/post-training-policy-learning]] post-training 策略学习上位分类，组织 `SFT/RL/OPD` 等方法。
 - [[concepts/reinforcement-learning-from-human-feedback]] `RLHF`：`SFT -> reward model -> policy optimization` 的经典对齐流程基线。
 - [[concepts/proximal-policy-optimization]] `PPO`：on-policy 强化学习稳健更新基线。
+- [[concepts/entropy-ratio-clipping]] `ERC`：用新旧策略熵比约束全局分布漂移的后训练 `RL` 稳定化机制。
 - [[concepts/direct-preference-optimization]] `DPO`：偏好对齐的单阶段直接优化路径。
 - [[concepts/group-relative-policy-optimization]] `GRPO`：面向推理任务的 `PPO` 组相对优势变体。
 - [[concepts/on-policy-distillation]] 基于学生在线轨迹与教师 token 级监督的后训练蒸馏方法。
@@ -102,3 +105,4 @@
 
 - [[queries/2026-04-15-dpo-principle-and-how-it-works]] DPO 原理与工作机制：从 `RLHF` 两阶段到单阶段偏好直接优化的流程化解释。
 - [[queries/2026-04-15-grpo-principle-and-how-it-works]] GRPO 原理与工作机制：从 `PPO` 到组相对优势优化的详细步骤与公式拆解。
+- [[queries/2026-05-15-erc-vs-full-vocabulary-reverse-kl-distillation]] `ERC` 与 `Full-Vocabulary Reverse KL Distillation` 的层级对比：一个是 `RL` 更新约束，一个是 `OPD` 蒸馏目标。

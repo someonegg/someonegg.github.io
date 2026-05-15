@@ -1,21 +1,23 @@
 ---
 id: entity-gleb-rodionov
 type: entity
-updated_at: 2026-04-14
+updated_at: 2026-05-15
 source_refs:
   - "[[sources/2026-04-14-harness-reasoning-shift-wechat]]"
+  - "[[sources/2026-05-15-reasoning-shift-paper]]"
 ---
 
 # Gleb Rodionov
 
 ## What this entity is
 
-- 在当前来源中被提及为 `Reasoning Shift` 研究的作者，关联机构为 Yandex（按来源转述）。
+- `Reasoning Shift: How Context Silently Shortens LLM Reasoning` 的作者；截至 2026-04-01 的 arXiv 论文元数据中，作者署名为 `Gleb Rodionov`，PDF 首页标注机构为 `Yandex`。
 
 ## Claims in current wiki
 
-- 来源 `sources/2026-04-14-harness-reasoning-shift-wechat` 将其与“长上下文导致推理后验验证收缩”机制假设关联。
+- 一手论文将其与“长上下文条件下 reasoning traces 压缩、复查行为下降”的 `Reasoning Shift` 机制关联。 
+- 资讯解读来源进一步把该机制外推到 `Harness Engineering` 与 agent 上下文管理讨论中。
 
 ## Notes
 
-- 当前实体信息主要来自资讯解读中的作者归属描述；机构与论文元数据需以后续一手来源补充核验。
+- 当前作者与机构信息已由一手论文页补强，但更完整履历与后续版本信息仍待补充。

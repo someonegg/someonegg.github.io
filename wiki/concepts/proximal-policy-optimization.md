@@ -5,6 +5,7 @@ updated_at: 2026-04-15
 source_refs:
   - "[[sources/2026-04-15-ppo-paper]]"
   - "[[sources/2026-04-15-instructgpt-rlhf-paper]]"
+  - "[[sources/2026-05-15-erc-paper]]"
 ---
 
 # Proximal Policy Optimization
@@ -27,10 +28,12 @@ source_refs:
 
 - 训练稳定性仍依赖超参（clip range、KL 系数、batch 组织等）与奖励噪声控制。
 - 在高成本在线采样场景，`PPO` 往往面临较高算力与 rollout 开销。
+- 截至 2026-05-15，`ERC` 论文进一步指出：`PPO-clip` 只能直接约束 sampled actions，未采样动作的全局分布漂移仍可能积累成 trust-region 偏移。
 
 ## Related Concepts
 
 - application: [[concepts/reinforcement-learning-from-human-feedback]]
 - alternative: [[concepts/direct-preference-optimization]]
 - alternative: [[concepts/group-relative-policy-optimization]]
+- complement: [[concepts/entropy-ratio-clipping]]
 - complement: [[concepts/on-policy-distillation]]

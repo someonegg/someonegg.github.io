@@ -4,6 +4,7 @@ type: concept
 updated_at: 2026-04-24
 source_refs:
   - "[[sources/2026-04-24-deepseek-v4-paper]]"
+  - "[[sources/2026-05-15-erc-paper]]"
 ---
 
 # Training Stability and Optimization
@@ -21,9 +22,9 @@ source_refs:
 
 - [[concepts/manifold-constrained-hyper-connections]]：通过约束残差映射稳定深层信号传播。
 - [[concepts/muon-optimizer]]：以正交化更新与参数分治提升大模型训练收敛效率与稳定性。
+- [[concepts/entropy-ratio-clipping]]：通过全局熵比约束策略更新中的探索强度漂移，抑制 post-training `RL` 不稳定。
 
 ## Related Concepts
 
 - complement: [[concepts/post-training-policy-learning]]
 - contrast: [[concepts/reasoning-phase-optimization]]
-

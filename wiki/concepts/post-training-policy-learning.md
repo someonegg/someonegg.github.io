@@ -11,6 +11,7 @@ source_refs:
   - "[[sources/2026-04-15-deepseekmath-grpo-paper]]"
   - "[[sources/2026-04-15-instructgpt-rlhf-paper]]"
   - "[[sources/2026-04-24-deepseek-v4-paper]]"
+  - "[[sources/2026-05-15-erc-paper]]"
 ---
 
 # Post-Training Policy Learning
@@ -30,6 +31,7 @@ source_refs:
 - [[concepts/on-policy-distillation]]：在学生自身轨迹上以教师 token 级信号进行策略蒸馏。
 - [[concepts/full-vocabulary-reverse-kl-distillation]]：`OPD` 中以全词表分布约束学生策略的目标函数实现路线。
 - [[concepts/proximal-policy-optimization]]：后训练强化学习常用基线，以 clipped objective 稳定 on-policy 更新。
+- [[concepts/entropy-ratio-clipping]]：在 `RL` 更新阶段按熵比约束全局分布漂移的稳定化机制。
 - [[concepts/direct-preference-optimization]]：用偏好对目标直接优化策略，简化传统 `RLHF` 两阶段流程。
 - [[concepts/group-relative-policy-optimization]]：以组内相对优势进行更新的 `PPO` 变体，强调推理任务与资源效率。
 

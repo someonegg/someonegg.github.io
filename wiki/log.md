@@ -626,3 +626,78 @@
     evidence: sources/2026-04-28-google-reasoningbank.md; concepts/agent-memory.md; overview.md
 - follow_up_todos:
   - [ ] (low) concepts/agent-memory.md: 为这三个子概念各建最小概念页，或在 concepts/agent-memory.md 明确标注它们当前作为内联子类而非独立页面维护的策略。
+
+## [2026-05-15] ingest | Entropy Ratio Clipping as a Soft Global Constraint for Stable Reinforcement Learning
+
+- Processed sources
+  - `llm-wiki/raw/2026-05-15-arxiv-2512-05591-erc.pdf`
+  - `llm-wiki/raw/2026-05-15-arxiv-2512-05591-erc.html`
+  - `llm-wiki/raw/2026-05-15-arxiv-2512-05591-erc.xml`
+  - `https://arxiv.org/abs/2512.05591`
+- New pages
+  - `sources/2026-05-15-erc-paper.md`
+  - `concepts/entropy-ratio-clipping.md`
+- Updated pages
+  - `concepts/proximal-policy-optimization.md`
+  - `concepts/post-training-policy-learning.md`
+  - `concepts/training-stability-and-optimization.md`
+  - `overview.md`
+  - `index.md`
+  - `log.md`
+- Open validation questions
+  - `ERC` 的稳定性收益在当前业务任务分布与训练实现中是否仍成立，尤其是 entropy 漂移、loss 波动与收敛速度三项指标？
+  - 访问新旧策略全词表熵的额外系统开销，与其稳定性收益相比是否在不同模型规模下都划算？
+
+## [2026-05-15] query | ERC vs full-vocabulary reverse KL
+
+- Processed sources
+  - `sources/2026-05-15-erc-paper.md`
+  - `sources/2026-04-24-deepseek-v4-paper.md`
+  - `concepts/full-vocabulary-reverse-kl-distillation.md`
+- New pages
+  - `queries/2026-05-15-erc-vs-full-vocabulary-reverse-kl-distillation.md`
+- Updated pages
+  - `index.md`
+  - `log.md`
+- Open validation questions
+  - 若在统一任务与统一训练栈下比较，`ERC` 与 `full-vocabulary reverse KL` 对稳定性和最终质量的贡献是否具有可分离性？
+
+## [2026-05-15] ingest | Reasoning Shift: How Context Silently Shortens LLM Reasoning
+
+- Processed sources
+  - `llm-wiki/raw/2026-05-15-arxiv-2604-01161-reasoning-shift.pdf`
+  - `llm-wiki/raw/2026-05-15-arxiv-2604-01161-reasoning-shift-abs.html`
+  - `https://arxiv.org/abs/2604.01161`
+- New pages
+  - `sources/2026-05-15-reasoning-shift-paper.md`
+- Updated pages
+  - `entities/gleb-rodionov.md`
+  - `concepts/reasoning-shift.md`
+  - `concepts/reasoning-phase-optimization.md`
+  - `overview.md`
+  - `index.md`
+  - `log.md`
+- Open validation questions
+  - `Reasoning Shift` 在代码 Agent、工具调用链与长程生产任务中是否同样显著，还是主要集中在 reasoning benchmark？
+  - “推理长度压缩”与“准确率下降”之间是否存在可泛化阈值，能否作为运行时告警信号？
+
+## [2026-05-15] lint | semantic-check
+
+- semantic_findings:
+  - id: semantic-2026-05-15-001
+    severity: medium
+    page: concepts/reasoning-shift.md
+    issue: 核心机制页仍只由二手资讯解读来源支撑，缺少一手论文或直接实验页锚点。
+    why_it_matters: 该概念已进入 overview 与工程 open questions，若继续以当前证据强度传播，用户容易把它误读为已被较充分验证的机制，而不仅是截至 2026-04-13 的高价值假设。
+    fix_action: 补 ingest `Reasoning Shift` 的一手论文或作者原始长文；在补齐前，保留当前 Limits，并在 overview/相关 query 中继续明确其为假设性机制线索。
+    evidence: sources/2026-04-14-harness-reasoning-shift-wechat.md; concepts/reasoning-shift.md; overview.md
+  - id: semantic-2026-05-15-002
+    severity: low
+    page: concepts/entropy-ratio-clipping.md
+    issue: DAPO 与 GPPO 已成为 ERC 语义解释中的关键比较对象，但 wiki 仍缺少对应概念页。
+    why_it_matters: 当前 ERC 页面多次借助 DAPO/GPPO 解释“补充约束 vs 核心约束”的差异；缺少独立页面会削弱后续对 PPO 变体谱系、实验迁移和概念对照的可维护性。
+    fix_action: 新增最小概念页 `concepts/dapo.md` 与 `concepts/gppo.md`，至少记录其定义、与 PPO-clip 的关系、在 ERC 论文中的使用语境；随后把 ERC、PPO、post-training policy learning 页互链起来。
+    evidence: sources/2026-05-15-erc-paper.md; concepts/entropy-ratio-clipping.md
+- follow_up_todos:
+  - [ ] (medium) concepts/reasoning-shift.md: 补 ingest `Reasoning Shift` 的一手论文或作者原始长文；在补齐前，保留当前 Limits，并在 overview/相关 query 中继续明确其为假设性机制线索。
+  - [ ] (low) concepts/entropy-ratio-clipping.md: 新增最小概念页 `concepts/dapo.md` 与 `concepts/gppo.md`，至少记录其定义、与 PPO-clip 的关系、在 ERC 论文中的使用语境；随后把 ERC、PPO、post-training policy learning 页互链起来。
