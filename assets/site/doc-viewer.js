@@ -221,6 +221,9 @@
   }
 
   function createRenderer(viewerEl, options) {
+    let mermaidInitialized = false;
+    let mermaidLoadPromise = null;
+
     function wrapWideNodes(selector, wrapperClass) {
       viewerEl.querySelectorAll(selector).forEach((node) => {
         if (!node || !node.parentElement) return;
@@ -230,6 +233,73 @@
         node.parentElement.insertBefore(wrapper, node);
         wrapper.appendChild(node);
       });
+    }
+
+    function loadMermaid() {
+      if (window.mermaid) return Promise.resolve(window.mermaid);
+      if (mermaidLoadPromise) return mermaidLoadPromise;
+
+      mermaidLoadPromise = new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "/vendor/mermaid.min.js";
+        script.async = true;
+        script.onload = () => resolve(window.mermaid);
+        script.onerror = () => reject(new Error("无法加载 Mermaid 渲染库"));
+        document.head.appendChild(script);
+      });
+      return mermaidLoadPromise;
+    }
+
+    function renderMermaidDiagrams() {
+      const hasMermaid =
+        viewerEl.querySelector(".markdown pre > code.language-mermaid") ||
+        viewerEl.querySelector(".markdown .mermaid");
+      if (!hasMermaid) return;
+
+      loadMermaid()
+        .then((mermaid) => {
+          if (!mermaid || typeof mermaid.run !== "function") return;
+
+          const codeBlocks = viewerEl.querySelectorAll(".markdown pre > code.language-mermaid");
+          codeBlocks.forEach((code) => {
+            const pre = code.parentElement;
+            if (!pre) return;
+            const diagram = document.createElement("div");
+            diagram.className = "mermaid";
+            diagram.textContent = code.textContent || "";
+            pre.replaceWith(diagram);
+          });
+
+          const diagrams = Array.from(viewerEl.querySelectorAll(".markdown .mermaid"));
+          if (diagrams.length === 0) return;
+
+          if (!mermaidInitialized && typeof mermaid.initialize === "function") {
+            mermaid.initialize({
+              startOnLoad: false,
+              securityLevel: "strict",
+              theme: "default",
+              flowchart: {
+                htmlLabels: true,
+                useMaxWidth: true,
+              },
+            });
+            mermaidInitialized = true;
+          }
+
+          wrapWideNodes(".markdown .mermaid", "diagram-scroll");
+          mermaid.run({ nodes: diagrams }).then(enhanceWideContent).catch((err) => {
+            diagrams.forEach((diagram) => {
+              diagram.classList.add("mermaid-error");
+              diagram.setAttribute("title", String((err && err.message) || err));
+            });
+          });
+        })
+        .catch((err) => {
+          viewerEl.querySelectorAll(".markdown pre > code.language-mermaid").forEach((code) => {
+            code.parentElement.classList.add("mermaid-error");
+            code.parentElement.setAttribute("title", String((err && err.message) || err));
+          });
+        });
     }
 
     function enhanceWideContent() {
@@ -324,6 +394,7 @@
           throwOnError: false,
         });
       }
+      renderMermaidDiagrams();
       enhanceWideContent();
     };
   }
