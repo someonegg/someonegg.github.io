@@ -26,6 +26,7 @@
 
 ## General
 
+- [[2026-05-21-eigenvalue-eigenvector.md]] 矩阵特征值、特征向量与对角化
 - [[2026-05-20-fourier-clt.md]] 傅立叶、特征函数与中心极限定理
 - [[2026-05-18-statistical-sampling-methods.md]] 统计采样方法速查
 - [[2026-05-18-random-sampling-algorithms.md]] 随机抽样算法笔记
