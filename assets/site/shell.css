@@ -67,6 +67,7 @@ body {
 .nav-link {
   display: inline-flex;
   align-items: center;
+  gap: 5px;
   min-height: 44px;
   padding: 0 12px;
   border: 1px solid transparent;
@@ -76,6 +77,18 @@ body {
   font-size: 13px;
   line-height: 1.2;
   transition: background var(--trans), border-color var(--trans), color var(--trans);
+}
+
+.nav-external-icon {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.72;
 }
 
 .nav-link:hover {
