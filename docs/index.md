@@ -26,6 +26,7 @@
 
 ## General
 
+- [[2026-05-22-fourier-transform-ft-dft.md]] 傅立叶变换基础：从连续 FT 到 DFT
 - [[2026-05-21-erasure-code-reed-solomon.md]] 纠删码与 Reed-Solomon 编码笔记
 - [[2026-05-21-galois-field.md]] 有限域（Galois Field）笔记
 - [[2026-05-21-eigenvalue-eigenvector.md]] 矩阵特征值、特征向量与对角化
