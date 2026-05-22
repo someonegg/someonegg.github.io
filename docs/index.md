@@ -26,6 +26,7 @@
 
 ## General
 
+- [[2026-05-22-barrel-effect-engineering-response.md]] 木桶效应的工程应对
 - [[2026-05-22-fourier-transform-ft-dft.md]] 傅立叶变换基础：从连续 FT 到 DFT
 - [[2026-05-22-fountain-codes.md]] 喷泉码笔记
 - [[2026-05-21-erasure-code-reed-solomon.md]] 纠删码与 Reed-Solomon 编码笔记
