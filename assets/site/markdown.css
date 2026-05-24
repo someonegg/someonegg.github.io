@@ -61,8 +61,8 @@
 }
 
 .markdown img,
-.markdown svg,
-.markdown canvas {
+.markdown > svg,
+.markdown > canvas {
   max-width: 100%;
   height: auto;
   overflow-wrap: anywhere;

@@ -227,6 +227,7 @@
     function wrapWideNodes(selector, wrapperClass) {
       viewerEl.querySelectorAll(selector).forEach((node) => {
         if (!node || !node.parentElement) return;
+        if (node.closest(".katex")) return;
         if (node.closest("." + wrapperClass)) return;
         const wrapper = document.createElement("div");
         wrapper.className = wrapperClass;

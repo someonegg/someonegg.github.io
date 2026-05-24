@@ -9,7 +9,7 @@
 - [[2026-05-21-erasure-code-reed-solomon.md]] 纠删码与 Reed-Solomon 编码笔记
 - [[2026-05-21-galois-field.md]] 有限域（Galois Field）笔记
 - [[2026-05-21-eigenvalue-eigenvector.md]] 矩阵特征值、特征向量与对角化
-- [[2026-05-20-fourier-clt.md]] 傅立叶、特征函数与中心极限定理
+- [[2026-05-20-clt.md]] 特征函数与中心极限定理
 - [[2026-05-18-statistical-sampling-methods.md]] 统计采样方法速查
 - [[2026-05-18-random-sampling-algorithms.md]] 随机抽样算法笔记
 - [[2026-04-27-aurora-guard.md]] Aurora Guard 论文精读

@@ -142,6 +142,45 @@
         });
       }
 
+      function createStash(prefix) {
+        const tokens = [];
+        return {
+          stash(text, pattern) {
+            return String(text || "").replace(pattern, function (match) {
+              const token = "@@" + prefix + "_" + tokens.length + "@@";
+              tokens.push(match);
+              return token;
+            });
+          },
+          restore(text, escapeValue) {
+            let out = String(text || "");
+            for (let i = 0; i < tokens.length; i++) {
+              const value = escapeValue ? escapeValue(tokens[i]) : tokens[i];
+              out = out.split("@@" + prefix + "_" + i + "@@").join(value);
+            }
+            return out;
+          }
+        };
+      }
+
+      function prepareMarkdown(md) {
+        const code = createStash("CODE");
+        const math = createStash("MATH");
+        let source = String(md || "");
+
+        source = code.stash(source, /^(`{3,}|~{3,})[^\n]*\n[\s\S]*?\n\1[ \t]*$/gm);
+        source = code.stash(source, /`[^`\n]+`/g);
+        source = math.stash(source, /\$\$[\s\S]*?\$\$/g);
+        source = math.stash(source, /\$(?!\$)(?:\\.|[^$\\\n])+\$/g);
+
+        return {
+          source: code.restore(convertWikiLinks(source)),
+          restoreMath(html) {
+            return math.restore(html, escapeHtml);
+          }
+        };
+      }
+
       function renderMath(container) {
         if (!window.renderMathInElement) return;
         window.renderMathInElement(container, {
@@ -169,10 +208,10 @@
           const resp = await fetch("./" + file, { cache: "no-store" });
           if (!resp.ok) throw new Error("HTTP " + resp.status);
           const md = await resp.text();
-          const source = convertWikiLinks(md);
+          const prepared = prepareMarkdown(md);
           const html = window.marked && window.marked.parse
-            ? window.marked.parse(source)
-            : "<pre>" + escapeHtml(source) + "</pre>";
+            ? prepared.restoreMath(window.marked.parse(prepared.source))
+            : "<pre>" + escapeHtml(prepared.source) + "</pre>";
           viewerEl.innerHTML = '<div class="markdown">' + html + "</div>";
           renderMath(viewerEl);
 
