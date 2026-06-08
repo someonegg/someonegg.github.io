@@ -2,6 +2,7 @@
 
 ## General
 
+- [[2026-06-08-complex-numbers.md]] 复数笔记：从运算规则到旋转矩阵
 - [[2026-05-22-barrel-effect-engineering-response.md]] 木桶效应的工程应对
 - [[2026-05-22-fourier-operators-spectral-view.md]] 从算子与谱的视角理解傅立叶分析
 - [[2026-05-22-fourier-transform-ft-dft.md]] 傅立叶变换基础：从连续 FT 到 DFT
