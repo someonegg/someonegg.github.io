@@ -36,5 +36,4 @@ source_refs:
 
 ## Related Concepts
 
-- contrast: [[concepts/agent-runtime-reliability-primitives]]
 - application: [[concepts/prompt-optimization]]

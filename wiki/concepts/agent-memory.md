@@ -1,7 +1,7 @@
 ---
 id: concept-agent-memory
 type: concept
-updated_at: 2026-04-28
+updated_at: 2026-06-08
 source_refs:
   - "[[sources/2026-04-28-google-reasoningbank]]"
 ---
@@ -27,8 +27,12 @@ source_refs:
 
 - [[concepts/reasoning-bank]]：从成功与失败经验中蒸馏结构化推理模式的 agent 记忆框架。
 
+## Maintenance Policy
+
+- `Trajectory Memory`、`Workflow Memory`、`Reasoning Memory` 暂作为本页内联子类维护，不单独建页。
+- 拆页触发条件：任一子类出现第二个以上独立来源，或开始承载与其它概念页不同的证据、冲突记录、方法谱系时，再创建独立概念页并更新 `index.md`。
+
 ## Related Concepts
 
-- complement: [[concepts/agent-runtime-reliability-primitives]]（前者关注经验积累，后者关注执行可靠性）
 - complement: [[concepts/memory-aware-test-time-scaling]]（记忆驱动的测试时扩展，与记忆质量形成正向飞轮）
 - contrast: [[concepts/reasoning-phase-control]]（前者跨任务持久化经验，后者关注单次推理内的行为控制与资源分配）

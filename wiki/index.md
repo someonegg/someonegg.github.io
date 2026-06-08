@@ -24,7 +24,6 @@
 - [[sources/2026-04-14-sipdo-prompt-optimization-wechat]] 微信资讯解读（发布时间 2026-02-27），梳理 Prompt Optimization 演进并聚焦 SIPDO 闭环机制。
 - [[sources/2026-04-14-parallel-probe-paper]] Parallel-Probe 一手论文（发布时间 2026-02-03），提出在线并行推理的 `2D probing + 预算控制` 范式。
 - [[sources/2026-04-14-parallel-probe-wechat-report]] 微信资讯解读（发布时间 2026-03-07），可作方法入口索引与资源导航，不作最终效果证据。
-- [[sources/2026-04-14-agent-infra-production-primitives]] Agent 生产化基建提案（发布时间 2026-03-05），提出 `Effect Log`/`Capability Gateway`/`Forkable Checkpoint` 三条底层原语。
 - [[sources/2026-04-14-kv-cache-engineering-guide]] 2026 年 KV cache 工程综述，覆盖瓶颈判断、优化分层与实施权衡。
 - [[sources/2026-04-14-fermi-feynman-thinking-tools]] 微信方法论文：费米估算与费曼技巧的互补框架（发布时间 2025-11-10）。
 - [[sources/2026-04-14-visual-attention-variants]] 现代 LLM 注意力变体全景综述（发布时间 2026-03-22），聚焦 GQA/MLA/SWA/Sparse/Hybrid 的工程权衡。
@@ -79,7 +78,6 @@
 - [[concepts/kv-cache-serving-optimization]] `KV cache` 与 serving 系统路径的推理优化分类（瓶颈判断与分层落地）。
 - [[concepts/manifold-constrained-hyper-connections]] 通过双随机流形约束残差映射，提升深层训练稳定性的连接机制。
 - [[concepts/muon-optimizer]] 大规模训练下基于正交化更新的优化器路线，并与 `AdamW` 参数分治搭配。
-- [[concepts/agent-runtime-reliability-primitives]] 生产级 Agent 运行时可靠性原语分类（权限、副作用、续跑、指标）。
 - [[concepts/thinking-and-learning-methods]] 学习与分析方法分类（问题建模与理解校验）。
 - [[concepts/parallel-reasoning-budget-control]] 通过“共识早停 + 偏差剪枝”联合控制并行推理的深度与宽度预算。
 - [[concepts/kv-cache-optimization-stack]] 分层优化顺序：architecture -> system -> precision。
@@ -96,10 +94,6 @@
 - [[concepts/gated-attention]] 对 full-attention 块做门控与归一化改造的稳定性增强组件。
 - [[concepts/hybrid-attention-architecture]] `Hybrid Attention` 的多口径概念页，区分“跨模块混排”与“attention 内部交错编排”两种用法。
 - [[concepts/on-disk-kv-prefix-reuse]] 将共享前缀 KV 持久化到磁盘以减少重复 prefill 的 serving 策略。
-- [[concepts/effect-log]] 副作用级 WAL 语义：intent/completion 双记录与恢复重放策略。
-- [[concepts/capability-gateway]] 通过网关签发短时最小权限 token，隔离 Agent 可调用能力边界。
-- [[concepts/forkable-checkpoint]] 将执行状态封装为可分叉 checkpoint，支持精确节点续跑。
-- [[concepts/resumability-over-uptime]] 长程 Agent 可靠性目标从 uptime 转向 resumability。
 
 ## Queries
 

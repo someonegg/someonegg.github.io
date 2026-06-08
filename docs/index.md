@@ -32,6 +32,7 @@
 
 ## Agent
 
+- [[2026-06-08-agent-security-architecture.md]] Anthropic Agent 安全架构笔记
 - [[2026-05-19-agent-architecture-evolution.md]] Agent 架构演化路径
 - [[2026-04-28-google-reasoningbank.md]] Google ReasoningBank
 - [[2026-04-27-openai-agent-monitoring.md]] OpenAI 智能体监控

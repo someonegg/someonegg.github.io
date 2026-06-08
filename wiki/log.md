@@ -162,24 +162,6 @@
 - Open validation questions
   - 是否需要补充统一规范说明：论文类 raw 默认以 `pdf + json` 入库，避免后续重复产出 `.txt` 快照？
 
-## [2026-04-14] ingest | 为什么现有的 Agent Infra 无法支撑生产级应用？
-
-- Processed sources
-  - `docs/2026-04-14-agent-infra-production-primitives.md`
-- New pages
-  - `sources/2026-04-14-agent-infra-production-primitives.md`
-  - `concepts/effect-log.md`
-  - `concepts/capability-gateway.md`
-  - `concepts/forkable-checkpoint.md`
-  - `concepts/resumability-over-uptime.md`
-- Updated pages
-  - `overview.md`
-  - `index.md`
-  - `log.md`
-- Open validation questions
-  - 该来源以架构观点为主，后续是否需要补充至少 1 组真实故障演练数据来验证 `Resumability` 指标有效性？
-  - `Effect Log` 的“读写混合不可重读”策略在复杂外部系统中如何落地，需要哪些最小实现约束？
-
 ## [2026-04-14] ingest | Parallel-Probe 并行推理预算控制（方法学概念化）
 
 - Processed sources
@@ -257,22 +239,15 @@
   - 是否应为所有 concept 强制要求 `Taxonomy` 与 `Related Concepts` 小节，以实现结构一致性检查？
   - 对“Related Concepts”是否要引入受控关系词表（如 `前提/互补/对照/依赖`）以便后续自动化解析？
 
-## [2026-04-14] ingest | Concept taxonomy completion for reliability and methods clusters
+## [2026-04-14] ingest | Concept taxonomy completion for methods cluster
 
 - Processed sources
-  - `sources/2026-04-14-agent-infra-production-primitives.md`
   - `sources/2026-04-14-fermi-feynman-thinking-tools.md`
 - New pages
-  - `concepts/agent-runtime-reliability-primitives.md`
   - `concepts/thinking-and-learning-methods.md`
 - Updated pages
-  - `concepts/effect-log.md`
-  - `concepts/capability-gateway.md`
-  - `concepts/forkable-checkpoint.md`
-  - `concepts/resumability-over-uptime.md`
   - `concepts/fermi-estimation.md`
   - `concepts/feynman-technique.md`
-  - `concepts/reasoning-phase-control.md`
   - `concepts/parallel-reasoning-budget-control.md`
   - `index.md`
   - `overview.md`
@@ -757,3 +732,18 @@
   - 将概念页、文件名、wikilink 与相关文案从 `Reasoning Phase Optimization` / `reasoning-phase-optimization` 统一重命名为 `Reasoning Phase Control` / `reasoning-phase-control`。
 - Rationale
   - 该上位分类当前已同时容纳 test-time 的行为变化、退化机制与控制方法；使用 `Control` 比 `Optimization` 更贴合其实际边界。
+
+## [2026-06-08] maintenance | resolve selected semantic TODOs
+
+- Updated pages
+  - `concepts/agent-memory.md`
+  - `sources/2026-04-15-deepseekmath-grpo-paper.md`
+  - `concepts/group-relative-policy-optimization.md`
+  - `log.md`
+- What changed
+  - 在 `agent-memory` 中新增 `Maintenance Policy`，明确 `Trajectory Memory`、`Workflow Memory`、`Reasoning Memory` 暂作为内联子类维护，等出现更多独立来源或冲突记录时再拆页。
+  - 基于 DeepSeekMath 论文正文 4.1，补充 `GRPO` 的 critic 省略、组内 reward 标准化、outcome/process supervision、iterative GRPO、`KL` 约束位置与训练设置。
+  - 强化 `GRPO` 概念页的机制说明与限制，避免把数学推理场景下的收益直接外推到其它任务域。
+- Resolved follow-up todos
+  - [x] (low) concepts/agent-memory.md: 明确三类记忆暂作内联子类维护。
+  - [x] (low) concepts/group-relative-policy-optimization.md: 补充 DeepSeekMath GRPO 正文级机制与限制。

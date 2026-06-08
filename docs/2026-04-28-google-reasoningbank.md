@@ -1,5 +1,3 @@
-[返回索引](./index.html)
-
 # Google ReasoningBank
 
 文章链接：<https://research.google/blog/reasoningbank-enabling-agents-to-learn-from-experience/>  
