@@ -23,13 +23,13 @@
 ## LLM
 
 - [[2026-04-24-deepseek-v4-paper.md]] DeepSeek-V4 论文精读
+- [[2026-04-14-kv-cache-engineering-guide.md]] 2026 KV Cache 工程实践指南
+- [[2026-04-14-visual-attention-variants-digest.md]] Visual Attention Variants（2026）
+- [[2026-04-14-on-policy-distillation-opd.md]] OPD（On-Policy Distillation）
 - [[2026-04-14-rl-llm-integration.md]] LLM 后训练
+- [[2026-04-14-reinforcement-learning-foundations.md]] 强化学习基础
 - [[2026-04-14-transformer-build-from-scratch.md]] Transformer 基础
 - [[2026-04-14-cnn-core-concepts-clarified.md]] CNN 基础
-- [[2026-04-14-reinforcement-learning-foundations.md]] 强化学习基础
-- [[2026-04-14-on-policy-distillation-opd.md]] OPD（On-Policy Distillation）
-- [[2026-04-14-visual-attention-variants-digest.md]] Visual Attention Variants（2026）
-- [[2026-04-14-kv-cache-engineering-guide.md]] 2026 KV Cache 工程实践指南
 
 ## Agent
 
