@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="430" viewBox="0 0 960 430" role="img" aria-labelledby="title desc">
+  <title id="title">单个神经元的前向计算</title>
+  <desc id="desc">前一层激活值和权重进入求和节点，得到加权输入 z，再经过激活函数 sigma 得到当前层激活 a。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b6472"/>
+    </marker>
+    <style>
+      .bg{fill:#fbfcfd}
+      .panel{fill:#fff;stroke:#c8d9df;stroke-width:2}
+      .node{fill:#eef7f8;stroke:#65aabd;stroke-width:2}
+      .sum{fill:#fff7ea;stroke:#d89b42;stroke-width:2}
+      .act{fill:#f4f0ff;stroke:#8d79c6;stroke-width:2}
+      .text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#203038;font-size:22px}
+      .small{font-size:17px;fill:#53656d}
+      .formula{font-family:"Times New Roman",serif;font-size:24px;fill:#1f2d33}
+      .sub,.sup{font-size:65%}
+      .sub{baseline-shift:sub}.sup{baseline-shift:super}
+      .arrow{stroke:#3b6472;stroke-width:2.6;fill:none;marker-end:url(#arrow)}
+      .muted{stroke:#a9bcc3;stroke-width:2;fill:none}
+    </style>
+  </defs>
+  <rect class="bg" width="960" height="430"/>
+  <rect class="panel" x="28" y="28" width="904" height="374" rx="10"/>
+
+  <text class="text" x="54" y="72">前一层</text>
+  <circle class="node" cx="120" cy="140" r="34"/><text class="formula" x="99" y="148">a<tspan class="sub">1</tspan><tspan class="sup" dx="-2">ℓ-1</tspan></text>
+  <circle class="node" cx="120" cy="215" r="34"/><text class="formula" x="99" y="223">a<tspan class="sub">2</tspan><tspan class="sup" dx="-2">ℓ-1</tspan></text>
+  <circle class="node" cx="120" cy="290" r="34"/><text class="formula" x="100" y="298">a<tspan class="sub">i</tspan><tspan class="sup" dx="-2">ℓ-1</tspan></text>
+
+  <text class="small" x="246" y="120">w<tspan class="sub">j1</tspan><tspan class="sup" dx="-2">ℓ</tspan></text>
+  <text class="small" x="246" y="199">w<tspan class="sub">j2</tspan><tspan class="sup" dx="-2">ℓ</tspan></text>
+  <text class="small" x="246" y="278">w<tspan class="sub">ji</tspan><tspan class="sup" dx="-2">ℓ</tspan></text>
+  <path class="arrow" d="M155 140 C230 140 273 165 340 194"/>
+  <path class="arrow" d="M155 215 C225 215 275 210 340 210"/>
+  <path class="arrow" d="M155 290 C230 290 273 255 340 226"/>
+
+  <circle class="sum" cx="405" cy="210" r="54"/>
+  <text class="formula" x="365" y="205">Σ w a</text>
+  <text class="formula" x="387" y="234">+ b</text>
+  <text class="small" x="346" y="300">加权求和</text>
+
+  <path class="arrow" d="M462 210 L574 210"/>
+  <rect class="node" x="592" y="170" width="110" height="80" rx="12"/>
+  <text class="formula" x="625" y="217">z<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ</tspan></text>
+  <text class="small" x="575" y="282">z<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ</tspan> = Σ<tspan class="sub">i</tspan> w<tspan class="sub">ji</tspan><tspan class="sup" dx="-2">ℓ</tspan> a<tspan class="sub">i</tspan><tspan class="sup" dx="-2">ℓ-1</tspan> + b<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ</tspan></text>
+
+  <path class="arrow" d="M704 210 L778 210"/>
+  <rect class="act" x="796" y="170" width="94" height="80" rx="12"/>
+  <text class="formula" x="815" y="217">σ(z)</text>
+  <text class="small" x="779" y="282">a<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ</tspan> = σ(z<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ</tspan>)</text>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="500" viewBox="0 0 960 500" role="img" aria-labelledby="title desc">
+  <title id="title">前向传播与反向传播总览</title>
+  <desc id="desc">输入层、隐藏层、输出层和损失函数组成前向路径；delta 从输出层向隐藏层反向传播，生成各层参数梯度。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#315f69"/>
+    </marker>
+    <marker id="redarrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c9584a"/>
+    </marker>
+    <style>
+      .bg{fill:#fbfcfd}.panel{fill:#fff;stroke:#c8d9df;stroke-width:2}
+      .layer{fill:#eef7f8;stroke:#65aabd;stroke-width:2}.loss{fill:#fff2f0;stroke:#d97866;stroke-width:2}
+      .grad{fill:#fff7ea;stroke:#d89b42;stroke-width:2}.arrow{stroke:#315f69;stroke-width:2.7;fill:none;marker-end:url(#arrow)}
+      .back{stroke:#c9584a;stroke-width:2.8;fill:none;marker-end:url(#redarrow);stroke-dasharray:8 6}
+      .text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#203038;font-size:21px}
+      .small{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#53656d;font-size:16px}
+      .formula{font-family:"Times New Roman",serif;fill:#1f2d33;font-size:25px}
+      .sub,.sup{font-size:65%}
+      .sub{baseline-shift:sub}.sup{baseline-shift:super}
+    </style>
+  </defs>
+  <rect class="bg" width="960" height="500"/>
+  <rect class="panel" x="28" y="28" width="904" height="444" rx="10"/>
+  <text class="text" x="54" y="72">反向传播的完整数据流</text>
+
+  <rect class="layer" x="70" y="150" width="130" height="100" rx="12"/><text class="formula" x="118" y="195">a<tspan class="sup">1</tspan></text><text class="small" x="103" y="224">输入</text>
+  <path class="arrow" d="M204 200 L302 200"/>
+  <rect class="layer" x="320" y="150" width="150" height="100" rx="12"/><text class="formula" x="374" y="195">a<tspan class="sup">ℓ</tspan></text><text class="small" x="360" y="224">隐藏层</text>
+  <path class="arrow" d="M474 200 L572 200"/>
+  <rect class="layer" x="590" y="150" width="150" height="100" rx="12"/><text class="formula" x="646" y="195">a<tspan class="sup">L</tspan></text><text class="small" x="630" y="224">输出层</text>
+  <path class="arrow" d="M744 200 L812 200"/>
+  <rect class="loss" x="830" y="150" width="76" height="100" rx="12"/><text class="formula" x="858" y="207">C</text>
+
+  <text class="small" x="212" y="182">W<tspan class="sup">2</tspan>, b<tspan class="sup">2</tspan></text>
+  <text class="small" x="482" y="182">W<tspan class="sup">L</tspan>, b<tspan class="sup">L</tspan></text>
+  <text class="small" x="764" y="182">t</text>
+
+  <path class="back" d="M830 282 C740 338 658 338 594 282"/>
+  <path class="back" d="M590 282 C500 338 410 338 330 282"/>
+  <text class="small" x="612" y="350">先得 δ<tspan class="sup">L</tspan></text>
+  <text class="small" x="370" y="350">再递推 δ<tspan class="sup">ℓ</tspan></text>
+
+  <rect class="grad" x="174" y="382" width="254" height="50" rx="10"/>
+  <text class="formula" x="198" y="416">∂C/∂W<tspan class="sup">ℓ</tspan> = δ<tspan class="sup">ℓ</tspan>(a<tspan class="sup">ℓ-1</tspan>)<tspan class="sup">T</tspan></text>
+  <rect class="grad" x="506" y="382" width="214" height="50" rx="10"/>
+  <text class="formula" x="535" y="416">∂C/∂b<tspan class="sup">ℓ</tspan> = δ<tspan class="sup">ℓ</tspan></text>
+</svg>

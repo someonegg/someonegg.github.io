@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440" role="img" aria-labelledby="title desc">
+  <title id="title">隐藏层误差项的反向递推</title>
+  <desc id="desc">后一层多个 delta 通过对应权重加权求和，再乘以当前层激活函数导数，得到当前层 delta。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#315f69"/>
+    </marker>
+    <style>
+      .bg{fill:#fbfcfd}.panel{fill:#fff;stroke:#c8d9df;stroke-width:2}
+      .node{fill:#eef7f8;stroke:#65aabd;stroke-width:2}.delta{fill:#fff2f0;stroke:#d97866;stroke-width:2}
+      .gate{fill:#fff7ea;stroke:#d89b42;stroke-width:2}.arrow{stroke:#315f69;stroke-width:2.5;fill:none;marker-end:url(#arrow)}
+      .thin{stroke:#9db1b8;stroke-width:1.8;fill:none;marker-end:url(#arrow)}
+      .text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#203038;font-size:21px}
+      .small{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#53656d;font-size:16px}
+      .formula{font-family:"Times New Roman",serif;fill:#1f2d33;font-size:25px}
+      .sub,.sup{font-size:65%}
+      .sub{baseline-shift:sub}.sup{baseline-shift:super}
+    </style>
+  </defs>
+  <rect class="bg" width="960" height="440"/>
+  <rect class="panel" x="28" y="28" width="904" height="384" rx="10"/>
+  <text class="text" x="54" y="72">从第 l+1 层把误差信息传回第 l 层</text>
+
+  <text class="small" x="78" y="112">当前层神经元 i</text>
+  <circle class="node" cx="170" cy="220" r="48"/><text class="formula" x="147" y="228">z<tspan class="sub">i</tspan><tspan class="sup" dx="-2">ℓ</tspan></text>
+  <path class="arrow" d="M220 220 L326 220"/>
+  <rect class="gate" x="344" y="176" width="150" height="88" rx="12"/>
+  <text class="formula" x="365" y="214">σ'(z<tspan class="sub">i</tspan><tspan class="sup" dx="-2">ℓ</tspan>)</text>
+  <text class="small" x="373" y="242">本地斜率</text>
+
+  <circle class="delta" cx="720" cy="110" r="36"/><text class="formula" x="697" y="118">δ<tspan class="sub">1</tspan><tspan class="sup" dx="-2">ℓ+1</tspan></text>
+  <circle class="delta" cx="720" cy="220" r="36"/><text class="formula" x="697" y="228">δ<tspan class="sub">2</tspan><tspan class="sup" dx="-2">ℓ+1</tspan></text>
+  <circle class="delta" cx="720" cy="330" r="36"/><text class="formula" x="695" y="338">δ<tspan class="sub">m</tspan><tspan class="sup" dx="-2">ℓ+1</tspan></text>
+  <text class="small" x="775" y="116">w<tspan class="sub">1i</tspan><tspan class="sup" dx="-2">ℓ+1</tspan></text>
+  <text class="small" x="775" y="226">w<tspan class="sub">2i</tspan><tspan class="sup" dx="-2">ℓ+1</tspan></text>
+  <text class="small" x="775" y="336">w<tspan class="sub">mi</tspan><tspan class="sup" dx="-2">ℓ+1</tspan></text>
+
+  <path class="thin" d="M686 122 C620 140 575 170 515 204"/>
+  <path class="thin" d="M684 220 L515 220"/>
+  <path class="thin" d="M686 318 C620 300 575 268 515 236"/>
+
+  <rect class="gate" x="516" y="176" width="132" height="88" rx="12"/>
+  <text class="formula" x="555" y="214">Σ wδ</text>
+  <text class="small" x="538" y="242">来自下一层</text>
+  <path class="arrow" d="M516 220 L496 220"/>
+
+  <path class="arrow" d="M344 220 L292 220"/>
+  <rect class="delta" x="72" y="316" width="372" height="52" rx="10"/>
+  <text class="formula" x="93" y="351">δ<tspan class="sub">i</tspan><tspan class="sup" dx="-2">ℓ</tspan> = (Σ<tspan class="sub">j</tspan> w<tspan class="sub">ji</tspan><tspan class="sup" dx="-2">ℓ+1</tspan> δ<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ+1</tspan>) σ'(z<tspan class="sub">i</tspan><tspan class="sup" dx="-2">ℓ</tspan>)</text>
+</svg>

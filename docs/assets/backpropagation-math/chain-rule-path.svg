@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360" role="img" aria-labelledby="title desc">
+  <title id="title">单个权重到损失函数的链式路径</title>
+  <desc id="desc">权重 w 影响加权输入 z，z 影响激活 a，激活通过后续层影响损失 C。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#315f69"/>
+    </marker>
+    <style>
+      .bg{fill:#fbfcfd}.panel{fill:#fff;stroke:#c8d9df;stroke-width:2}
+      .box{fill:#eef7f8;stroke:#65aabd;stroke-width:2}.loss{fill:#fff2f0;stroke:#d97866;stroke-width:2}
+      .mid{fill:#f7f3ff;stroke:#8d79c6;stroke-width:2}.arrow{stroke:#315f69;stroke-width:2.7;fill:none;marker-end:url(#arrow)}
+      .text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#203038;font-size:21px}
+      .small{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#53656d;font-size:16px}
+      .formula{font-family:"Times New Roman",serif;fill:#1f2d33;font-size:25px}
+      .sub,.sup{font-size:65%}
+      .sub{baseline-shift:sub}.sup{baseline-shift:super}
+    </style>
+  </defs>
+  <rect class="bg" width="960" height="360"/>
+  <rect class="panel" x="28" y="28" width="904" height="304" rx="10"/>
+  <text class="text" x="54" y="72">一个权重的影响路径</text>
+
+  <rect class="box" x="58" y="132" width="120" height="78" rx="12"/><text class="formula" x="96" y="180">w<tspan class="sub">ji</tspan><tspan class="sup" dx="-2">ℓ</tspan></text>
+  <path class="arrow" d="M180 171 L280 171"/>
+  <rect class="box" x="298" y="132" width="120" height="78" rx="12"/><text class="formula" x="335" y="180">z<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ</tspan></text>
+  <path class="arrow" d="M420 171 L520 171"/>
+  <rect class="mid" x="538" y="132" width="120" height="78" rx="12"/><text class="formula" x="575" y="180">a<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ</tspan></text>
+  <path class="arrow" d="M660 171 C720 171 744 112 798 112"/>
+  <path class="arrow" d="M660 171 C725 171 744 171 798 171"/>
+  <path class="arrow" d="M660 171 C720 171 744 230 798 230"/>
+  <rect class="loss" x="812" y="88" width="92" height="168" rx="14"/>
+  <text class="formula" x="848" y="181">C</text>
+  <text class="small" x="288" y="248">∂C/∂w<tspan class="sub">ji</tspan><tspan class="sup" dx="-2">ℓ</tspan> = (∂C/∂z<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ</tspan>)(∂z<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ</tspan>/∂w<tspan class="sub">ji</tspan><tspan class="sup" dx="-2">ℓ</tspan>)</text>
+  <text class="small" x="288" y="276">其中 ∂z<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ</tspan>/∂w<tspan class="sub">ji</tspan><tspan class="sup" dx="-2">ℓ</tspan> = a<tspan class="sub">i</tspan><tspan class="sup" dx="-2">ℓ-1</tspan>，所以 ∂C/∂w<tspan class="sub">ji</tspan><tspan class="sup" dx="-2">ℓ</tspan> = δ<tspan class="sub">j</tspan><tspan class="sup" dx="-2">ℓ</tspan> a<tspan class="sub">i</tspan><tspan class="sup" dx="-2">ℓ-1</tspan></text>
+</svg>

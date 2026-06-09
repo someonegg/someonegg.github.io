@@ -20,8 +20,9 @@
 - [[2026-04-17-mcluhan-ai.md]] 用麦克卢汉框架解读 AI
 - [[2026-04-14-thinking-and-decision-playbook.md]] 思考与决策实践手册
 
-## LLM
+## ML / LLM
 
+- [[2026-06-09-backpropagation-math.md]] 反向传播中的数学：从偏导数到矩阵微分
 - [[2026-04-24-deepseek-v4-paper.md]] DeepSeek-V4 论文精读
 - [[2026-04-14-kv-cache-engineering-guide.md]] 2026 KV Cache 工程实践指南
 - [[2026-04-14-visual-attention-variants-digest.md]] Visual Attention Variants（2026）
