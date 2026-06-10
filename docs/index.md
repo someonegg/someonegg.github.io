@@ -57,6 +57,11 @@
 
 ## Linux
 
+- [[2026-06-10-linux-cfs-cpu-throttling.md]] Linux CFS CPU throttling：低 CPU 使用率 & 高限流
+- [[2026-06-10-fuse-io-modes-and-tuning.md]] FUSE I/O 模式与调优笔记
+- [[2026-06-10-linux-source-ip-validation.md]] Linux 源 IP 验证机制与非对称路由
+- [[2026-06-10-linux-security-evolution.md]] Linux 安全机制演进：从 DAC、chroot 到 namespace 与 capability
+- [[2026-06-10-linux-memory-management-tuning.md]] Linux 内存管理与 VM 调优笔记
 - [[2026-06-10-linux-ulimit-nofile.md]] Linux ulimit 与打开文件数限制笔记
 - [[2026-06-10-linux-load-iowait.md]] Linux load 与 iowait 排障笔记
 
