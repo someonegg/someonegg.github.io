@@ -1,4 +1,4 @@
-# Anthropic Agent 安全架构笔记
+# Anthropic Agent 安全架构
 
 ## 文档信息
 

@@ -1,4 +1,4 @@
-# TCP TIME_WAIT 逻辑笔记
+# TCP TIME_WAIT 逻辑
 
 来源：[Coping with the TCP TIME-WAIT state on busy Linux servers](https://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux)
 

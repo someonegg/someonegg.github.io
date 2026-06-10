@@ -1,4 +1,4 @@
-# `lsof` 中 `can't identify protocol` 的 Go 排查笔记
+# `lsof` 中 `can't identify protocol` 排查
 
 ## 现象
 

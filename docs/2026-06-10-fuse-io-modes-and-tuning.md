@@ -1,4 +1,4 @@
-# FUSE I/O 模式与调优笔记
+# FUSE I/O 模式与调优
 
 FUSE 的性能不只取决于 userspace 文件系统自身，也受内核页缓存、脏页回写、readahead、background queue 和 direct I/O 分发策略影响。排查 FUSE I/O 问题时，需要先明确当前文件打开方式、缓存模式、请求类型，以及是否触发了内核侧限流。
 

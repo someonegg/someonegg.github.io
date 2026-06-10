@@ -1,4 +1,4 @@
-# Linux load 与 iowait 排障笔记
+# Linux load 与 iowait 排障
 
 ## 核心判断
 

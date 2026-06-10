@@ -34,7 +34,7 @@
 
 ## Agent
 
-- [[2026-06-08-agent-security-architecture.md]] Anthropic Agent 安全架构笔记
+- [[2026-06-08-agent-security-architecture.md]] Anthropic Agent 安全架构
 - [[2026-05-19-agent-architecture-evolution.md]] Agent 架构演化路径
 - [[2026-04-28-google-reasoningbank.md]] Google ReasoningBank
 - [[2026-04-27-openai-agent-monitoring.md]] OpenAI 智能体监控
@@ -49,21 +49,22 @@
 
 ## NET
 
-- [[2026-06-10-lsof-cant-identify-protocol-go.md]] `lsof` 中 `can't identify protocol` 的 Go 排查笔记
-- [[2026-06-10-linux-tcp-connection-lifecycle.md]] Linux TCP 连接生命周期与队列参数笔记
-- [[2026-06-10-tcp-time-wait-logic.md]] TCP TIME_WAIT 逻辑笔记
+- [[2026-06-10-cloudflare-tcp-http2-tuning.md]] Cloudflare TCP 与 HTTP/2 优先级调优
+- [[2026-06-10-lsof-cant-identify-protocol-go.md]] `lsof` 中 `can't identify protocol` 排查
+- [[2026-06-10-linux-tcp-connection-lifecycle.md]] Linux TCP 连接生命周期与队列参数
+- [[2026-06-10-tcp-time-wait-logic.md]] TCP TIME_WAIT 逻辑
 - [[2026-06-10-tcp-ephemeral-port-selection-reuse.md]] TCP 临时端口选择和重用
 - [[2026-06-10-tcp-close-rst-receive-queue.md]] TCP close 遇到未读接收数据时的 RST 行为
 
 ## Linux
 
 - [[2026-06-10-linux-cfs-cpu-throttling.md]] Linux CFS CPU throttling：低 CPU 使用率 & 高限流
-- [[2026-06-10-fuse-io-modes-and-tuning.md]] FUSE I/O 模式与调优笔记
+- [[2026-06-10-fuse-io-modes-and-tuning.md]] FUSE I/O 模式与调优
 - [[2026-06-10-linux-source-ip-validation.md]] Linux 源 IP 验证机制与非对称路由
 - [[2026-06-10-linux-security-evolution.md]] Linux 安全机制演进：从 DAC、chroot 到 namespace 与 capability
-- [[2026-06-10-linux-memory-management-tuning.md]] Linux 内存管理与 VM 调优笔记
-- [[2026-06-10-linux-ulimit-nofile.md]] Linux ulimit 与打开文件数限制笔记
-- [[2026-06-10-linux-load-iowait.md]] Linux load 与 iowait 排障笔记
+- [[2026-06-10-linux-memory-management-tuning.md]] Linux 内存管理与 VM 调优
+- [[2026-06-10-linux-ulimit-nofile.md]] Linux ulimit 与打开文件数限制
+- [[2026-06-10-linux-load-iowait.md]] Linux load 与 iowait 排障
 
 ## Windows
 

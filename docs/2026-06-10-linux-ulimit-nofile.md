@@ -1,4 +1,4 @@
-# Linux ulimit 与打开文件数限制笔记
+# Linux ulimit 与打开文件数限制
 
 `ulimit -n` 对应 Linux 的 `RLIMIT_NOFILE`，控制单个进程可使用的 file descriptor 数量。这里的 file descriptor 不只包括普通文件，也包括 socket、pipe、eventfd、epoll fd、目录等内核对象。
 
