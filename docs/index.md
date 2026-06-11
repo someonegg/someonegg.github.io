@@ -58,6 +58,7 @@
 
 ## Linux
 
+- [[2026-06-11-linux-route-debugging.md]] Linux 路由机制与排障方法
 - [[2026-06-10-linux-cfs-cpu-throttling.md]] Linux CFS CPU throttling：低 CPU 使用率 & 高限流
 - [[2026-06-10-fuse-io-modes-and-tuning.md]] FUSE I/O 模式与调优
 - [[2026-06-10-linux-source-ip-validation.md]] Linux 源 IP 验证机制与非对称路由
