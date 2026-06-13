@@ -49,6 +49,8 @@
 
 ## DS
 
+- [[2026-06-13-microservices-system.md]] 微服务系统
+- [[2026-06-13-distributed-system-principles.md]] 分布式系统原理
 - [[2026-06-13-db-transactions-concurrency-control.md]] 事务与并发控制
 - [[2026-06-13-db-isolation-standard-analysis.md]] 事务隔离标准分析
 - [[2026-06-13-db-clock-schemes.md]] 常见时钟方案
