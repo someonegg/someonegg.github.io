@@ -2,6 +2,7 @@
 
 ## General
 
+- [[2026-06-16-go-gc-tricolor-barrier.md]] Go GC 三色标记与混合写屏障
 - [[2026-06-14-statistical-inference.md]] 统计推断入门：从样本、置信区间到 P 值、功效与因果边界
 - [[2026-06-08-complex-numbers.md]] 复数笔记：从运算规则到旋转矩阵
 - [[2026-05-22-barrel-effect-engineering-response.md]] 木桶效应的工程应对
