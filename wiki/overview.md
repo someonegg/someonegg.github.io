@@ -2,9 +2,9 @@
 
 ## Current Status
 
-- Source pages: 21
+- Source pages: 26
 - Entity pages: 16
-- Concept pages: 43
+- Concept pages: 49
 - Persisted query pages: 3
 
 ## Taxonomy
@@ -20,6 +20,7 @@
 - 训练稳定性与优化：组织 `mHC`、`Muon`、`ERC` 等训练内稳定化机制，并与推理阶段控制分层。`ERC` 针对 `PPO-clip` 可能漏管未采样动作全局分布漂移的问题，用 entropy ratio 对探索强度变化施加双向约束。
 - 后训练策略学习：以 `InstructGPT (2022)` 的 `SFT -> reward model -> RLHF` 作为历史基线；`PPO` 仍是关键 on-policy 基线，`DPO` 与 `GRPO` 分别沿“偏好对齐流程简化”和“推理任务资源效率”改写该基线，`OPD` 则用 `on-policy` 采样结合 `dense` 教师监督。
 - Prompt Optimization：覆盖从离散搜索到文本梯度，再到合成反馈驱动的闭环优化；`SIPDO` 当前作为闭环 prompt 优化代表线索。
+- LLM 内部机制可解释性：组织 `Superposition/SAE/CLT/Attribution Graph/Function Token Hypothesis` 等路线，关注特征如何被表示、检索、跨层传播并影响输出；当前结论应区分“特征可解释性”“回路可解释性”和“记忆机制假说”的证据强度。
 
 ### Cross-Axis Themes
 
@@ -29,6 +30,7 @@
 - `Hybrid Attention` 在现有来源中存在口径分化：既可指 attention 与非-attention 的层级混排，也可指 attention 家族内部的多机制交错编排；后续引用时应显式说明语境。
 - `ERC` 与 `full-vocabulary reverse KL` 不能混为一类：前者是 `RL` 更新约束，后者是 `OPD` 分布级蒸馏目标。`full-vocabulary reverse KL` 可视为 `OPD` 稳定性增强的目标函数细化，但代价是系统实现复杂度上升。
 - 测试时扩展（TTS）与 agent 记忆可形成正向飞轮（MaTTS）：记忆引导扩展探索，扩展轨迹反馈更高质量记忆。
+- 机制可解释性可以为推理阶段控制提供内部证据，但当前仍不能替代外部评测：`SAE` 更擅长抽取特征，`CLT/Attribution Graph` 更接近回路解释，功能词元假说解释训练/推理中的记忆检索压力，三者应组合使用而非互相替代。
 
 ## Open Questions
 
@@ -47,3 +49,5 @@
 - ReasoningBank 的 append-only 记忆整合策略在长时间积累后是否会产生记忆冲突或质量退化？
 - MaTTS 并行扩展因子 $k$ 的最优值是否随任务类型（导航型 vs 工具调用型）显著变化？
 - 在工具调用密集型 agent（而非 WebArena 导航型）上，ReasoningBank 的失败反事实信号是否同样有效？
+- `SAE/CLT/Attribution Graph` 在长上下文、多轮 agent 和工具调用任务上的机制忠实度如何量化？
+- 功能词元假说能否与 `SAE/CLT` 抽取到的特征建立直接对应，而不仅是概念层互补？

@@ -8,6 +8,11 @@
 
 ## Sources
 
+- [[sources/2026-05-17-machine-heart-llm-language-thinking]] 机器之心微信综合文（发布时间 2026-05-17），将 LLM 高阶模式、`NTP`、`SAE/CLT` 与功能词元机制串成中文入口。
+- [[sources/2025-10-09-function-token-hypothesis-paper]] `Function Token Hypothesis` 一手论文（发布时间 2025-10-09），用功能词元解释 LLM 记忆检索与记忆巩固。
+- [[sources/2025-03-27-anthropic-circuit-tracing]] Anthropic `Circuit Tracing` 方法文（发布时间 2025-03-27），提出 `CLT + Attribution Graph` 追踪 LLM 计算路径。
+- [[sources/2024-05-21-anthropic-mapping-mind-language-model]] Anthropic 研究说明（发布时间 2024-05-21），用 dictionary learning / `SAE` 从 Claude 3.0 Sonnet 中抽取可解释特征。
+- [[sources/2022-09-21-toy-models-of-superposition-paper]] `Toy Models of Superposition` 一手论文（发布时间 2022-09-21），用 toy model 解释 polysemanticity 与特征叠加。
 - [[sources/2026-04-28-google-reasoningbank]] Google ReasoningBank 博客（发布时间 2026-04-21），提出从成功与失败经验蒸馏结构化推理记忆的 agent 框架，并引入 MaTTS。
 - [[sources/2026-05-15-reasoning-shift-paper]] `Reasoning Shift` 一手论文（发布时间 2026-04-01），提出长上下文会压缩 reasoning trace，并削弱自我验证与不确定性管理。
 - [[sources/2026-05-15-erc-paper]] ERC 一手论文（首发 2025-12-05，当前版本 2026-04-23），提出用 entropy ratio 对 post-training `RL` 的全局分布漂移做双向 clipping 约束。
@@ -51,6 +56,12 @@
 
 ## Concepts
 
+- [[concepts/llm-mechanistic-interpretability]] LLM 内部机制可解释性的上位分类，组织 `Superposition/SAE/CLT/Attribution Graph/Function Token Hypothesis`。
+- [[concepts/neural-network-superposition]] 用稀疏特征的叠加表示解释 polysemanticity 的基础机制假说。
+- [[concepts/sparse-autoencoder-interpretability]] 用稀疏自编码器从 LLM 激活中抽取可解释特征的工具路线。
+- [[concepts/cross-layer-transcoder]] 用跨层稀疏特征重构 MLP 输出、支持 circuit tracing 的替代模型组件。
+- [[concepts/attribution-graph]] 表示特定 prompt 上输入、特征、误差和输出之间贡献路径的计算图。
+- [[concepts/function-token-hypothesis]] 用功能词元解释 LLM 记忆检索与预训练记忆巩固的机制假说。
 - [[concepts/agent-memory]] agent 记忆机制的上位分类，组织轨迹记忆、工作流记忆与推理记忆的定义与区别。
 - [[concepts/reasoning-bank]] 从成功与失败蒸馏结构化推理模式的 agent 记忆框架（Google，2026）。
 - [[concepts/memory-aware-test-time-scaling]] 将 agent 记忆与测试时扩展关联的 MaTTS 框架，形成记忆↔扩展正向飞轮。

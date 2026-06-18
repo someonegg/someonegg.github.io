@@ -747,3 +747,28 @@
 - Resolved follow-up todos
   - [x] (low) concepts/agent-memory.md: 明确三类记忆暂作内联子类维护。
   - [x] (low) concepts/group-relative-policy-optimization.md: 补充 DeepSeekMath GRPO 正文级机制与限制。
+
+## [2026-06-18] ingest | LLM mechanistic interpretability sources
+
+- Processed sources
+  - `sources/2026-05-17-machine-heart-llm-language-thinking.md`
+  - `sources/2025-10-09-function-token-hypothesis-paper.md`
+  - `sources/2025-03-27-anthropic-circuit-tracing.md`
+  - `sources/2024-05-21-anthropic-mapping-mind-language-model.md`
+  - `sources/2022-09-21-toy-models-of-superposition-paper.md`
+- New pages
+  - `concepts/llm-mechanistic-interpretability.md`
+  - `concepts/neural-network-superposition.md`
+  - `concepts/sparse-autoencoder-interpretability.md`
+  - `concepts/cross-layer-transcoder.md`
+  - `concepts/attribution-graph.md`
+  - `concepts/function-token-hypothesis.md`
+- Updated pages
+  - `entities/anthropic.md`
+  - `overview.md`
+  - `index.md`
+  - `log.md`
+- Open validation questions
+  - `SAE/CLT/Attribution Graph` 在长上下文、多轮 agent 和工具调用任务上的机制忠实度如何量化？
+  - 功能词元假说能否与 `SAE/CLT` 抽取到的特征建立直接对应，而不仅是概念层互补？
+  - 微信综合文适合作为中文入口，但具体机制细节应继续以一手论文和官方研究页为主证据。
