@@ -2,6 +2,7 @@
 
 ## General
 
+- [[2026-06-19-zero-knowledge-proof-intro.md]] 零知识证明入门：从直觉到 zk-SNARK 工程路径
 - [[2026-06-16-go-gc-tricolor-barrier.md]] Go GC 三色标记与混合写屏障
 - [[2026-06-14-statistical-inference.md]] 统计推断入门：从样本、置信区间到 P 值、功效与因果边界
 - [[2026-06-08-complex-numbers.md]] 复数笔记：从运算规则到旋转矩阵
