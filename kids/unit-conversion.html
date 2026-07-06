@@ -1,0 +1,1013 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <title>面积和体积单位换算</title>
+  <style>
+    :root {
+      --bg: #f4f7f6;
+      --surface: #ffffff;
+      --surface-soft: #f9fbfa;
+      --ink: #243133;
+      --muted: #657579;
+      --accent: #2f7d73;
+      --accent-strong: #25665e;
+      --accent-soft: rgba(47, 125, 115, 0.12);
+      --blue: #386fa4;
+      --warn: #a45715;
+      --warn-soft: #fff7ed;
+      --ok: #287348;
+      --ok-soft: #eef8f1;
+      --border: #d9e4e3;
+      --shadow: 0 12px 30px rgba(28, 41, 44, 0.08);
+      --shadow-sm: 0 1px 4px rgba(28, 41, 44, 0.06);
+      --radius: 12px;
+      --focus: 0 0 0 3px rgba(47, 125, 115, 0.22);
+      --trans: 180ms ease;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(244, 247, 246, 0) 220px),
+        var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+      padding: 20px 14px 32px;
+    }
+
+    .wrap {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 0 12px;
+      border-radius: 9px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background var(--trans), color var(--trans);
+    }
+
+    .nav-link:hover {
+      color: var(--accent-strong);
+      background: var(--accent-soft);
+    }
+
+    header {
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(25px, 4vw, 36px);
+      font-weight: 720;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .intro {
+      max-width: 740px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(310px, 0.75fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-soft);
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 680;
+      line-height: 1.35;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 4px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #f7faf9;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button,
+    select,
+    input[type="number"] {
+      min-height: 42px;
+      border-radius: 10px;
+    }
+
+    button {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      transition: border-color var(--trans), background var(--trans), color var(--trans);
+    }
+
+    button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: #fbfefe;
+    }
+
+    button[aria-pressed="true"],
+    .primary-btn {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+      font-weight: 650;
+    }
+
+    .primary-btn:hover,
+    button[aria-pressed="true"]:hover {
+      border-color: var(--accent-strong);
+      background: var(--accent-strong);
+      color: #fff;
+    }
+
+    input:focus-visible,
+    select:focus-visible,
+    button:focus-visible,
+    a:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: minmax(110px, 0.8fr) minmax(96px, 0.55fr) auto minmax(96px, 0.55fr);
+      gap: 10px;
+      align-items: end;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 560;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--ink);
+      padding: 0 11px;
+    }
+
+    input[type="number"] {
+      font-size: 19px;
+      font-weight: 680;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .arrow {
+      align-self: center;
+      color: var(--muted);
+      font-size: 18px;
+      padding-top: 22px;
+    }
+
+    .hint {
+      margin: 0;
+      min-height: 24px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .hint.warn {
+      color: var(--warn);
+    }
+
+    .result-card {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #ffffff, #f8fbfa);
+      box-shadow: var(--shadow);
+    }
+
+    .result-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .result-value {
+      margin: 0;
+      font-size: clamp(24px, 5vw, 42px);
+      font-weight: 760;
+      line-height: 1.18;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .factor-line {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .visual-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(230px, 0.9fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .visual-stage {
+      display: grid;
+      place-items: center;
+      min-height: 292px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(90deg, rgba(47, 125, 115, 0.05) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(47, 125, 115, 0.05) 1px, transparent 1px),
+        #fcfefe;
+      background-size: 24px 24px;
+      padding: 14px;
+      overflow: hidden;
+    }
+
+    .model-card {
+      width: min(100%, 390px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 14px;
+      text-align: center;
+    }
+
+    .model-title {
+      margin: 0 0 8px;
+      font-weight: 700;
+    }
+
+    .model-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .area-grid-bg {
+      fill: rgba(47, 125, 115, 0.1);
+    }
+
+    .area-grid-line {
+      stroke: rgba(47, 125, 115, 0.34);
+      stroke-width: 1;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .area-grid-edge {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 3;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .svg-label {
+      fill: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .volume-model {
+      position: relative;
+      width: min(100%, 280px);
+      height: 210px;
+      margin: 4px auto 0;
+    }
+
+    .volume-layer {
+      position: absolute;
+      width: 170px;
+      height: 112px;
+      left: 38px;
+      border: 1px solid rgba(56, 111, 164, 0.42);
+      background:
+        linear-gradient(90deg, rgba(56, 111, 164, 0.22) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(56, 111, 164, 0.22) 1px, transparent 1px),
+        rgba(56, 111, 164, 0.08);
+      background-size: 17px 11.2px;
+      transform: skewX(-18deg);
+      box-shadow: 0 4px 10px rgba(56, 111, 164, 0.08);
+    }
+
+    .volume-layer.is-base {
+      border-color: var(--blue);
+      background:
+        linear-gradient(90deg, rgba(56, 111, 164, 0.32) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(56, 111, 164, 0.32) 1px, transparent 1px),
+        rgba(56, 111, 164, 0.13);
+    }
+
+    .layer-label {
+      position: absolute;
+      left: 10px;
+      bottom: 12px;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .volume-badge {
+      position: absolute;
+      right: 8px;
+      top: 34px;
+      display: grid;
+      place-items: center;
+      width: 78px;
+      min-height: 78px;
+      border-radius: 50%;
+      border: 1px solid rgba(56, 111, 164, 0.3);
+      background: #fff;
+      color: var(--blue);
+      font-weight: 760;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .volume-side-note {
+      position: absolute;
+      right: 6px;
+      bottom: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      text-align: right;
+    }
+
+    .model-caption {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .explain-box {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 14px;
+    }
+
+    .explain-box h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .step-card {
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: var(--accent-soft);
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .step-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+      color: var(--accent-strong);
+      font-weight: 720;
+    }
+
+    .step-title span:last-child {
+      color: var(--muted);
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .step-card p {
+      margin: 0;
+    }
+
+    .practice-card {
+      display: grid;
+      gap: 12px;
+    }
+
+    .question {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .practice-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .feedback {
+      margin: 0;
+      min-height: 26px;
+      border-radius: 10px;
+      padding: 8px 10px;
+      color: var(--muted);
+      background: #f7faf9;
+      border: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .feedback.ok {
+      color: var(--ok);
+      border-color: rgba(40, 115, 72, 0.24);
+      background: var(--ok-soft);
+    }
+
+    .feedback.warn {
+      color: var(--warn);
+      border-color: rgba(164, 87, 21, 0.24);
+      background: var(--warn-soft);
+    }
+
+    .secondary-btn {
+      display: none;
+    }
+
+    .secondary-btn.is-visible {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 880px) {
+      .app-shell,
+      .visual-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      body {
+        padding: 16px 10px 26px;
+      }
+
+      .panel-body {
+        padding: 13px;
+      }
+
+      .form-grid,
+      .practice-row {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        display: none;
+      }
+
+      .visual-stage {
+        min-height: 250px;
+      }
+
+      .result-card {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="top-nav" aria-label="页面导航">
+      <a class="nav-link" href="./index.html">返回索引</a>
+    </nav>
+
+    <header>
+      <h1>面积和体积单位换算</h1>
+      <p class="intro">先看图，再看数字：面积要数两个方向，体积要数三个方向，所以换算倍数不一样。</p>
+    </header>
+
+    <main class="app-shell">
+      <section class="panel" aria-labelledby="learn-title">
+        <div class="panel-head">
+          <h2 id="learn-title">换算学习</h2>
+        </div>
+        <div class="panel-body">
+          <div class="controls">
+            <div class="segmented" role="group" aria-label="选择学习模式">
+              <button type="button" data-mode="area" aria-pressed="true">面积</button>
+              <button type="button" data-mode="volume" aria-pressed="false">体积</button>
+            </div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="valueInput">数值</label>
+                <input id="valueInput" type="number" min="0" max="1000000" step="any" inputmode="decimal" value="1" />
+              </div>
+              <div class="field">
+                <label for="fromUnit">从</label>
+                <select id="fromUnit"></select>
+              </div>
+              <div class="arrow" aria-hidden="true">-&gt;</div>
+              <div class="field">
+                <label for="toUnit">到</label>
+                <select id="toUnit"></select>
+              </div>
+            </div>
+            <p id="inputHint" class="hint" aria-live="polite"></p>
+          </div>
+
+          <div class="result-card" aria-live="polite">
+            <p class="result-label">换算结果</p>
+            <p id="resultValue" class="result-value"></p>
+            <p id="factorLine" class="factor-line"></p>
+          </div>
+
+          <div class="visual-grid">
+            <div id="visualStage" class="visual-stage" aria-label="单位换算视觉模型"></div>
+            <div class="explain-box">
+              <h3>为什么这样换？</h3>
+              <ul id="stepList" class="steps"></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel" aria-labelledby="practice-title">
+        <div class="panel-head">
+          <h2 id="practice-title">小练习</h2>
+        </div>
+        <div class="panel-body practice-card">
+          <p id="practiceQuestion" class="question"></p>
+          <div class="practice-row">
+            <div class="field">
+              <label id="practiceLabel" for="practiceAnswer">你的答案</label>
+              <input id="practiceAnswer" type="number" min="0" step="any" inputmode="decimal" />
+            </div>
+            <button id="checkPractice" class="primary-btn" type="button">检查</button>
+          </div>
+          <button id="nextPractice" class="secondary-btn" type="button">下一题</button>
+          <p id="practiceFeedback" class="feedback" aria-live="polite">先试着写一个数字。</p>
+        </div>
+      </aside>
+    </main>
+    <p id="liveSummary" class="sr-only" aria-live="polite"></p>
+  </div>
+
+  <script>
+    (() => {
+      const DATA = {
+        modes: {
+          area: {
+            label: "面积",
+            dimension: 2,
+            unitWord: "小正方形",
+            adjacentPattern: "10 x 10",
+            units: [
+              { id: "m2", label: "m²", order: 0 },
+              { id: "dm2", label: "dm²", order: 1 },
+              { id: "cm2", label: "cm²", order: 2 }
+            ]
+          },
+          volume: {
+            label: "体积",
+            dimension: 3,
+            unitWord: "小正方体",
+            adjacentPattern: "10 x 10 x 10",
+            units: [
+              { id: "m3", label: "m³", order: 0 },
+              { id: "dm3", label: "dm³", order: 1 },
+              { id: "cm3", label: "cm³", order: 2 }
+            ]
+          }
+        },
+        practice: [
+          { mode: "area", value: 1, from: "m2", to: "dm2" },
+          { mode: "volume", value: 1, from: "m3", to: "dm3" },
+          { mode: "area", value: 3, from: "dm2", to: "cm2" },
+          { mode: "volume", value: 2, from: "dm3", to: "m3" }
+        ]
+      };
+
+      const state = {
+        mode: "area",
+        rawValue: "1",
+        fromUnit: "m2",
+        toUnit: "dm2",
+        practiceIndex: 0,
+        practiceAnswer: "",
+        practiceFeedback: "先试着写一个数字。",
+        practiceFeedbackType: "neutral",
+        practiceCorrect: false
+      };
+
+      const els = {
+        modeButtons: Array.from(document.querySelectorAll("[data-mode]")),
+        valueInput: document.querySelector("#valueInput"),
+        fromUnit: document.querySelector("#fromUnit"),
+        toUnit: document.querySelector("#toUnit"),
+        inputHint: document.querySelector("#inputHint"),
+        resultValue: document.querySelector("#resultValue"),
+        factorLine: document.querySelector("#factorLine"),
+        visualStage: document.querySelector("#visualStage"),
+        stepList: document.querySelector("#stepList"),
+        practiceQuestion: document.querySelector("#practiceQuestion"),
+        practiceLabel: document.querySelector("#practiceLabel"),
+        practiceAnswer: document.querySelector("#practiceAnswer"),
+        checkPractice: document.querySelector("#checkPractice"),
+        nextPractice: document.querySelector("#nextPractice"),
+        practiceFeedback: document.querySelector("#practiceFeedback"),
+        liveSummary: document.querySelector("#liveSummary")
+      };
+
+      const math = {
+        getMode(modeId) {
+          return DATA.modes[modeId];
+        },
+        getUnit(modeId, unitId) {
+          return this.getMode(modeId).units.find((unit) => unit.id === unitId);
+        },
+        parseValue(raw) {
+          const text = String(raw).trim();
+          const value = Number(text);
+          if (text === "") return { ok: false, reason: "请输入一个大于 0 的数。" };
+          if (!Number.isFinite(value)) return { ok: false, reason: "这个数暂时读不出来，请换成普通数字。" };
+          if (value <= 0) return { ok: false, reason: "这里先练习大于 0 的数。" };
+          if (value > 1000000) return { ok: false, reason: "这个数太大了，先用 1000000 以内的数练习。" };
+          return { ok: true, value };
+        },
+        factor(modeId, fromId, toId) {
+          const mode = this.getMode(modeId);
+          const from = this.getUnit(modeId, fromId);
+          const to = this.getUnit(modeId, toId);
+          const stepDiff = to.order - from.order;
+          const exponent = stepDiff * mode.dimension;
+          return {
+            value: Math.pow(10, exponent),
+            stepDiff,
+            from,
+            to,
+            mode
+          };
+        },
+        convert(modeId, fromId, toId, value) {
+          const factorInfo = this.factor(modeId, fromId, toId);
+          const result = value * factorInfo.value;
+          return {
+            ...factorInfo,
+            input: value,
+            result,
+            formattedInput: this.formatNumber(value),
+            formattedResult: this.formatNumber(result),
+            steps: this.explain(value, factorInfo)
+          };
+        },
+        formatNumber(value) {
+          if (!Number.isFinite(value)) return "";
+          const rounded = Math.round((value + Number.EPSILON) * 1e12) / 1e12;
+          return new Intl.NumberFormat("zh-CN", {
+            maximumFractionDigits: 12,
+            useGrouping: false
+          }).format(rounded);
+        },
+        explain(value, factorInfo) {
+          const { mode, from, to, stepDiff } = factorInfo;
+          const absSteps = Math.abs(stepDiff);
+          const formattedValue = this.formatNumber(value);
+          if (stepDiff === 0) {
+            return [
+              {
+                title: `${from.label} 到 ${to.label}`,
+                marker: "不变",
+                body: `${from.label} 和 ${to.label} 是同一个单位，${formattedValue} 直接保留。`
+              }
+            ];
+          }
+
+          const direction = stepDiff > 0 ? 1 : -1;
+          const action = stepDiff > 0 ? "乘" : "除以";
+          const perStepFactor = Math.pow(10, mode.dimension);
+          const adjacent = mode.dimension === 2
+            ? `面积看两个方向：${mode.adjacentPattern} = ${perStepFactor}。`
+            : `体积看三个方向：${mode.adjacentPattern} = ${perStepFactor}。`;
+          const steps = [
+            {
+              title: mode.dimension === 2 ? "相邻面积单位" : "相邻体积单位",
+              marker: `${action} ${perStepFactor}`,
+              body: adjacent
+            }
+          ];
+
+          let runningValue = value;
+          let currentOrder = from.order;
+          for (let index = 0; index < absSteps; index += 1) {
+            const currentUnit = mode.units.find((unit) => unit.order === currentOrder);
+            const nextUnit = mode.units.find((unit) => unit.order === currentOrder + direction);
+            const nextValue = stepDiff > 0
+              ? runningValue * perStepFactor
+              : runningValue / perStepFactor;
+            steps.push({
+              title: `${currentUnit.label} -> ${nextUnit.label}`,
+              marker: `第 ${index + 1} 步`,
+              body: `${this.formatNumber(runningValue)} ${currentUnit.label} ${action} ${perStepFactor} = ${this.formatNumber(nextValue)} ${nextUnit.label}。`
+            });
+            runningValue = nextValue;
+            currentOrder += direction;
+          }
+
+          steps.push({
+            title: "结果",
+            marker: `${absSteps} 步`,
+            body: `${formattedValue} ${from.label} = ${this.formatNumber(value * factorInfo.value)} ${to.label}。`
+          });
+          return steps;
+        },
+        nearlyEqual(a, b) {
+          return Math.abs(a - b) <= Math.max(1e-9, Math.abs(b) * 1e-9);
+        }
+      };
+
+      const render = {
+        all() {
+          this.modeButtons();
+          this.unitOptions();
+          this.learning();
+          this.practice();
+        },
+        modeButtons() {
+          els.modeButtons.forEach((button) => {
+            button.setAttribute("aria-pressed", String(button.dataset.mode === state.mode));
+          });
+        },
+        unitOptions() {
+          const units = math.getMode(state.mode).units;
+          const renderOptions = (selected) => units.map((unit) => {
+            const isSelected = unit.id === selected ? " selected" : "";
+            return `<option value="${unit.id}"${isSelected}>${unit.label}</option>`;
+          }).join("");
+          els.fromUnit.innerHTML = renderOptions(state.fromUnit);
+          els.toUnit.innerHTML = renderOptions(state.toUnit);
+        },
+        learning() {
+          state.rawValue = els.valueInput.value;
+          const parsed = math.parseValue(state.rawValue);
+          els.inputHint.textContent = parsed.ok ? "可以换单位，也可以切换面积和体积看看倍数怎样变。" : parsed.reason;
+          els.inputHint.classList.toggle("warn", !parsed.ok);
+
+          if (!parsed.ok) {
+            els.resultValue.textContent = "先输入一个可用的数";
+            els.factorLine.textContent = "结果会在这里显示。";
+            els.stepList.innerHTML = this.stepCards([{ title: "输入提示", marker: "再试", body: parsed.reason }]);
+            this.visual();
+            els.liveSummary.textContent = parsed.reason;
+            return;
+          }
+
+          const conversion = math.convert(state.mode, state.fromUnit, state.toUnit, parsed.value);
+          els.resultValue.textContent = `${conversion.formattedResult} ${conversion.to.label}`;
+          els.factorLine.textContent = `${conversion.formattedInput} ${conversion.from.label} = ${conversion.formattedResult} ${conversion.to.label}`;
+          els.stepList.innerHTML = this.stepCards(conversion.steps);
+          this.visual();
+          els.liveSummary.textContent = `${conversion.formattedInput} ${conversion.from.label} 等于 ${conversion.formattedResult} ${conversion.to.label}`;
+        },
+        stepCards(steps) {
+          return steps.map((step) => `
+            <li class="step-card">
+              <div class="step-title">
+                <span>${step.title}</span>
+                <span>${step.marker}</span>
+              </div>
+              <p>${step.body}</p>
+            </li>
+          `).join("");
+        },
+        areaSvg() {
+          const lines = [];
+          for (let index = 1; index < 10; index += 1) {
+            const pos = 24 + index * 24;
+            lines.push(`<line class="area-grid-line" x1="${pos}" y1="24" x2="${pos}" y2="264"></line>`);
+            lines.push(`<line class="area-grid-line" x1="24" y1="${pos}" x2="264" y2="${pos}"></line>`);
+          }
+          return `
+            <svg class="model-svg" viewBox="0 0 300 300" role="img" aria-label="10 x 10 面积网格">
+              <rect class="area-grid-bg" x="24" y="24" width="240" height="240" rx="4"></rect>
+              ${lines.join("")}
+              <rect class="area-grid-edge" x="24" y="24" width="240" height="240" rx="4"></rect>
+              <text class="svg-label" x="144" y="288" text-anchor="middle">横向 10 份</text>
+              <text class="svg-label" x="12" y="150" text-anchor="middle" transform="rotate(-90 12 150)">纵向 10 份</text>
+            </svg>
+          `;
+        },
+        volumeLayers() {
+          return Array.from({ length: 10 }, (_, index) => {
+            const top = 86 - index * 7;
+            const left = 18 + index * 8;
+            const opacity = 0.36 + index * 0.055;
+            const baseClass = index === 0 ? " is-base" : "";
+            return `<span class="volume-layer${baseClass}" style="top:${top}px; left:${left}px; opacity:${opacity.toFixed(2)}"></span>`;
+          }).join("");
+        },
+        visual() {
+          const mode = math.getMode(state.mode);
+          if (mode.dimension === 2) {
+            els.visualStage.innerHTML = `
+              <div class="model-card">
+                <p class="model-title">面积模型：10 x 10</p>
+                ${this.areaSvg()}
+                <p class="model-caption">一条边分 10 份，另一条边也分 10 份，所以一共有 100 个${mode.unitWord}。</p>
+              </div>
+            `;
+            return;
+          }
+
+          els.visualStage.innerHTML = `
+            <div class="model-card">
+              <p class="model-title">体积模型：10 x 10 x 10</p>
+              <div class="volume-model" aria-hidden="true">
+                ${this.volumeLayers()}
+                <span class="volume-badge">10 层</span>
+                <span class="layer-label">底面 10 x 10</span>
+                <span class="volume-side-note">每层 100<br>共 10 层</span>
+              </div>
+              <p class="model-caption">底面是 10 x 10，再叠 10 层，所以一共有 1000 个${mode.unitWord}。</p>
+            </div>
+          `;
+        },
+        practice() {
+          const item = DATA.practice[state.practiceIndex];
+          const conversion = math.convert(item.mode, item.from, item.to, item.value);
+          els.practiceQuestion.textContent = `${conversion.formattedInput} ${conversion.from.label} = ? ${conversion.to.label}`;
+          els.practiceLabel.textContent = `答案（${conversion.to.label}）`;
+          els.practiceAnswer.value = state.practiceAnswer;
+          els.practiceFeedback.textContent = state.practiceFeedback;
+          els.practiceFeedback.classList.toggle("ok", state.practiceFeedbackType === "ok");
+          els.practiceFeedback.classList.toggle("warn", state.practiceFeedbackType === "warn");
+          els.nextPractice.classList.toggle("is-visible", state.practiceCorrect);
+          els.nextPractice.disabled = !state.practiceCorrect;
+        }
+      };
+
+      function resetPractice(index = state.practiceIndex) {
+        state.practiceIndex = index;
+        state.practiceAnswer = "";
+        state.practiceCorrect = false;
+        state.practiceFeedback = "先试着写一个数字。";
+        state.practiceFeedbackType = "neutral";
+      }
+
+      const events = {
+        bind() {
+          els.modeButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+              const modeId = button.dataset.mode;
+              if (modeId === state.mode) return;
+              state.mode = modeId;
+              const units = math.getMode(modeId).units;
+              state.fromUnit = units[0].id;
+              state.toUnit = units[1].id;
+              resetPractice(DATA.practice.findIndex((item) => item.mode === modeId));
+              render.all();
+            });
+          });
+
+          els.valueInput.addEventListener("input", () => {
+            state.rawValue = els.valueInput.value;
+            render.learning();
+          });
+
+          els.fromUnit.addEventListener("change", () => {
+            state.fromUnit = els.fromUnit.value;
+            render.learning();
+          });
+
+          els.toUnit.addEventListener("change", () => {
+            state.toUnit = els.toUnit.value;
+            render.learning();
+          });
+
+          els.practiceAnswer.addEventListener("input", () => {
+            state.practiceAnswer = els.practiceAnswer.value;
+            if (state.practiceCorrect) {
+              state.practiceCorrect = false;
+              state.practiceFeedback = "答案改过了，再检查一次。";
+              state.practiceFeedbackType = "warn";
+              render.practice();
+            }
+          });
+
+          els.checkPractice.addEventListener("click", () => {
+            const item = DATA.practice[state.practiceIndex];
+            const parsed = math.parseValue(state.practiceAnswer);
+            if (!parsed.ok) {
+              state.practiceCorrect = false;
+              state.practiceFeedback = "先填一个大于 0 的数字。";
+              state.practiceFeedbackType = "warn";
+              render.practice();
+              return;
+            }
+            const expected = math.convert(item.mode, item.from, item.to, item.value).result;
+            if (math.nearlyEqual(parsed.value, expected)) {
+              state.practiceCorrect = true;
+              state.practiceFeedback = `答对了，就是 ${math.formatNumber(expected)}。`;
+              state.practiceFeedbackType = "ok";
+            } else {
+              state.practiceCorrect = false;
+              state.practiceFeedback = "还差一点。想想这一题是 10 x 10，还是 10 x 10 x 10。";
+              state.practiceFeedbackType = "warn";
+            }
+            render.practice();
+          });
+
+          els.nextPractice.addEventListener("click", () => {
+            resetPractice((state.practiceIndex + 1) % DATA.practice.length);
+            render.practice();
+            els.practiceAnswer.focus();
+          });
+        }
+      };
+
+      events.bind();
+      render.all();
+    })();
+  </script>
+</body>
+</html>
