@@ -309,7 +309,8 @@
       font-weight: 700;
     }
 
-    .model-svg {
+    .model-svg,
+    .volume-svg {
       display: block;
       width: 100%;
       height: auto;
@@ -339,68 +340,67 @@
     }
 
     .volume-model {
-      position: relative;
-      width: min(100%, 280px);
-      height: 210px;
+      width: min(100%, 360px);
       margin: 4px auto 0;
     }
 
-    .volume-layer {
-      position: absolute;
-      width: 170px;
-      height: 112px;
-      left: 38px;
-      border: 1px solid rgba(56, 111, 164, 0.42);
-      background:
-        linear-gradient(90deg, rgba(56, 111, 164, 0.22) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(56, 111, 164, 0.22) 1px, transparent 1px),
-        rgba(56, 111, 164, 0.08);
-      background-size: 17px 11.2px;
-      transform: skewX(-18deg);
-      box-shadow: 0 4px 10px rgba(56, 111, 164, 0.08);
+    .volume-face-top {
+      fill: rgba(56, 111, 164, 0.18);
     }
 
-    .volume-layer.is-base {
-      border-color: var(--blue);
-      background:
-        linear-gradient(90deg, rgba(56, 111, 164, 0.32) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(56, 111, 164, 0.32) 1px, transparent 1px),
-        rgba(56, 111, 164, 0.13);
+    .volume-face-front {
+      fill: rgba(47, 125, 115, 0.13);
     }
 
-    .layer-label {
-      position: absolute;
-      left: 10px;
-      bottom: 12px;
-      color: var(--blue);
+    .volume-face-side {
+      fill: rgba(56, 111, 164, 0.1);
+    }
+
+    .volume-grid-line,
+    .volume-layer-line {
+      fill: none;
+      stroke: rgba(56, 111, 164, 0.36);
+      stroke-width: 1;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .volume-layer-line {
+      stroke: rgba(47, 125, 115, 0.34);
+    }
+
+    .volume-edge {
+      fill: none;
+      stroke: var(--blue);
+      stroke-width: 2.5;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .volume-axis {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 2;
+      stroke-linecap: round;
+      marker-end: url("#volumeArrow");
+      vector-effect: non-scaling-stroke;
+    }
+
+    .volume-label {
+      fill: var(--ink);
       font-size: 13px;
       font-weight: 700;
     }
 
-    .volume-badge {
-      position: absolute;
-      right: 8px;
-      top: 34px;
-      display: grid;
-      place-items: center;
-      width: 78px;
-      min-height: 78px;
-      border-radius: 50%;
-      border: 1px solid rgba(56, 111, 164, 0.3);
-      background: #fff;
-      color: var(--blue);
-      font-weight: 760;
-      box-shadow: var(--shadow-sm);
+    .volume-note {
+      fill: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
     }
 
-    .volume-side-note {
-      position: absolute;
-      right: 6px;
-      bottom: 16px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-      text-align: right;
+    .volume-formula {
+      fill: var(--blue);
+      font-size: 14px;
+      font-weight: 760;
     }
 
     .model-caption {
@@ -668,6 +668,20 @@
         ]
       };
 
+      const VISUAL_MODELS = {
+        volume: {
+          baseCount: 10,
+          layerCount: 10,
+          baseTotal: 100,
+          total: 1000,
+          labels: {
+            width: "宽 10 份",
+            depth: "深 10 份",
+            height: "高 10 层"
+          }
+        }
+      };
+
       const state = {
         mode: "area",
         rawValue: "1",
@@ -766,9 +780,15 @@
           const direction = stepDiff > 0 ? 1 : -1;
           const action = stepDiff > 0 ? "乘" : "除以";
           const perStepFactor = Math.pow(10, mode.dimension);
-          const adjacent = mode.dimension === 2
-            ? `面积看两个方向：${mode.adjacentPattern} = ${perStepFactor}。`
-            : `体积看三个方向：${mode.adjacentPattern} = ${perStepFactor}。`;
+          let adjacent;
+          if (mode.dimension === 3) {
+            const volumeDirection = stepDiff > 0
+              ? `从大单位到小单位时，是把一个较大的正方体拆分，分成 ${mode.adjacentPattern} = ${perStepFactor} 个更小正方体。`
+              : `从小单位到大单位时，是把 ${mode.adjacentPattern} = ${perStepFactor} 个小正方体合并，组成 1 个更大正方体。`;
+            adjacent = `体积看三个方向：${mode.adjacentPattern} = ${perStepFactor}。${volumeDirection}`;
+          } else {
+            adjacent = `面积看两个方向：${mode.adjacentPattern} = ${perStepFactor}。`;
+          }
           const steps = [
             {
               title: mode.dimension === 2 ? "相邻面积单位" : "相邻体积单位",
@@ -877,14 +897,74 @@
             </svg>
           `;
         },
-        volumeLayers() {
-          return Array.from({ length: 10 }, (_, index) => {
-            const top = 86 - index * 7;
-            const left = 18 + index * 8;
-            const opacity = 0.36 + index * 0.055;
-            const baseClass = index === 0 ? " is-base" : "";
-            return `<span class="volume-layer${baseClass}" style="top:${top}px; left:${left}px; opacity:${opacity.toFixed(2)}"></span>`;
-          }).join("");
+        volumeSvg() {
+          const model = VISUAL_MODELS.volume;
+          const volumeText = {
+            base: `底面 ${model.baseCount} x ${model.baseCount} = ${model.baseTotal}`,
+            layers: `${model.layerCount} 层`,
+            total: `${model.baseCount} x ${model.baseCount} x ${model.layerCount} = ${model.total}`,
+            description: `底面宽 ${model.baseCount} 份、深 ${model.baseCount} 份，共 ${model.baseTotal} 个小正方形；高度 ${model.layerCount} 层，所以一共有 ${model.total} 个小正方体。`
+          };
+          const point = (start, end, ratio) => ({
+            x: start.x + (end.x - start.x) * ratio,
+            y: start.y + (end.y - start.y) * ratio
+          });
+          const points = (...items) => items.map(({ x, y }) => `${x},${y}`).join(" ");
+          const line = (className, start, end) => (
+            `<line class="${className}" x1="${start.x}" y1="${start.y}" x2="${end.x}" y2="${end.y}"></line>`
+          );
+          const frontTopLeft = { x: 72, y: 110 };
+          const frontTopRight = { x: 226, y: 110 };
+          const frontBottomLeft = { x: 72, y: 220 };
+          const frontBottomRight = { x: 226, y: 220 };
+          const backTopLeft = { x: 126, y: 65 };
+          const backTopRight = { x: 280, y: 65 };
+          const backBottomRight = { x: 280, y: 175 };
+          const gridLines = [];
+          const layerLines = [];
+
+          for (let index = 1; index < model.baseCount; index += 1) {
+            const ratio = index / model.baseCount;
+            gridLines.push(line("volume-grid-line", point(frontTopLeft, frontTopRight, ratio), point(backTopLeft, backTopRight, ratio)));
+            gridLines.push(line("volume-grid-line", point(frontTopLeft, backTopLeft, ratio), point(frontTopRight, backTopRight, ratio)));
+          }
+
+          for (let index = 1; index < model.layerCount; index += 1) {
+            const ratio = index / model.layerCount;
+            const left = point(frontTopLeft, frontBottomLeft, ratio);
+            const right = point(frontTopRight, frontBottomRight, ratio);
+            const side = point(backTopRight, backBottomRight, ratio);
+            layerLines.push(line("volume-layer-line", left, right));
+            layerLines.push(line("volume-layer-line", right, side));
+          }
+
+          return `
+            <svg class="volume-svg" viewBox="0 0 360 280" role="img" aria-labelledby="volumeModelTitle volumeModelDesc">
+              <title id="volumeModelTitle">体积单位 ${volumeText.total} 模型</title>
+              <desc id="volumeModelDesc">${volumeText.description}</desc>
+              <defs>
+                <marker id="volumeArrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                  <path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"></path>
+                </marker>
+              </defs>
+              <polygon class="volume-face-front" points="${points(frontTopLeft, frontTopRight, frontBottomRight, frontBottomLeft)}"></polygon>
+              <polygon class="volume-face-side" points="${points(frontTopRight, backTopRight, backBottomRight, frontBottomRight)}"></polygon>
+              <polygon class="volume-face-top" points="${points(frontTopLeft, backTopLeft, backTopRight, frontTopRight)}"></polygon>
+              ${gridLines.join("")}
+              ${layerLines.join("")}
+              <polyline class="volume-edge" points="${points(frontTopLeft, backTopLeft, backTopRight, frontTopRight, frontTopLeft, frontBottomLeft, frontBottomRight, backBottomRight, backTopRight)}"></polyline>
+              <line class="volume-edge" x1="226" y1="110" x2="226" y2="220"></line>
+              <line class="volume-axis" x1="72" y1="236" x2="226" y2="236"></line>
+              <line class="volume-axis" x1="238" y1="226" x2="292" y2="181"></line>
+              <line class="volume-axis" x1="300" y1="176" x2="300" y2="76"></line>
+              <text class="volume-label" x="149" y="258" text-anchor="middle">${model.labels.width}</text>
+              <text class="volume-label" x="300" y="202" text-anchor="middle">${model.labels.depth}</text>
+              <text class="volume-label" x="313" y="126" text-anchor="start">${model.labels.height}</text>
+              <text class="volume-formula" x="176" y="51" text-anchor="middle">${volumeText.base}</text>
+              <text class="volume-note" x="50" y="168" text-anchor="middle" transform="rotate(-90 50 168)">${volumeText.layers}</text>
+              <text class="volume-formula" x="176" y="24" text-anchor="middle">${volumeText.total}</text>
+            </svg>
+          `;
         },
         visual() {
           const mode = math.getMode(state.mode);
@@ -902,13 +982,10 @@
           els.visualStage.innerHTML = `
             <div class="model-card">
               <p class="model-title">体积模型：10 x 10 x 10</p>
-              <div class="volume-model" aria-hidden="true">
-                ${this.volumeLayers()}
-                <span class="volume-badge">10 层</span>
-                <span class="layer-label">底面 10 x 10</span>
-                <span class="volume-side-note">每层 100<br>共 10 层</span>
+              <div class="volume-model">
+                ${this.volumeSvg()}
               </div>
-              <p class="model-caption">底面是 10 x 10，再叠 10 层，所以一共有 1000 个${mode.unitWord}。</p>
+              <p class="model-caption">${VISUAL_MODELS.volume.baseCount} x ${VISUAL_MODELS.volume.baseCount} 的底面是 ${VISUAL_MODELS.volume.baseTotal}，再叠 ${VISUAL_MODELS.volume.layerCount} 层，所以 ${VISUAL_MODELS.volume.baseCount} x ${VISUAL_MODELS.volume.baseCount} x ${VISUAL_MODELS.volume.layerCount} = ${VISUAL_MODELS.volume.total} 个${mode.unitWord}。</p>
             </div>
           `;
         },
