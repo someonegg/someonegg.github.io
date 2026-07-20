@@ -62,7 +62,7 @@
 
 ## NET
 
-- [[2026-07-19-rdma-verbs.md]] 深入理解 RDMA：从 Verbs 对象模型到 RC RDMA WRITE 生命周期
+- [[2026-07-19-rdma-verbs.md]] 深入理解 RDMA：从 Verbs 对象模型到 RC WRITE 生命周期
 - [[2026-06-10-cloudflare-tcp-http2-tuning.md]] Cloudflare TCP 与 HTTP/2 优先级调优
 - [[2026-06-10-lsof-cant-identify-protocol-go.md]] `lsof` 中 `can't identify protocol` 排查
 - [[2026-06-10-linux-tcp-connection-lifecycle.md]] Linux TCP 连接生命周期与队列参数
@@ -72,6 +72,7 @@
 
 ## Linux
 
+- [[2026-07-20-io-uring-design.md]] 深入理解 io_uring：从系统调用到共享队列
 - [[2026-06-11-linux-page-allocation-failure.md]] page allocation failure
 - [[2026-06-11-linux-route-debugging.md]] Linux 路由机制与排障方法
 - [[2026-06-10-linux-cfs-cpu-throttling.md]] Linux CFS CPU throttling：低 CPU 使用率 & 高限流

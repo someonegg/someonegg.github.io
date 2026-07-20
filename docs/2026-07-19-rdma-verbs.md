@@ -1,10 +1,10 @@
-# 深入理解 RDMA：从 Verbs 对象模型到一次 RC RDMA WRITE 的完整生命周期
+# 深入理解 RDMA：从 Verbs 对象模型到 RC WRITE 生命周期
 
 理解 RDMA 最有效的方式，不是背 API，而是换一个视角：**Socket 编程主要是在调用内核协议栈，Verbs 编程则是在创建设备对象，并向网卡的命令队列提交工作。**
 
 本文先用一个可运行的 RXE RC Ping-Pong 建立直觉，再把主线切换到一条 `IBV_WR_RDMA_WRITE`：从 `ibv_post_send()` 开始，追踪 WR 如何变成 WQE，如何经过 SQ、Doorbell、地址翻译、PCIe DMA、RC transport、远端内存写入和 ACK，最终以 CQE 回到应用。
 
-- [学习版 RC Ping-Pong 源码](./assets/2026-07-19-rxe-rc-pingpong/learning_rc_pingpong.c)
+- [学习版 RC Ping-Pong 源码](./assets/rxe-rc-pingpong/learning_rc_pingpong.c)
 
 ## 1. 先建立正确的心智模型
 
@@ -249,7 +249,7 @@ ulimit -l
 ### 4.2 编译与运行
 
 ```bash
-cd docs/assets/2026-07-19-rxe-rc-pingpong
+cd docs/assets/rxe-rc-pingpong
 make
 ```
 
