@@ -62,6 +62,7 @@
 
 ## NET
 
+- [[2026-07-19-rdma-verbs.md]] 深入理解 RDMA：从 Verbs 对象模型到 RC RDMA WRITE 生命周期
 - [[2026-06-10-cloudflare-tcp-http2-tuning.md]] Cloudflare TCP 与 HTTP/2 优先级调优
 - [[2026-06-10-lsof-cant-identify-protocol-go.md]] `lsof` 中 `can't identify protocol` 排查
 - [[2026-06-10-linux-tcp-connection-lifecycle.md]] Linux TCP 连接生命周期与队列参数
