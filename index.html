@@ -5,79 +5,512 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="stylesheet" href="/assets/site/shell.css" />
-  <title>Ally 索引</title>
+  <title>Ally｜技术笔记与实验</title>
   <style>
+    :root {
+      --home-paper: #f3f6f5;
+      --home-surface: #fbfdfc;
+      --home-ink: #17211f;
+      --home-deep: #203936;
+      --home-teal: #176f68;
+      --home-blue-gray: #60747a;
+      --home-line: #cfdbd8;
+      --home-display: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+      --home-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
     body {
       min-height: 100dvh;
+      color: var(--home-ink);
+      background:
+        linear-gradient(115deg, rgba(255, 255, 255, 0.74), transparent 38%),
+        var(--home-paper);
     }
-    .desc {
-      margin: 0 0 26px;
-      color: var(--muted);
-      font-size: 15px;
-      font-weight: 400;
+
+    .home-shell {
+      max-width: 1040px;
     }
-    .grid {
+
+    .home-shell .top-nav {
+      margin-bottom: 38px;
+    }
+
+    .home-hero {
       display: grid;
-      gap: 14px;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+      gap: clamp(36px, 7vw, 88px);
+      align-items: end;
+      padding: clamp(36px, 7vw, 76px) 0 clamp(38px, 6vw, 64px);
+      border-top: 1px solid var(--home-line);
+      border-bottom: 1px solid var(--home-line);
     }
-    .index-card {
-      display: block;
-      padding: 22px 20px;
-      text-decoration: none;
-      color: inherit;
-      transition: border-color var(--trans), box-shadow var(--trans), background var(--trans), transform var(--trans);
-    }
-    .index-card:hover {
-      border-color: var(--border-strong);
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
-      background: #fcfefe;
-    }
-    .index-card:focus-visible {
-      outline: none;
-      box-shadow: var(--focus);
-    }
-    .title {
-      margin: 0 0 6px;
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: -0.2px;
-    }
-    .meta {
+
+    .eyebrow,
+    .section-label,
+    .feature-meta,
+    .lens-heading {
       margin: 0;
-      font-size: 12px;
-      color: var(--muted);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color: var(--home-teal);
+      font-family: var(--home-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.11em;
+      line-height: 1.4;
+      text-transform: uppercase;
     }
-    @media (max-width: 720px) {
-      .grid { grid-template-columns: 1fr; }
+
+    .hero-title {
+      max-width: 690px;
+      margin: 18px 0 20px;
+      font-family: var(--home-display);
+      font-size: clamp(43px, 6vw, 68px);
+      font-weight: 600;
+      letter-spacing: -0.045em;
+      line-height: 1.1;
+    }
+
+    .hero-intro {
+      max-width: 630px;
+      margin: 0;
+      color: var(--home-blue-gray);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .research-lens {
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .lens-heading {
+      margin-bottom: 12px;
+      color: var(--home-blue-gray);
+    }
+
+    .lens-row {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 14px;
+      align-items: baseline;
+      padding: 12px 0;
+      border-top: 1px solid var(--home-line);
+    }
+
+    .lens-domain {
+      color: var(--home-teal);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .lens-topic {
+      color: var(--home-blue-gray);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .writing-section {
+      padding: clamp(54px, 8vw, 88px) 0 0;
+    }
+
+    .section-heading-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 22px;
+    }
+
+    .section-title {
+      margin: 6px 0 0;
+      font-family: var(--home-display);
+      font-size: clamp(27px, 3.5vw, 38px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+    }
+
+    .section-note {
+      max-width: 310px;
+      margin: 0 0 4px;
+      color: var(--home-blue-gray);
+      font-size: 13px;
+      line-height: 1.65;
+      text-align: right;
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .feature {
+      min-width: 0;
+    }
+
+    .feature-primary {
+      grid-column: span 7;
+      grid-row: span 2;
+    }
+
+    .feature-secondary {
+      grid-column: span 5;
+    }
+
+    .feature-link {
+      position: relative;
+      display: flex;
+      height: 100%;
+      min-height: 184px;
+      flex-direction: column;
+      padding: 25px 26px 23px;
+      overflow: hidden;
+      border: 1px solid var(--home-line);
+      border-radius: 14px;
+      color: inherit;
+      background: var(--home-surface);
+      text-decoration: none;
+      transition: border-color var(--trans), box-shadow var(--trans), transform var(--trans);
+    }
+
+    .feature-primary .feature-link {
+      min-height: 386px;
+      padding: clamp(28px, 4vw, 42px);
+      border-color: var(--home-deep);
+      color: #f6faf9;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.06), transparent 44%),
+        var(--home-deep);
+    }
+
+    .feature-link:hover {
+      border-color: #9db5b0;
+      box-shadow: 0 16px 36px rgba(23, 33, 31, 0.08);
+      transform: translateY(-3px);
+    }
+
+    .feature-link:focus-visible,
+    .experiment-link:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(23, 111, 104, 0.24);
+    }
+
+    .feature-primary .feature-meta {
+      color: #a9d0c9;
+    }
+
+    .feature-title {
+      margin: 17px 0 12px;
+      font-family: var(--home-display);
+      font-size: 23px;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.35;
+    }
+
+    .feature-primary .feature-title {
+      max-width: 520px;
+      margin-top: auto;
+      font-size: clamp(31px, 4vw, 43px);
+      line-height: 1.22;
+    }
+
+    .feature-summary {
+      max-width: 560px;
+      margin: 0;
+      color: var(--home-blue-gray);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .feature-primary .feature-summary {
+      margin-top: 18px;
+      color: #c7d8d5;
+      font-size: 15px;
+    }
+
+    .feature-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: auto;
+      padding-top: 22px;
+      color: var(--home-teal);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .feature-primary .feature-action {
+      color: #d9ebe7;
+    }
+
+    .feature-arrow,
+    .experiment-arrow {
+      transition: transform var(--trans);
+    }
+
+    .feature-link:hover .feature-arrow,
+    .experiment-link:hover .experiment-arrow {
+      transform: translateX(4px);
+    }
+
+    .experiments {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.62fr) minmax(0, 1.38fr);
+      gap: clamp(28px, 6vw, 68px);
+      margin-top: clamp(62px, 9vw, 96px);
+      padding: 30px 0 18px;
+      border-top: 1px solid var(--home-line);
+    }
+
+    .experiments-intro {
+      max-width: 270px;
+      margin: 10px 0 0;
+      color: var(--home-blue-gray);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .experiment-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .experiment-link {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(150px, 0.75fr) auto;
+      gap: 20px;
+      align-items: center;
+      min-height: 72px;
+      padding: 13px 4px;
+      border-bottom: 1px solid var(--home-line);
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--trans), padding var(--trans);
+    }
+
+    .experiment-link:hover {
+      padding-right: 0;
+      padding-left: 8px;
+      color: var(--home-teal);
+    }
+
+    .experiment-title {
+      font-family: var(--home-display);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .experiment-desc {
+      color: var(--home-blue-gray);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .experiment-arrow {
+      color: var(--home-teal);
+      font-size: 18px;
+    }
+
+    @media (max-width: 780px) {
+      .home-shell .top-nav {
+        margin-bottom: 24px;
+      }
+
+      .home-hero {
+        grid-template-columns: 1fr;
+        gap: 34px;
+        padding-top: 38px;
+      }
+
+      .research-lens {
+        max-width: 500px;
+      }
+
+      .feature-primary,
+      .feature-secondary {
+        grid-column: 1 / -1;
+      }
+
+      .feature-primary {
+        grid-row: auto;
+      }
+
+      .feature-primary .feature-link {
+        min-height: 350px;
+      }
+
+      .experiments {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 16px 12px 30px;
+      }
+
+      .home-shell .top-nav {
+        justify-content: flex-start;
+        gap: 1px;
+      }
+
+      .home-shell .nav-link {
+        padding: 0 9px;
+      }
+
+      .hero-title {
+        font-size: 41px;
+        letter-spacing: -0.04em;
+      }
+
+      .section-heading-row {
+        display: block;
+      }
+
+      .section-note {
+        margin-top: 12px;
+        text-align: left;
+      }
+
+      .feature-link,
+      .feature-primary .feature-link {
+        min-height: 0;
+        padding: 24px 22px;
+      }
+
+      .feature-primary .feature-title {
+        margin-top: 72px;
+        font-size: 31px;
+      }
+
+      .feature-title {
+        font-size: 22px;
+      }
+
+      .experiment-link {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+      }
+
+      .experiment-desc {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .home-shell,
+      .feature-link,
+      .feature-arrow,
+      .experiment-link,
+      .experiment-arrow {
+        animation: none;
+        scroll-behavior: auto;
+        transition: none;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="wrap is-catalog">
-    <div id="topNav" class="top-nav"></div>
-    <h1 class="page-title">Ally 总索引</h1>
-    <p class="desc">统一入口，分别进入应用与文档目录。</p>
-    <section class="grid">
-      <a class="card index-card" href="./apps/index.html">
-        <p class="title">Apps 索引</p>
-        <p class="meta">./apps/index.html</p>
-      </a>
-      <a class="card index-card" href="./docs/index.html">
-        <p class="title">Docs 索引</p>
-        <p class="meta">./docs/index.html</p>
-      </a>
-      <a class="card index-card" href="./kids/index.html">
-        <p class="title">Kids 索引</p>
-        <p class="meta">./kids/index.html</p>
-      </a>
-      <a class="card index-card" href="./wiki/index.html">
-        <p class="title">Wiki 索引</p>
-        <p class="meta">./wiki/index.html</p>
-      </a>
+  <main class="wrap home-shell">
+    <nav id="topNav" class="top-nav" aria-label="站点导航"></nav>
+
+    <header class="home-hero">
+      <div>
+        <p class="eyebrow">Current thread · 2026.07</p>
+        <h1 class="hero-title">从共享队列，<br />到分层注意力</h1>
+        <p class="hero-intro">
+          近期沿着一条线索展开：计算系统如何减少协调成本，让数据与上下文更高效地流动。
+          这里收录完整笔记、知识整理，也保留一些用来验证想法的交互实验。
+        </p>
+      </div>
+
+      <aside class="research-lens" aria-labelledby="lensHeading">
+        <h2 id="lensHeading" class="lens-heading">研究切面</h2>
+        <div class="lens-row">
+          <span class="lens-domain">内核</span>
+          <span class="lens-topic">共享队列与 I/O 控制面</span>
+        </div>
+        <div class="lens-row">
+          <span class="lens-domain">网络</span>
+          <span class="lens-topic">设备对象与直接数据路径</span>
+        </div>
+        <div class="lens-row">
+          <span class="lens-domain">模型</span>
+          <span class="lens-topic">稀疏检索与长上下文效率</span>
+        </div>
+      </aside>
+    </header>
+
+    <section class="writing-section" aria-labelledby="writingTitle">
+      <div class="section-heading-row">
+        <div>
+          <p class="section-label">Selected writing</p>
+          <h2 id="writingTitle" class="section-title">近期研究笔记</h2>
+        </div>
+        <p class="section-note">从机制出发，追踪一次操作真正经过的对象、边界与代价。</p>
+      </div>
+
+      <div class="featured-grid">
+        <article class="feature feature-primary">
+          <a class="feature-link" href="/docs/index.html?file=2026-07-20-io-uring-design.md">
+            <p class="feature-meta">系统 I/O · 2026.07.20</p>
+            <h3 class="feature-title">深入理解 io_uring：从系统调用到共享队列</h3>
+            <p class="feature-summary">
+              不把 io_uring 简化成“异步 API”，而是看清应用与内核如何通过 SQ、CQ 和批处理重新组织 I/O 控制面。
+            </p>
+            <span class="feature-action">阅读笔记 <span class="feature-arrow" aria-hidden="true">→</span></span>
+          </a>
+        </article>
+
+        <article class="feature feature-secondary">
+          <a class="feature-link" href="/docs/index.html?file=2026-07-19-rdma-verbs.md">
+            <p class="feature-meta">网络与数据路径 · 2026.07.19</p>
+            <h3 class="feature-title">深入理解 RDMA：从 Verbs 对象模型到 RC WRITE 生命周期</h3>
+            <p class="feature-summary">沿着一条 RDMA WRITE，串起 QP、MR、Doorbell、DMA 与 CQE。</p>
+            <span class="feature-action">阅读笔记 <span class="feature-arrow" aria-hidden="true">→</span></span>
+          </a>
+        </article>
+
+        <article class="feature feature-secondary">
+          <a class="feature-link" href="/wiki/index.html?file=sources%2F2026-07-20-machine-heart-hils-attention-wechat.md">
+            <p class="feature-meta">模型架构 · Wiki updated 2026.07.23</p>
+            <h3 class="feature-title">HiLS-Attention：把分块稀疏检索带回前向计算</h3>
+            <p class="feature-summary">梳理分层 softmax、可学习 chunk summary，以及 512× 外推主张的证据边界。</p>
+            <span class="feature-action">查看知识整理 <span class="feature-arrow" aria-hidden="true">→</span></span>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <section class="experiments" aria-labelledby="experimentsTitle">
+      <div>
+        <p class="section-label">Interactive work</p>
+        <h2 id="experimentsTitle" class="section-title">交互实验</h2>
+        <p class="experiments-intro">有些问题更适合直接操作、观察和重试。</p>
+      </div>
+
+      <ul class="experiment-list">
+        <li>
+          <a class="experiment-link" href="/kids/hanzi/index.html">
+            <span class="experiment-title">汉字学习</span>
+            <span class="experiment-desc">从拼音、笔顺到组词的分步练习</span>
+            <span class="experiment-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+        <li>
+          <a class="experiment-link" href="/apps/ripple_resonance.html">
+            <span class="experiment-title">Ripple Resonance</span>
+            <span class="experiment-desc">用波纹、节奏与色彩构造的生成艺术实验</span>
+            <span class="experiment-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ul>
     </section>
   </main>
 
