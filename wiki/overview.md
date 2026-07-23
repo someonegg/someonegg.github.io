@@ -2,9 +2,9 @@
 
 ## Current Status
 
-- Source pages: 26
-- Entity pages: 16
-- Concept pages: 49
+- Source pages: 27
+- Entity pages: 17
+- Concept pages: 51
 - Persisted query pages: 3
 
 ## Taxonomy
@@ -17,6 +17,7 @@
 - Agent 记忆机制：区分轨迹记忆（细节但难迁移）、工作流记忆（成功经验但忽略失败）与推理记忆（高层可迁移模式，覆盖成功与失败）。ReasoningBank 代表推理记忆路线，并强调失败经验、反事实信号与陷阱蒸馏的价值。
 - 学习与思维方法：`Fermi Estimation` 偏外部问题建模，`Feynman Technique` 偏内部理解校验；二者可组合成“估算假设 -> 去术语解释 -> 回补缺口”的迭代闭环。
 - 媒介理论与 AI：用“媒介即讯息/延伸与截肢/冷热媒介/后视镜/四联体”解释 AI 对认知结构、社会分层与旧媒介惯性的影响路径。
+- 模型架构与效率：组织需要写入模型结构或权重的效率机制，并与纯训练优化、serving 调度和 test-time 行为控制分层。当前主要子类是注意力计算模式优化，覆盖 `MHA/GQA/MLA/SWA/Sparse/Gated/Hybrid` 等机制与架构路径。
 - 训练稳定性与优化：组织 `mHC`、`Muon`、`ERC` 等训练内稳定化机制，并与推理阶段控制分层。`ERC` 针对 `PPO-clip` 可能漏管未采样动作全局分布漂移的问题，用 entropy ratio 对探索强度变化施加双向约束。
 - 后训练策略学习：以 `InstructGPT (2022)` 的 `SFT -> reward model -> RLHF` 作为历史基线；`PPO` 仍是关键 on-policy 基线，`DPO` 与 `GRPO` 分别沿“偏好对齐流程简化”和“推理任务资源效率”改写该基线，`OPD` 则用 `on-policy` 采样结合 `dense` 教师监督。
 - Prompt Optimization：覆盖从离散搜索到文本梯度，再到合成反馈驱动的闭环优化；`SIPDO` 当前作为闭环 prompt 优化代表线索。
@@ -24,7 +25,7 @@
 
 ### Cross-Axis Themes
 
-- 长上下文注意力工程可拆为两条主线：`KV cache` 体积优化（如 `GQA/MLA`）与注意力计算模式优化（如 `SWA/Sparse/Hybrid`）。注意力变体需区分机制层与架构层：`MHA/GQA/MLA/SWA/DeepSeek Sparse/Gated` 属于机制或模块改造，`Hybrid` 属于层级编排模式。
+- 长上下文注意力工程可拆为两条主线：`KV cache` 体积优化（如 `GQA/MLA`）与注意力计算模式优化（如 `SWA/Sparse/Hybrid`）。注意力变体需区分机制层与架构层：`MHA/GQA/MLA/SWA/DeepSeek Sparse/Gated/HiLS` 属于机制或模块改造，`Hybrid` 属于层级编排模式。`HiLS` 进一步展示了让 chunk retrieval score 进入前向 attention、接受 LM loss 直接训练的路线，但其 `512×` 外推结果只应按特定 retrieval 设置理解。
 - `KV cache` serving 优化应分阶段推进：先做架构降体积，再做缓存系统管理，最后做低比特压缩。在线 serving 中 decode 阶段常见瓶颈是内存带宽，因此内存流量与缓存生命周期应作为一线指标；前缀复用与分页分配是并发场景下降低 TTFT、提升吞吐的高 ROI 手段。
 - `DeepSeek-V4 (2026-04-24)` 主线可归纳为“`CSA/HCA` + `mHC` + `Muon` + `KV/FP4/OPD` 基建协同”，其工程目标是把 `1M context` 从展示能力推向常态化能力。
 - `Hybrid Attention` 在现有来源中存在口径分化：既可指 attention 与非-attention 的层级混排，也可指 attention 家族内部的多机制交错编排；后续引用时应显式说明语境。
@@ -44,6 +45,7 @@
 - 在当前任务分布下，`PPO`、`DPO`、`GRPO` 的最优切换条件是什么（数据质量、在线采样成本、显存预算）？
 - `ERC` 在当前业务任务上对 entropy 漂移、loss 波动与最终质量的真实收益是否独立于作者实验栈成立？
 - `CSA/HCA` 的压缩率与 `top-k` 在不同任务族（精确引用、跨文档检索、agent 工具链）上的质量回退阈值分别是多少？
+- `HiLS-Attention` 的 chunk compression 去噪解释能否通过独立因果消融成立？其在 needle retrieval、通用生成与真实 Agent workload 之间的外推边界分别在哪里？
 - `on-disk KV` 的三种 `SWA` 缓存策略在当前 SSD 与请求分布下，最佳的“存储开销 vs 重计算”折中点在哪里？
 - “认知分化”相关判断在教育、编程、医疗咨询等场景是否可被量化观测（提问质量、复查行为、误判率）？
 - ReasoningBank 的 append-only 记忆整合策略在长时间积累后是否会产生记忆冲突或质量退化？

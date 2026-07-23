@@ -1,7 +1,7 @@
 ---
 id: concept-reasoning-phase-control
 type: concept
-updated_at: 2026-05-15
+updated_at: 2026-07-23
 source_refs:
   - "[[sources/2026-04-14-parallel-probe-paper]]"
   - "[[sources/2026-04-14-parallel-probe-wechat-report]]"
@@ -25,7 +25,6 @@ source_refs:
 
 - [[concepts/parallel-reasoning-budget-control]]：预算控制方法，用共识早停与偏差剪枝联合调度并行推理的深度与宽度。
 - [[concepts/reasoning-shift]]：退化机制，描述上下文拥挤条件下“答案后验证”收缩与推理投入下降。
-- [[concepts/attention-compute-pattern-optimization]]：架构/机制层优化分类，组织注意力计算模式上的 test-time 效率改造。
 - [[concepts/kv-cache-serving-optimization]]：系统层优化分类，组织 `KV cache` 与 serving 路径上的推理成本控制。
 - [[concepts/memory-aware-test-time-scaling]]：扩展与控制方法，将 agent 记忆与测试时扩展关联，并把探索轨迹反馈为后续行为改进信号。
 
@@ -37,3 +36,4 @@ source_refs:
 ## Related Concepts
 
 - application: [[concepts/prompt-optimization]]
+- complement: [[concepts/attention-compute-pattern-optimization]]（模型架构给出能力与成本边界，本页组织 test-time 行为、预算与调度）。

@@ -772,3 +772,68 @@
   - `SAE/CLT/Attribution Graph` 在长上下文、多轮 agent 和工具调用任务上的机制忠实度如何量化？
   - 功能词元假说能否与 `SAE/CLT` 抽取到的特征建立直接对应，而不仅是概念层互补？
   - 微信综合文适合作为中文入口，但具体机制细节应继续以一手论文和官方研究页为主证据。
+
+## [2026-07-23] ingest | 在数学上把稀疏注意力做对！腾讯混元开源 HiLS-Attention
+
+- Processed sources
+  - `https://mp.weixin.qq.com/s/5DvG15ZZMMm522x8G4Gr1g?scene=334`
+  - 交叉核验：`https://arxiv.org/abs/2607.02980`
+  - 交叉核验：`https://github.com/Tencent-Hunyuan/HiLS-Attention`
+- New pages
+  - `sources/2026-07-20-machine-heart-hils-attention-wechat.md`
+  - `entities/tencent-hunyuan.md`
+  - `concepts/hierarchical-landmark-sparse-attention.md`
+- Updated pages
+  - `concepts/attention-compute-pattern-optimization.md`
+  - `overview.md`
+  - `index.md`
+  - `log.md`
+- Open validation questions
+  - `4M / 512×` 是特定 needle retrieval 设置，能否在通用生成、LongBench 全任务与真实 Agent workload 中独立复现？
+  - chunk compression 的“噪声抵消、语义保留”解释是否有控制训练配方与 top-k regularization 后的因果消融支持？
+  - `13.5×` prefill 与 `15.7×` decode 加速在同硬件、同 kernel、同 batch/并发条件下是否仍成立？
+
+## [2026-07-23] lint | semantic-check
+
+- semantic_findings:
+  - id: semantic-2026-07-23-001
+    severity: medium
+    page: concepts/attention-compute-pattern-optimization.md
+    issue: Attention Compute Pattern Optimization 被挂在纯 test-time 的 Reasoning Phase Control 下，但其子概念包含需要模型结构改造和训练的 Gated Attention、DSA、CSA/HCA 与 HiLS；这与父页明确排除预训练配方和权重结构改造的 Scope 冲突。
+    why_it_matters: 同一 taxonomy 同时把注意力架构解释为推理期控制手段和训练期模型机制，会误导后续页面挂载，也会让读者混淆模型架构能力、训练方法与 serving 优化。
+    fix_action: 将 attention-compute-pattern-optimization 提升为独立顶层架构轴，或新建 model-architecture-efficiency 上位概念并把该页迁入；Reasoning Phase Control 仅通过 application/complement 关系连接其 test-time 效果。同步更新 overview 与 index 的分类说明。
+    evidence: concepts/reasoning-phase-control.md; concepts/attention-compute-pattern-optimization.md; concepts/gated-attention.md; concepts/deepseek-sparse-attention.md; concepts/hierarchical-landmark-sparse-attention.md
+  - id: semantic-2026-07-23-002
+    severity: medium
+    page: concepts/hierarchical-landmark-sparse-attention.md
+    issue: HiLS 概念页、腾讯混元实体页与 overview 的机制结论目前只引用机器之心二手解读页；虽在来源页中列出 arXiv 与官方代码链接，但尚未建立一手论文 source page 作为直接证据锚点。
+    why_it_matters: HiLS 已进入全局 overview，且涉及 512× 外推、速度收益和压缩去噪等容易被扩大解释的主张；仅依赖二手 source_refs 会削弱公式、实验设置和版本变化的可追溯性。
+    fix_action: 单独 ingest arXiv:2607.02980 正文为一手 source page，记录精确公式、复杂度、各 benchmark 的上下文范围与硬件条件；随后把 HiLS 概念页、腾讯混元实体页、attention 分类页和 overview 的相关结论补链到该一手来源，同时保留微信页作为中文解读入口。
+    evidence: sources/2026-07-20-machine-heart-hils-attention-wechat.md; concepts/hierarchical-landmark-sparse-attention.md; entities/tencent-hunyuan.md; overview.md
+  - id: semantic-2026-07-23-003
+    severity: low
+    page: concepts/entropy-ratio-clipping.md
+    issue: DAPO 与 GPPO 仍作为 ERC 的关键比较和集成对象反复出现，但没有独立概念页；该问题自 2026-05-15 的 semantic lint 后仍未解决。
+    why_it_matters: 缺少规范化定义会让读者无法判断 ERC 在 PPO-clip 路线与非标准 clipping 路线中的不同角色，也不利于后续追踪算法谱系与冲突证据。
+    fix_action: 新增 concepts/dapo.md 与 concepts/gppo.md，说明各自目标、与 PPO/GRPO 的关系及在 ERC 论文中的实验语境；再从 ERC、PPO、GRPO 和 post-training policy learning 页面互链。
+    evidence: sources/2026-05-15-erc-paper.md; concepts/entropy-ratio-clipping.md; log.md#2026-05-15-lint-semantic-check
+- follow_up_todos:
+  - [ ] (medium) concepts/attention-compute-pattern-optimization.md: 将 attention-compute-pattern-optimization 提升为独立顶层架构轴，或新建 model-architecture-efficiency 上位概念并把该页迁入；Reasoning Phase Control 仅通过 application/complement 关系连接其 test-time 效果。同步更新 overview 与 index 的分类说明。
+  - [ ] (medium) concepts/hierarchical-landmark-sparse-attention.md: 单独 ingest arXiv:2607.02980 正文为一手 source page，记录精确公式、复杂度、各 benchmark 的上下文范围与硬件条件；随后把 HiLS 概念页、腾讯混元实体页、attention 分类页和 overview 的相关结论补链到该一手来源，同时保留微信页作为中文解读入口。
+  - [ ] (low) concepts/entropy-ratio-clipping.md: 新增 concepts/dapo.md 与 concepts/gppo.md，说明各自目标、与 PPO/GRPO 的关系及在 ERC 论文中的实验语境；再从 ERC、PPO、GRPO 和 post-training policy learning 页面互链。
+
+## [2026-07-23] maintenance | separate model architecture from reasoning-phase control
+
+- Updated pages
+  - `concepts/model-architecture-and-efficiency.md`（new）
+  - `concepts/attention-compute-pattern-optimization.md`
+  - `concepts/reasoning-phase-control.md`
+  - `overview.md`
+  - `index.md`
+  - `log.md`
+- What changed
+  - 新建 `Model Architecture and Efficiency` 顶层分类，承载需要模型结构或权重改造的效率机制。
+  - 将 `Attention Compute Pattern Optimization` 从纯 test-time 的 `Reasoning Phase Control` 迁移到新架构轴。
+  - 保留架构与推理期控制之间的横向关系，同时明确区分模型结构、训练优化、serving 调度与 test-time 行为控制。
+- Resolved follow-up todos
+  - [x] (medium) concepts/attention-compute-pattern-optimization.md: 解决架构机制与纯 test-time 父分类之间的 Scope 冲突。

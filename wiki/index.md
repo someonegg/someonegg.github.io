@@ -8,6 +8,7 @@
 
 ## Sources
 
+- [[sources/2026-07-20-machine-heart-hils-attention-wechat]] 机器之心微信论文解读（发布时间 2026-07-20），介绍 `HiLS-Attention` 的可学习 chunk summary、分层 softmax 与长上下文实验主张。
 - [[sources/2026-05-17-machine-heart-llm-language-thinking]] 机器之心微信综合文（发布时间 2026-05-17），将 LLM 高阶模式、`NTP`、`SAE/CLT` 与功能词元机制串成中文入口。
 - [[sources/2025-10-09-function-token-hypothesis-paper]] `Function Token Hypothesis` 一手论文（发布时间 2025-10-09），用功能词元解释 LLM 记忆检索与记忆巩固。
 - [[sources/2025-03-27-anthropic-circuit-tracing]] Anthropic `Circuit Tracing` 方法文（发布时间 2025-03-27），提出 `CLT + Attribution Graph` 追踪 LLM 计算路径。
@@ -37,6 +38,7 @@
 
 ## Entities
 
+- [[entities/tencent-hunyuan]] 腾讯基础模型与 AI 研究团队，当前关联 `HiLS-Attention` 长上下文稀疏注意力路线。
 - [[entities/google-research]] Google 旗下研究机构，涵盖 AI/ML 等方向。
 - [[entities/marshall-mcluhan]] 媒介理论学者，”媒介即讯息”提出者。
 - [[entities/ivan-zhao]] Notion 联合创始人 CEO。
@@ -83,9 +85,10 @@
 - [[concepts/prompt-optimization]] Prompt 级方法学分类，从离散搜索到文本梯度再到闭环反馈优化。
 - [[concepts/closed-loop-prompt-optimization]] 通过“难例生成 + 失败修复 + 全局回归”持续演化 prompt 的闭环范式。
 - [[concepts/reasoning-phase-control]] 推理阶段控制的上位分类概念，覆盖 test-time 的行为、预算与调度问题。
+- [[concepts/model-architecture-and-efficiency]] 模型结构内生效率的上位分类，区分架构机制、训练优化、serving 系统与 test-time 控制。
 - [[concepts/training-stability-and-optimization]] 训练稳定性与优化的上位分类，组织优化器与稳定化连接机制。
 - [[concepts/reasoning-shift]] 长上下文拥挤下“答案后验证收缩”机制假设。
-- [[concepts/attention-compute-pattern-optimization]] 注意力机制/架构路径的推理优化分类（机制层与架构层）。
+- [[concepts/attention-compute-pattern-optimization]] 注意力机制与架构编排的结构优化分类，覆盖训练、推理与长上下文扩展成本。
 - [[concepts/kv-cache-serving-optimization]] `KV cache` 与 serving 系统路径的推理优化分类（瓶颈判断与分层落地）。
 - [[concepts/manifold-constrained-hyper-connections]] 通过双随机流形约束残差映射，提升深层训练稳定性的连接机制。
 - [[concepts/muon-optimizer]] 大规模训练下基于正交化更新的优化器路线，并与 `AdamW` 参数分治搭配。
@@ -104,6 +107,7 @@
 - [[concepts/heavily-compressed-attention]] DeepSeek-V4 的高压缩率长距离注意力主通道。
 - [[concepts/gated-attention]] 对 full-attention 块做门控与归一化改造的稳定性增强组件。
 - [[concepts/hybrid-attention-architecture]] `Hybrid Attention` 的多口径概念页，区分“跨模块混排”与“attention 内部交错编排”两种用法。
+- [[concepts/hierarchical-landmark-sparse-attention]] 以 landmark chunk summary 与 inter/intra-chunk softmax 实现端到端检索学习的稀疏注意力机制。
 - [[concepts/on-disk-kv-prefix-reuse]] 将共享前缀 KV 持久化到磁盘以减少重复 prefill 的 serving 策略。
 
 ## Queries
