@@ -159,6 +159,10 @@
       grid-column: span 5;
     }
 
+    .feature-wide {
+      grid-column: 1 / -1;
+    }
+
     .feature-link {
       position: relative;
       display: flex;
@@ -423,9 +427,9 @@
     <header class="home-hero">
       <div>
         <p class="eyebrow">Current thread · 2026.07</p>
-        <h1 class="hero-title">从共享队列，<br />到分层注意力</h1>
+        <h1 class="hero-title">从系统路径，<br />到学习机制</h1>
         <p class="hero-intro">
-          近期沿着一条线索展开：计算系统如何减少协调成本，让数据与上下文更高效地流动。
+          近期从系统与模型两端追问机制：数据如何穿过边界，复杂性如何被组织，误差又如何逐层传递。
           这里收录完整笔记、知识整理，也保留一些用来验证想法的交互实验。
         </p>
       </div>
@@ -441,8 +445,12 @@
           <span class="lens-topic">设备对象与直接数据路径</span>
         </div>
         <div class="lens-row">
+          <span class="lens-domain">架构</span>
+          <span class="lens-topic">服务边界与系统治理</span>
+        </div>
+        <div class="lens-row">
           <span class="lens-domain">模型</span>
-          <span class="lens-topic">稀疏检索与长上下文效率</span>
+          <span class="lens-topic">梯度传递与矩阵微分</span>
         </div>
       </aside>
     </header>
@@ -478,11 +486,20 @@
         </article>
 
         <article class="feature feature-secondary">
-          <a class="feature-link" href="/wiki/index.html?file=sources%2F2026-07-20-machine-heart-hils-attention-wechat.md">
-            <p class="feature-meta">模型架构 · Wiki updated 2026.07.23</p>
-            <h3 class="feature-title">HiLS-Attention：把分块稀疏检索带回前向计算</h3>
-            <p class="feature-summary">梳理分层 softmax、可学习 chunk summary，以及 512× 外推主张的证据边界。</p>
-            <span class="feature-action">查看知识整理 <span class="feature-arrow" aria-hidden="true">→</span></span>
+          <a class="feature-link" href="/docs/index.html?file=2026-06-13-microservices-system.md">
+            <p class="feature-meta">系统架构 · 2026.06.13</p>
+            <h3 class="feature-title">微服务系统：从服务自治到整体稳定</h3>
+            <p class="feature-summary">梳理资源、发布、观测与治理底座，以及拆分服务真正引入的边界和代价。</p>
+            <span class="feature-action">阅读笔记 <span class="feature-arrow" aria-hidden="true">→</span></span>
+          </a>
+        </article>
+
+        <article class="feature feature-wide">
+          <a class="feature-link" href="/docs/index.html?file=2026-06-09-backpropagation-math.md">
+            <p class="feature-meta">机器学习 · 2026.06.09</p>
+            <h3 class="feature-title">反向传播中的数学：从偏导数到矩阵微分</h3>
+            <p class="feature-summary">用偏导数、链式法则和矩阵记号，逐层展开损失函数的梯度如何传回每个参数。</p>
+            <span class="feature-action">阅读笔记 <span class="feature-arrow" aria-hidden="true">→</span></span>
           </a>
         </article>
       </div>
