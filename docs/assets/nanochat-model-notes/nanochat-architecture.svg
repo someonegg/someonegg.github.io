@@ -1,0 +1,278 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1120" viewBox="0 0 1600 1120" role="img" aria-labelledby="title desc">
+  <title id="title">nanochat d24 complete model architecture</title>
+  <desc id="desc">The complete nanochat decoder-only Transformer from token input to logits, highlighting Smear, Value Embeddings, SSSL sliding-window attention, x0 injection, residual scalars, Backout, ReLU squared, and the untied LM Head.</desc>
+
+  <defs>
+    <style>
+      .bg { fill: #f7f5f0; }
+      .ink { fill: #172321; }
+      .muted { fill: #66716e; }
+      .hair { stroke: #c7ceca; stroke-width: 1.5; fill: none; }
+      .flow { stroke: #243d39; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .flow-soft { stroke: #6e8580; stroke-width: 2; fill: none; marker-end: url(#arrowSoft); }
+      .accent-flow { stroke: #d66b3e; stroke-width: 2.5; fill: none; marker-end: url(#arrowAccent); }
+      .teal-flow { stroke: #1d7b72; stroke-width: 2.5; fill: none; marker-end: url(#arrowTeal); }
+      .teal-rail { stroke: #1d7b72; stroke-width: 2.5; fill: none; }
+      .node { fill: #fffefa; stroke: #aeb9b5; stroke-width: 1.5; }
+      .node-dark { fill: #243d39; stroke: #243d39; stroke-width: 1.5; }
+      .node-teal { fill: #e1f0ec; stroke: #1d7b72; stroke-width: 2; }
+      .node-orange { fill: #f9e7dc; stroke: #d66b3e; stroke-width: 2; }
+      .node-sand { fill: #f0eadc; stroke: #a59676; stroke-width: 1.5; }
+      .block { fill: #fffefa; stroke: #50645f; stroke-width: 2; }
+      .dash { fill: none; stroke: #8c9b97; stroke-width: 1.5; stroke-dasharray: 7 7; }
+      .tag { fill: #d66b3e; }
+      .tag-teal { fill: #1d7b72; }
+      .title { font: 700 36px "Inter", "Noto Sans SC", "PingFang SC", sans-serif; letter-spacing: .2px; }
+      .subtitle { font: 400 16px "Inter", "Noto Sans SC", "PingFang SC", sans-serif; }
+      .section { font: 700 18px "Inter", "Noto Sans SC", "PingFang SC", sans-serif; letter-spacing: 1.2px; }
+      .label { font: 650 16px "Inter", "Noto Sans SC", "PingFang SC", sans-serif; }
+      .body { font: 400 14px "Inter", "Noto Sans SC", "PingFang SC", sans-serif; }
+      .small { font: 400 12px "Inter", "Noto Sans SC", "PingFang SC", sans-serif; }
+      .micro { font: 500 11px "Inter", "Noto Sans SC", "PingFang SC", sans-serif; letter-spacing: .35px; }
+      .mono { font: 500 13px "SFMono-Regular", "Roboto Mono", monospace; }
+      .white { fill: #fffefa; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#243d39"/>
+    </marker>
+    <marker id="arrowSoft" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6e8580"/>
+    </marker>
+    <marker id="arrowAccent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d66b3e"/>
+    </marker>
+    <marker id="arrowTeal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1d7b72"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#243d39" flood-opacity=".08"/>
+    </filter>
+  </defs>
+
+  <rect class="bg" width="1600" height="1120"/>
+  <path d="M72 96 H1528" class="hair"/>
+
+  <text x="72" y="62" class="title ink">nanochat · d24 architecture</text>
+  <text x="72" y="87" class="subtitle muted">decoder-only Transformer · 24 layers · C=1536 · 12 heads · context=2048 · vocab=32768</text>
+  <g transform="translate(1292 42)">
+    <rect width="112" height="29" rx="14.5" class="node-teal"/>
+    <circle cx="17" cy="14.5" r="5" class="tag-teal"/>
+    <text x="30" y="19" class="small ink">signature</text>
+    <rect x="124" width="112" height="29" rx="14.5" class="node"/>
+    <circle cx="141" cy="14.5" r="5" fill="#aeb9b5"/>
+    <text x="154" y="19" class="small ink">standard</text>
+  </g>
+
+  <!-- Main model stream -->
+  <text x="72" y="139" class="section muted">TOKEN STREAM</text>
+
+  <g filter="url(#shadow)">
+    <rect x="72" y="160" width="210" height="76" rx="12" class="node-dark"/>
+    <text x="92" y="190" class="label white">Token IDs</text>
+    <text x="92" y="216" class="mono white">(B, T)</text>
+  </g>
+  <path d="M282 198 H327" class="flow"/>
+
+  <g filter="url(#shadow)">
+    <rect x="328" y="160" width="228" height="76" rx="12" class="node"/>
+    <text x="348" y="188" class="label ink">Token Embedding</text>
+    <text x="348" y="213" class="mono muted">32768 × 1536</text>
+    <rect x="473" y="201" width="66" height="22" rx="11" class="node-orange"/>
+    <text x="486" y="216" class="micro ink">untied</text>
+  </g>
+  <path d="M556 198 H601" class="flow"/>
+
+  <g>
+    <rect x="602" y="160" width="176" height="76" rx="12" class="node"/>
+    <text x="622" y="188" class="label ink">RMSNorm</text>
+    <text x="622" y="213" class="small muted">no gamma / beta</text>
+  </g>
+  <path d="M778 198 H823" class="flow"/>
+
+  <g filter="url(#shadow)">
+    <rect x="824" y="150" width="248" height="96" rx="12" class="node-teal"/>
+    <rect x="842" y="166" width="54" height="20" rx="10" class="tag-teal"/>
+    <text x="855" y="180" class="micro white">Smear</text>
+    <text x="842" y="208" class="label ink">Previous-token mixing</text>
+    <text x="842" y="229" class="small muted">24-channel gate · λ init=0</text>
+  </g>
+  <path d="M1072 198 H1117" class="flow"/>
+
+  <g>
+    <rect x="1118" y="160" width="202" height="76" rx="12" class="node-sand"/>
+    <text x="1138" y="188" class="label ink">x₀ snapshot</text>
+    <text x="1138" y="213" class="small muted">normalized + smeared</text>
+  </g>
+  <path d="M1118 198 H1088 V270 H715 V294" class="flow"/>
+  <text x="1047" y="262" class="micro muted">x</text>
+
+  <!-- x0 injection rail -->
+  <path d="M1219 236 V933" class="teal-rail"/>
+  <rect x="1109" y="266" width="220" height="52" rx="10" class="node-teal"/>
+  <text x="1126" y="288" class="label ink">Per-layer x₀ injection</text>
+  <text x="1126" y="307" class="small muted">λx₀: 0.20 → 0.05</text>
+
+  <!-- Repeated transformer block -->
+  <g filter="url(#shadow)">
+    <rect x="302" y="294" width="826" height="650" rx="20" class="block"/>
+  </g>
+  <text x="330" y="332" class="section ink">DECODER BLOCK × 24</text>
+  <text x="974" y="332" class="mono muted">(B,T,1536)</text>
+  <rect x="330" y="351" width="770" height="53" rx="10" class="node-teal"/>
+  <text x="350" y="374" class="label ink">Residual mixing</text>
+  <text x="526" y="374" class="body ink">x ← λresid · x + λx₀ · x₀</text>
+  <text x="350" y="394" class="small muted">learnable per-layer scalars · λresid: 1.15 → 1.05</text>
+  <path d="M1219 377 H1100" class="teal-flow"/>
+
+  <!-- Attention sub-block -->
+  <rect x="330" y="430" width="770" height="274" rx="14" fill="#f8faf8" stroke="#8ca09a" stroke-width="1.5"/>
+  <text x="350" y="460" class="section ink">ATTENTION</text>
+
+  <rect x="350" y="480" width="145" height="54" rx="10" class="node"/>
+  <text x="368" y="503" class="label ink">RMSNorm</text>
+  <text x="368" y="522" class="small muted">parameter-free</text>
+  <path d="M495 507 H530" class="flow"/>
+
+  <rect x="531" y="480" width="170" height="54" rx="10" class="node"/>
+  <text x="551" y="503" class="label ink">Q / K / V</text>
+  <text x="551" y="522" class="small muted">12 × 128</text>
+
+  <path d="M701 497 H737" class="flow"/>
+  <rect x="738" y="466" width="166" height="68" rx="10" class="node-teal"/>
+  <text x="757" y="490" class="label ink">RoPE + QK Norm</text>
+  <text x="757" y="511" class="small muted">θ=100K · q,k ×1.2</text>
+  <text x="757" y="526" class="micro muted">Q / K path</text>
+
+  <!-- VE path -->
+  <rect x="531" y="560" width="239" height="70" rx="10" class="node-orange"/>
+  <rect x="547" y="572" width="41" height="18" rx="9" class="tag"/>
+  <text x="557" y="585" class="micro white">VE</text>
+  <text x="597" y="587" class="label ink">Value Embedding</text>
+  <text x="550" y="612" class="small muted">token lookup · 3σ(gate) · alternating layers</text>
+  <path d="M770 595 H920 V580 H935" class="accent-flow"/>
+  <text x="790" y="587" class="micro muted">inject into V</text>
+
+  <rect x="935" y="466" width="145" height="164" rx="10" class="node-teal"/>
+  <text x="955" y="491" class="label ink">Flash Attn 3</text>
+  <text x="955" y="518" class="body ink">SSSL pattern</text>
+  <g transform="translate(955 536)">
+    <rect width="22" height="22" rx="5" fill="#dce9e5"/><text x="7" y="16" class="micro ink">S</text>
+    <rect x="28" width="22" height="22" rx="5" fill="#dce9e5"/><text x="35" y="16" class="micro ink">S</text>
+    <rect x="56" width="22" height="22" rx="5" fill="#dce9e5"/><text x="63" y="16" class="micro ink">S</text>
+    <rect x="84" width="22" height="22" rx="5" fill="#d66b3e"/><text x="91" y="16" class="micro white">L</text>
+  </g>
+  <text x="955" y="580" class="small muted">S: left 512</text>
+  <text x="955" y="599" class="small muted">L: full 2048</text>
+  <text x="955" y="618" class="small muted">final layer = L</text>
+
+  <path d="M1080 548 H1094 V664 H1050" class="flow"/>
+  <rect x="758" y="650" width="292" height="38" rx="9" class="node"/>
+  <text x="778" y="674" class="small ink">Concat heads → O projection → + residual</text>
+
+  <!-- MLP sub-block -->
+  <rect x="330" y="730" width="770" height="145" rx="14" fill="#f8faf8" stroke="#8ca09a" stroke-width="1.5"/>
+  <text x="350" y="760" class="section ink">MLP</text>
+  <rect x="350" y="779" width="145" height="58" rx="10" class="node"/>
+  <text x="368" y="803" class="label ink">RMSNorm</text>
+  <text x="368" y="824" class="small muted">parameter-free</text>
+  <path d="M495 808 H530" class="flow"/>
+  <rect x="531" y="779" width="166" height="58" rx="10" class="node"/>
+  <text x="551" y="803" class="label ink">Linear ×4</text>
+  <text x="551" y="824" class="mono muted">1536 → 6144</text>
+  <path d="M697 808 H732" class="flow"/>
+  <rect x="733" y="779" width="132" height="58" rx="10" class="node-teal"/>
+  <text x="755" y="803" class="label ink">ReLU²</text>
+  <text x="755" y="824" class="small muted">sparse activation</text>
+  <path d="M865 808 H900" class="flow"/>
+  <rect x="901" y="779" width="179" height="58" rx="10" class="node"/>
+  <text x="920" y="803" class="label ink">Linear project</text>
+  <text x="920" y="824" class="mono muted">6144 → 1536 · +resid</text>
+
+  <rect x="330" y="895" width="770" height="30" rx="8" class="node-sand"/>
+  <text x="350" y="915" class="small ink">Pre-norm residual · no bias · zero-init attention / MLP output projections</text>
+
+  <!-- depth rail / backout -->
+  <path d="M282 377 H302" class="flow"/>
+  <path d="M220 368 V934" class="dash"/>
+  <circle cx="220" cy="377" r="7" class="tag-teal"/>
+  <circle cx="220" cy="655" r="7" class="tag"/>
+  <circle cx="220" cy="925" r="7" class="tag-teal"/>
+  <text x="72" y="376" class="label ink">layer 1</text>
+  <text x="72" y="654" class="label ink">layer 13</text>
+  <text x="72" y="925" class="label ink">layer 24</text>
+  <text x="72" y="399" class="small muted">SSSL pattern tiled</text>
+  <path d="M227 655 H274 V967 H568" class="accent-flow"/>
+  <rect x="72" y="685" width="190" height="74" rx="11" class="node-orange"/>
+  <text x="90" y="712" class="label ink">Backout snapshot</text>
+  <text x="90" y="734" class="small muted">cache block 13 output</text>
+  <text x="90" y="751" class="small muted">λbackout init=0.2</text>
+
+  <!-- Output stream -->
+  <text x="302" y="984" class="section muted">OUTPUT</text>
+  <path d="M715 944 V977" class="flow"/>
+  <rect x="570" y="977" width="290" height="58" rx="11" class="node-orange"/>
+  <text x="590" y="1002" class="label ink">Backout</text>
+  <text x="590" y="1023" class="body ink">x ← x − λbackout · xmid</text>
+  <path d="M860 1006 H900" class="flow"/>
+  <rect x="901" y="977" width="160" height="58" rx="11" class="node"/>
+  <text x="922" y="1002" class="label ink">RMSNorm</text>
+  <text x="922" y="1023" class="small muted">final norm</text>
+  <path d="M1061 1006 H1101" class="flow"/>
+  <rect x="1102" y="967" width="222" height="78" rx="11" class="node-orange"/>
+  <text x="1122" y="994" class="label ink">Untied LM Head</text>
+  <text x="1122" y="1016" class="mono muted">1536 → 32768</text>
+  <text x="1122" y="1035" class="small muted">separate init / LR / decay</text>
+  <path d="M1324 1006 H1364" class="flow"/>
+  <rect x="1365" y="967" width="163" height="78" rx="11" class="node-teal"/>
+  <text x="1385" y="994" class="label ink">Logit softcap</text>
+  <text x="1385" y="1017" class="mono muted">15·tanh(ℓ/15)</text>
+  <text x="1385" y="1036" class="small muted">FP32 logits</text>
+
+  <!-- Side information -->
+  <g>
+    <rect x="1248" y="350" width="280" height="540" rx="16" fill="#eef1ed" stroke="#aeb9b5" stroke-width="1.5"/>
+    <text x="1272" y="382" class="section ink">NANOCHAT SIGNATURE</text>
+
+    <g transform="translate(1272 408)">
+      <circle cx="8" cy="8" r="8" class="tag-teal"/>
+      <text x="27" y="13" class="label ink">604M Value Embeddings</text>
+      <text x="27" y="34" class="small muted">12 lookup tables · 43.6% of all params</text>
+    </g>
+    <path d="M1272 461 H1504" class="hair"/>
+
+    <g transform="translate(1272 482)">
+      <circle cx="8" cy="8" r="8" class="tag-teal"/>
+      <text x="27" y="13" class="label ink">Direct token identity paths</text>
+      <text x="27" y="34" class="small muted">x₀ injection + Smear bigram shortcut</text>
+    </g>
+    <path d="M1272 535 H1504" class="hair"/>
+
+    <g transform="translate(1272 556)">
+      <circle cx="8" cy="8" r="8" class="tag-teal"/>
+      <text x="27" y="13" class="label ink">SSSL mixed receptive fields</text>
+      <text x="27" y="34" class="small muted">18 short-window + 6 full-window layers</text>
+    </g>
+    <path d="M1272 609 H1504" class="hair"/>
+
+    <g transform="translate(1272 630)">
+      <circle cx="8" cy="8" r="8" class="tag-teal"/>
+      <text x="27" y="13" class="label ink">Parameter count ≠ dense compute</text>
+      <text x="27" y="34" class="small muted">1.384B total · ~730M scaling params</text>
+    </g>
+    <path d="M1272 683 H1504" class="hair"/>
+
+    <text x="1272" y="716" class="section ink">TRAIN / SERVE</text>
+    <rect x="1272" y="738" width="108" height="44" rx="9" class="node"/>
+    <text x="1291" y="765" class="label ink">Muon</text>
+    <rect x="1392" y="738" width="112" height="44" rx="9" class="node"/>
+    <text x="1412" y="765" class="label ink">AdamW</text>
+    <text x="1272" y="804" class="small muted">matrices / gates</text>
+    <text x="1392" y="804" class="small muted">embeds / scalars</text>
+
+    <rect x="1272" y="824" width="232" height="46" rx="9" class="node"/>
+    <text x="1290" y="844" class="body ink">BF16 · FP8 · Flash Attention 3</text>
+    <text x="1290" y="861" class="small muted">KV Cache: (L,B,T,Hkv,D) × K/V</text>
+  </g>
+
+  <text x="72" y="1086" class="small muted">architecture basis: karpathy/nanochat @ 92d63d4 · diagram focuses on model dataflow; shapes shown for official d24 speedrun</text>
+</svg>

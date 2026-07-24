@@ -25,6 +25,7 @@
 
 ## ML / LLM
 
+- [[2026-07-24-nanochat-model-notes.md]] nanochat 模型结构与特性研究笔记
 - [[2026-06-09-backpropagation-math.md]] 反向传播中的数学：从偏导数到矩阵微分
 - [[2026-04-24-deepseek-v4-paper.md]] DeepSeek-V4 论文精读
 - [[2026-04-14-kv-cache-engineering-guide.md]] 2026 KV Cache 工程实践指南
