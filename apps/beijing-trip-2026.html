@@ -475,6 +475,58 @@
       font-size: 14px;
     }
 
+    .dining-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .dining-item {
+      display: grid;
+      grid-template-columns: 78px minmax(0, 1fr);
+      gap: 20px;
+      padding: 25px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .dining-item:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .dining-date {
+      color: var(--red);
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .dining-date span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .dining-item h3 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .dining-item p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .dining-order {
+      color: var(--ink) !important;
+    }
+
     .tag {
       display: inline-flex;
       align-items: center;
@@ -886,8 +938,20 @@
       .overview,
       .stay-layout,
       .booking-grid,
+      .dining-grid,
       .essentials {
         grid-template-columns: 1fr;
+      }
+
+      .dining-item,
+      .dining-item:last-child {
+        grid-column: auto;
+      }
+
+      .dining-item {
+        grid-template-columns: 64px minmax(0, 1fr);
+        gap: 14px;
+        padding: 21px;
       }
 
       .overview-item {
@@ -1042,6 +1106,7 @@
 
       .day,
       .day-card,
+      .dining-item,
       .booking-item,
       .hotel {
         break-inside: avoid;
@@ -1115,6 +1180,7 @@
     <nav class="quick-nav" aria-label="页面导航">
       <a href="#overview">总览</a>
       <a href="#itinerary">每日行程</a>
+      <a href="#dining">饮食</a>
       <a href="#stay">住宿</a>
       <a href="#booking">预约</a>
       <a href="#fallback">备选</a>
@@ -1277,9 +1343,73 @@
       </div>
     </section>
 
+    <section class="section" id="dining">
+      <div class="section-heading">
+        <p class="section-kicker">03 / DINING</p>
+        <div>
+          <h2>五晚北京味</h2>
+          <p class="section-lead">晚餐跟着当天落点安排，不为名店跨城折返。涮肉、烧麦、砂锅、炸酱面与烤鸭各吃一次，把正式烤鸭留作最后一晚的收官。</p>
+        </div>
+      </div>
+
+      <div class="dining-grid">
+        <article class="dining-item">
+          <div class="dining-date">08.02<span>抵达日</span></div>
+          <div>
+            <h3>牛街聚宝源 · 铜锅涮肉</h3>
+            <p>酒店离牛街不远，适合用老北京清真涮肉开启旅程。若抵达后已经疲劳或排队过长，就在牛街改吃清真小吃，不为第一顿压缩休息。</p>
+            <p class="dining-order"><strong>建议点：</strong>手切鲜羊肉、烧饼、白菜粉丝、糖蒜。</p>
+            <p><a href="https://english.visitbeijing.com.cn/article/4Lx6emflWcv" target="_blank" rel="noreferrer">餐厅介绍 →</a></p>
+          </div>
+        </article>
+
+        <article class="dining-item">
+          <div class="dining-date">08.03<span>长城日</span></div>
+          <div>
+            <h3>前门都一处 · 老字号烧麦</h3>
+            <p>长城返程大巴终到前门，下车后就近吃饭，再乘2号线回宣武门。烧麦比烤鸭轻松，更适合高步行量的一天。</p>
+            <p class="dining-order"><strong>建议点：</strong>三鲜烧麦、乾隆白菜、马莲肉。</p>
+            <p><a href="https://english.visitbeijing.com.cn/article/47ONqF59QB2" target="_blank" rel="noreferrer">老字号介绍 →</a></p>
+          </div>
+        </article>
+
+        <article class="dining-item">
+          <div class="dining-date">08.04<span>校园日</span></div>
+          <div>
+            <h3>西四砂锅居 · 传统京菜</h3>
+            <p>从清华返程可沿4号线在西四下车，吃完继续坐到宣武门，基本不绕路。菜量通常不小，同行人数少时控制点菜数量。</p>
+            <p class="dining-order"><strong>建议点：</strong>砂锅白肉、干炸丸子、酸菜粉丝；不吃内脏可避开砂锅三白。</p>
+            <p><a href="https://english.visitbeijing.com.cn/article/47ONbUEPbzv" target="_blank" rel="noreferrer">餐厅介绍 →</a></p>
+          </div>
+        </article>
+
+        <article class="dining-item">
+          <div class="dining-date">08.05<span>美术馆日</span></div>
+          <div>
+            <h3>方砖厂69号 · 炸酱面</h3>
+            <p>前三晚已经有涮肉、烧麦和砂锅，这晚主动吃轻一点。美术馆离馆后前往方砖厂胡同，再回酒店休息。</p>
+            <p class="dining-order"><strong>建议点：</strong>老北京炸酱面，搭配芥末墩、麻豆腐或炸灌肠，按接受程度选择。</p>
+            <p><a href="https://guide.michelin.com/dk/en/beijing-municipality/beijing/restaurants" target="_blank" rel="noreferrer">米其林北京餐厅名单 →</a></p>
+          </div>
+        </article>
+
+        <article class="dining-item">
+          <div class="dining-date">08.06<span>收官夜</span></div>
+          <div>
+            <h3>四季民福前门店 · 北京烤鸭</h3>
+            <p>15:30抵达前门后先取号，再逛大栅栏和北京坊，回店吃晚餐。若等位明显失控，不必执着，可改前门其他老字号。</p>
+            <p class="dining-order"><strong>建议点：</strong>烤鸭、贝勒烤肉、宫保鸡丁、乾隆白菜；人数少时先确认半只鸭是否够吃。</p>
+            <p><a href="https://english.visitbeijing.com.cn/article/47OOJQfwpMl" target="_blank" rel="noreferrer">餐厅介绍 →</a></p>
+          </div>
+        </article>
+      </div>
+
+      <p class="note">聚宝源、砂锅居和四季民福值得重点安排；都一处与炸酱面可根据体力灵活调整。热门店的分店、营业时间和排号规则可能变化，出发前一周再用地图或大众点评核对。</p>
+    </section>
+
     <section class="section" id="stay">
       <div class="section-heading">
-        <p class="section-kicker">03 / STAY</p>
+        <p class="section-kicker">04 / STAY</p>
         <div>
           <h2>已定：北京西单美爵酒店</h2>
           <p class="section-lead">8月2日入住、8月7日退房，连续五晚。酒店位于宣武门—西单动线，前往各主要区域都较方便。</p>
@@ -1322,7 +1452,7 @@
 
     <section class="section" id="booking">
       <div class="section-heading">
-        <p class="section-kicker">04 / BOOKING</p>
+        <p class="section-kicker">05 / BOOKING</p>
         <div>
           <h2>预约进度</h2>
           <p class="section-lead">已完成事项继续保留，勾选状态只保存在当前浏览器中；未完成事项提前录入同行人的实名信息。</p>
@@ -1387,7 +1517,7 @@
 
     <section class="section" id="fallback">
       <div class="section-heading">
-        <p class="section-kicker">05 / FALLBACK</p>
+        <p class="section-kicker">06 / FALLBACK</p>
         <div>
           <h2>临场变化，也有取舍</h2>
           <p class="section-lead">上午行程主动做减法；遇到排队、高温或降雨时，优先保证下午已预约的清华大学。</p>
@@ -1410,7 +1540,7 @@
 
     <section class="section" id="essentials">
       <div class="section-heading">
-        <p class="section-kicker">06 / ESSENTIALS</p>
+        <p class="section-kicker">07 / ESSENTIALS</p>
         <div>
           <h2>出门前检查</h2>
           <p class="section-lead">北京暑期的难点不是景点数量，而是实名核验、安检、步行量和高温。</p>
