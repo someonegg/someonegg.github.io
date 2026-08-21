@@ -38,6 +38,7 @@
 
 ## Agent
 
+- [[2026-08-20-ai-native-engineering-context-execution-memory.md]] 从读懂老项目到继承团队经验：AI 原生研发的三层工程
 - [[2026-06-08-agent-security-architecture.md]] Anthropic Agent 安全架构
 - [[2026-05-19-agent-architecture-evolution.md]] Agent 架构演化路径
 - [[2026-04-28-google-reasoningbank.md]] Google ReasoningBank
