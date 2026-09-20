@@ -426,10 +426,10 @@
 
     <header class="home-hero">
       <div>
-        <p class="eyebrow">Current thread · 2026.07</p>
-        <h1 class="hero-title">从系统路径，<br />到学习机制</h1>
+        <p class="eyebrow">Current thread · 2026.09</p>
+        <h1 class="hero-title">从记忆写入，<br />到并行计算</h1>
         <p class="hero-intro">
-          近期从系统与模型两端追问机制：数据如何穿过边界，复杂性如何被组织，误差又如何逐层传递。
+          近期聚焦线性注意力中的状态更新：记忆如何依据误差被覆写，因果依赖又如何重组为适合硬件的矩阵计算。
           这里收录完整笔记、知识整理，也保留一些用来验证想法的交互实验。
         </p>
       </div>
@@ -450,7 +450,7 @@
         </div>
         <div class="lens-row">
           <span class="lens-domain">模型</span>
-          <span class="lens-topic">梯度传递与矩阵微分</span>
+          <span class="lens-topic">Delta Rule、WY 与分块并行</span>
         </div>
       </aside>
     </header>
@@ -466,11 +466,11 @@
 
       <div class="featured-grid">
         <article class="feature feature-primary">
-          <a class="feature-link" href="/docs/index.html?file=2026-07-20-io-uring-design.md">
-            <p class="feature-meta">系统 I/O · 2026.07.20</p>
-            <h3 class="feature-title">深入理解 io_uring：从系统调用到共享队列</h3>
+          <a class="feature-link" href="/docs/index.html?file=2026-09-19-deltanet-wy-transform.md">
+            <p class="feature-meta">机器学习 · 2026.09.19</p>
+            <h3 class="feature-title">DeltaNet 中的 WY 变换：从 Delta Rule 到分块并行</h3>
             <p class="feature-summary">
-              不把 io_uring 简化成“异步 API”，而是看清应用与内核如何通过 SQ、CQ 和批处理重新组织 I/O 控制面。
+              从记忆覆写出发，推导 WY 表示与三角求解，看清一串递归更新如何重组为适合 GPU 的分块矩阵计算。
             </p>
             <span class="feature-action">阅读笔记 <span class="feature-arrow" aria-hidden="true">→</span></span>
           </a>
