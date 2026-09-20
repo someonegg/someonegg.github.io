@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
-  <title>汉字组词练习</title>
+  <title>汉字组词</title>
   <style>
     :root {
       --bg: #f4efe4;
@@ -290,24 +290,24 @@
     </nav>
 
     <header class="header">
-      <h1>汉字组词练习</h1>
-      <p class="desc">输入一个汉字，查看常见组词并配合拼音朗读。建议先从课内常见字开始练习。</p>
+      <h1>汉字组词</h1>
+      <p class="desc">输入一个汉字，查看词语和拼音，练习组词。</p>
     </header>
 
     <section class="panel">
       <div class="stats">
         <span class="chip">当前汉字 <strong id="activeChar">-</strong></span>
-        <span class="chip">可组词 <strong id="totalCount">0</strong></span>
+        <span class="chip">词语总数 <strong id="totalCount">0</strong></span>
         <span class="chip">已显示 <strong id="shownCount">0</strong></span>
       </div>
 
       <div class="content">
         <section class="col">
           <h2 class="section-title">输入汉字</h2>
-          <label class="field-label" for="inputChar">请输入一个汉字</label>
+          <label class="field-label" for="inputChar">汉字</label>
           <input id="inputChar" type="text" inputmode="text" autocomplete="off" placeholder="例如：学" aria-describedby="inputRuleHint statusHint" />
-          <p id="inputRuleHint" class="hint">仅支持输入 1 个汉字，按 Enter 查询。</p>
-          <p id="statusHint" class="hint" role="status" aria-live="polite" aria-atomic="true">正在加载词库...</p>
+          <p id="inputRuleHint" class="hint">输入一个汉字，按回车查询。</p>
+          <p id="statusHint" class="hint" role="status" aria-live="polite" aria-atomic="true">正在加载词库…</p>
         </section>
 
         <section class="col">
@@ -472,7 +472,7 @@
 
     function renderGroups(items) {
       if (!items.length) {
-        return '<p class="empty">未找到可展示的组词。</p>';
+        return '<p class="empty">暂无组词，换一个字试试。</p>';
       }
 
       const groups = groupByLength(items);
@@ -488,7 +488,7 @@
 
       chunks.push(renderOne('二字词', groups.len2));
       chunks.push(renderOne('三字词', groups.len3));
-      chunks.push(renderOne('四字及以上', groups.len4p));
+      chunks.push(renderOne('四字及以上词语', groups.len4p));
 
       return chunks.filter(Boolean).join('');
     }
@@ -505,7 +505,7 @@
         activeChar.textContent = '-';
         totalCount.textContent = '0';
         shownCount.textContent = '0';
-        resultBox.innerHTML = '<p class="empty">词库加载中，请稍候...</p>';
+        resultBox.innerHTML = '<p class="empty">正在加载词库…</p>';
         return;
       }
 
@@ -514,18 +514,18 @@
         totalCount.textContent = '0';
         shownCount.textContent = '0';
         if (!hasSubmitted) {
-          resultBox.innerHTML = '<p class="empty">请输入一个汉字后按 Enter 开始组词。</p>';
+          resultBox.innerHTML = '<p class="empty">输入一个汉字，按回车查看组词。</p>';
         } else if (committedInput.kind === 'empty') {
-          resultBox.innerHTML = '<p class="empty">请输入一个汉字后按 Enter 查询。</p>';
+          resultBox.innerHTML = '<p class="empty">请输入一个汉字，按回车查询。</p>';
         } else {
-          resultBox.innerHTML = '<p class="empty">输入不符合要求。请只输入 1 个汉字后按 Enter 查询。</p>';
+          resultBox.innerHTML = '<p class="empty">请只输入一个汉字，按回车查询。</p>';
         }
         if (!hasSubmitted) {
-          setStatus(`词库已就绪：覆盖 ${Object.keys(wordIndex).length} 个汉字。`, 'ok');
+          setStatus(`词库已加载，可以开始查询。`, 'ok');
         } else if (committedInput.kind === 'empty') {
-          setStatus('请输入一个汉字后按 Enter 查询。', 'warn');
+          setStatus('请输入一个汉字，按回车查询。', 'warn');
         } else if (committedInput.kind === 'invalid') {
-          setStatus('请输入且仅输入 1 个汉字。', 'warn');
+          setStatus('请只输入一个汉字。', 'warn');
         }
         return;
       }
@@ -539,16 +539,18 @@
       shownCount.textContent = String(visibleItems.length);
       resultBox.innerHTML = allItems.length
         ? renderGroups(visibleItems)
-        : '<p class="empty">未找到该字的组词。可以换一个字试试。</p>';
+        : '<p class="empty">暂无组词，换一个字试试。</p>';
 
       if (hasSubmitted && committedInput.kind === 'empty') {
-        setStatus(`请输入一个汉字后按 Enter 查询。当前保留「${ch}」的结果。`, 'warn');
+        setStatus(`请输入一个汉字，按回车查询。仍显示“${ch}”的结果。`, 'warn');
       } else if (hasSubmitted && committedInput.kind === 'invalid') {
-        setStatus(`请输入且仅输入 1 个汉字。当前保留「${ch}」的结果。`, 'warn');
+        setStatus(`请只输入一个汉字。仍显示“${ch}”的结果。`, 'warn');
       } else {
         const okText = allItems.length
-          ? `已找到 ${allItems.length} 条组词，当前仅显示前 ${DEFAULT_LIMIT} 条。`
-          : '当前汉字暂未命中词库。';
+          ? (allItems.length > visibleItems.length
+            ? `找到 ${allItems.length} 个词语，显示前 ${visibleItems.length} 个。`
+            : `找到 ${allItems.length} 个词语。`)
+          : '暂无组词，换一个字试试。';
         setStatus(okText, allItems.length ? 'ok' : 'warn');
       }
     }
@@ -585,7 +587,7 @@
     async function bootstrap() {
       draftInputValue = inputChar.value;
       render();
-      setStatus('正在加载词库...', null);
+      setStatus('正在加载词库…', null);
 
       try {
         const loader = window.HanziDataLoader;
@@ -599,7 +601,7 @@
           retries: MAX_RETRIES,
           restore: restoreWordPayload,
           onProgress: ({ loadedCount, shardCount }) => {
-            setStatus(`正在加载词库分片 ${loadedCount}/${shardCount}...`, null);
+            setStatus(`正在加载词库（${loadedCount}/${shardCount}）…`, null);
           }
         });
 
@@ -628,13 +630,13 @@
         wordIndex = restored;
 
         dictReady = true;
-        setStatus(`词库已就绪：覆盖 ${Object.keys(wordIndex).length} 个汉字。`, 'ok');
+        setStatus(`词库已加载，可以开始查询。`, 'ok');
         render();
       } catch (err) {
         console.error(err);
         dictReady = false;
-        setStatus('词库加载失败，请刷新页面重试。', 'warn');
-        resultBox.innerHTML = '<p class="empty">词库加载失败，请刷新页面重试。</p>';
+        setStatus('词库加载失败，请刷新重试。', 'warn');
+        resultBox.innerHTML = '<p class="empty">词库加载失败，请刷新重试。</p>';
       }
     }
 
