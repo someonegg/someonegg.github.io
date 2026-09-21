@@ -6,8 +6,8 @@
 
 ## 数学思维
 
-- [[chicken_and_rabbit.html]] 鸡兔同笼交互式教学演示
-- [[fraction-learning.html]] 小学分数：图形割补法
-- [[maximum_line_segment.html]] 连线规律练习
-- [[rectangle-perimeter.html]] 小方块拼大图：周长的秘密
-- [[unit-conversion.html]] 面积和体积单位换算
+- [[chicken_and_rabbit.html]] 鸡兔同笼：每补两只脚，找到一只兔
+- [[fraction-learning.html]] 分数割补：移动碎片，面积不变
+- [[maximum_line_segment.html]] 连线规律：逐条连接，发现新增规律
+- [[rectangle-perimeter.html]] 拼图周长：重排方块，追踪外边界
+- [[unit-conversion.html]] 单位换算：面积铺行，体积叠层
