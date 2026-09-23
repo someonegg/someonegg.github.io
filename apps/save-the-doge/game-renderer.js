@@ -30,10 +30,15 @@
       ctx.stroke();
     }
 
-    drawSprite(image, point, size, angle = 0) {
+    drawSprite(image, point, size, angle = 0, deformation = null) {
       const ctx = this.ctx;
       ctx.save();
       ctx.translate(point.x, point.y);
+      if (deformation) {
+        ctx.rotate(deformation.direction);
+        ctx.scale(1 - deformation.compression, 1 + deformation.compression * this.style.impactCrossStretch);
+        ctx.rotate(-deformation.direction);
+      }
       ctx.rotate(angle);
       if (image.complete && image.naturalWidth) {
         // The source SVGs have transparent padding, so visible bodies—not the
@@ -91,33 +96,65 @@
       }
     }
 
-    drawImpact(bee) {
+    impactFrame(bee) {
       const impact = bee.plugin.impact;
-      if (!impact.active || !impact.point) return;
-      const ctx = this.ctx, point = impact.point;
-      const angle = Math.atan2(point.y - bee.position.y, point.x - bee.position.x);
+      if (!impact.active || !impact.point) return null;
+      const style = this.style;
+      const progress = Math.max(0, Math.min(1, 1 - impact.remaining / this.bee.impactDurationSteps));
+      const dx = impact.point.x - bee.position.x, dy = impact.point.y - bee.position.y;
+      const direction = Math.atan2(dy, dx);
+      let motion;
+      if (progress < style.impactStrikeEnd) motion = Math.sin(progress / style.impactStrikeEnd * Math.PI / 2);
+      else if (progress < style.impactReboundEnd) {
+        const phase = (progress - style.impactStrikeEnd) / (style.impactReboundEnd - style.impactStrikeEnd);
+        const eased = phase * phase * (3 - 2 * phase);
+        motion = 1 - (1 + style.impactReboundRatio) * eased;
+      } else {
+        const phase = (progress - style.impactReboundEnd) / (1 - style.impactReboundEnd);
+        const eased = phase * phase * (3 - 2 * phase);
+        motion = -style.impactReboundRatio * (1 - eased);
+      }
+      const compression = Math.max(0, motion) * style.impactCompression;
+      const fade = progress < style.impactFadeStart ? 1 : (1 - progress) / (1 - style.impactFadeStart);
+      return { point: impact.point, direction, motion, compression, progress, fade };
+    }
+
+    drawImpact(frame) {
+      const ctx = this.ctx, style = this.style;
       ctx.save();
-      ctx.translate(point.x, point.y);
-      ctx.rotate(angle);
+      ctx.globalAlpha *= frame.fade;
+      ctx.strokeStyle = style.impactColor;
+      ctx.lineWidth = style.impactLineWidth;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.arc(frame.point.x, frame.point.y,
+        style.impactRingStartRadius + (style.impactRingEndRadius - style.impactRingStartRadius) * frame.progress,
+        0, Math.PI * 2);
+      ctx.stroke();
+      ctx.translate(frame.point.x, frame.point.y);
+      ctx.rotate(frame.direction + Math.PI);
       ctx.beginPath();
       for (const offset of [-1, 0, 1]) {
-        ctx.moveTo(3, offset * 4);
-        ctx.lineTo(7, offset * 7);
+        ctx.moveTo(style.impactFlashInset, offset * style.impactFlashSpread * 0.5);
+        ctx.lineTo(style.impactFlashLength, offset * style.impactFlashSpread);
       }
-      ctx.strokeStyle = this.style.impactColor;
-      ctx.lineWidth = this.style.impactLineWidth;
       ctx.stroke();
       ctx.restore();
     }
 
     drawSimulation(simulation) {
-      for (const body of simulation.lines) this.paintPath(this.core.worldPoints(body), this.style.strokeColor);
+      for (const body of simulation.lines) for (const points of this.core.worldStrokePoints(body)) this.paintPath(points, this.style.strokeColor);
       for (const bee of simulation.bees) {
-        const impact = bee.plugin.impact;
-        const elapsed = this.bee.impactDurationSteps - impact.remaining;
-        const tilt = impact.active ? Math.sin(elapsed * Math.PI / this.style.impactTiltDivisor) * this.style.impactTilt : 0;
-        this.drawSprite(this.beeImage, bee.position, this.display.beeSpriteSize, tilt);
-        this.drawImpact(bee);
+        const frame = this.impactFrame(bee);
+        if (frame) {
+          const offset = frame.motion * this.style.impactAdvance;
+          const point = { x: bee.position.x + Math.cos(frame.direction) * offset,
+            y: bee.position.y + Math.sin(frame.direction) * offset };
+          this.drawSprite(this.beeImage, point, this.display.beeSpriteSize,
+            Math.cos(frame.direction) * frame.motion * this.style.impactLean,
+            frame);
+          this.drawImpact(frame);
+        } else this.drawSprite(this.beeImage, bee.position, this.display.beeSpriteSize);
       }
       this.drawSprite(this.dogImage, simulation.dog.position, this.display.dogSpriteSize, simulation.dog.angle);
     }

@@ -101,6 +101,12 @@
     if (phase === 'simulating') { phase = 'paused'; say('挑战已暂停。'); }
     else if (phase === 'paused') { phase = 'simulating'; previousTime = null; say('继续挑战。'); }
   }
+  function primaryActionLabel() {
+    if (phase === 'editing') return '开始';
+    if (phase === 'paused') return '继续';
+    if (phase === 'lost') return '重新开始';
+    return currentIndex === levels.length - 1 ? '查看关卡' : '下一关';
+  }
   function updateUI() {
     const l = level(), used = C.inkUsed(editor.strokes) + C.length(draft), left = Math.max(0, l.inkLimit - used);
     elements.levelCount.textContent = `${currentIndex + 1} / ${levels.length}`;
@@ -122,7 +128,7 @@
     const action = elements.primaryAction;
     action.hidden = phase === 'simulating';
     action.disabled = phase === 'editing' && pointer !== null;
-    action.textContent = phase === 'editing' ? '开始' : phase === 'paused' ? '继续' : phase === 'lost' ? '重新开始' : currentIndex === levels.length - 1 ? '查看关卡' : '下一关';
+    action.textContent = primaryActionLabel();
     canvas.dataset.editing = String(phase === 'editing');
     updateCursor();
   }
@@ -171,9 +177,13 @@
     const gap = Math.hypot(point.x - rawDraft.at(-1).x, point.y - rawDraft.at(-1).y);
     if (gap < (final ? config.stroke.comparisonEpsilon : config.input.sampleDistance)) return;
     rawDraft.push(point);
-    const extension = C.trimStroke(C.normalizeStroke(rawDraft), level().inkLimit - C.inkUsed(editor.strokes));
-    draft = extension.points; exhausted = extension.exhausted;
-    draftError = draft.length > 1 ? C.validateStroke(level(), editor.strokes, draft) : '';
+    const budget = level().inkLimit - C.inkUsed(editor.strokes);
+    const extension = C.trimStroke(C.normalizeStroke(rawDraft), budget);
+    const snapped = C.snapStroke(extension.points, editor.strokes);
+    const fitted = C.trimStroke(snapped, budget);
+    draft = fitted.points; exhausted = extension.exhausted || fitted.exhausted;
+    draftError = C.inkUsed(editor.strokes) + C.length(draft) > level().inkLimit + config.stroke.planBudgetEpsilon
+      ? '吸附后线长超出预算' : draft.length > 1 ? C.validateStroke(level(), editor.strokes, draft) : '';
     say(draftError || (exhausted ? '线长用完了。' : ''), !!draftError, !!draftError || exhausted);
   }
   canvas.addEventListener('pointerdown', event => {
@@ -211,7 +221,8 @@
     if (C.length(points) < config.stroke.minimumLength) {
       cancelPointer(); say(''); return;
     }
-    const error = C.validateStroke(level(), editor.strokes, points);
+    const error = C.inkUsed(editor.strokes) + C.length(points) > level().inkLimit + config.stroke.planBudgetEpsilon
+      ? '吸附后线长超出预算' : C.validateStroke(level(), editor.strokes, points);
     cancelPointer();
     if (error) { say(`${error}。这笔未消耗线长。`, true); return; }
     editor.add(points); editingChange('');

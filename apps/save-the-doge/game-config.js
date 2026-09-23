@@ -13,6 +13,7 @@
     },
     stroke: {
       width: 7,
+      snapDistance: 12,
       minimumLength: 8,
       maximumPoints: 2048,
       segmentEpsilon: 0.01,
@@ -58,6 +59,7 @@
       impactHashShift: 10,
       propulsion: 0.00065,
       impactPropulsionMultiplier: 1.5,
+      impactStrokeForce: 0.002,
       density: 0.001,
       airFriction: 0.045,
       restitution: 0.1,
@@ -66,7 +68,12 @@
       collisionMask: 1,
       pathArrivalDistance: 8,
       waypointDistance: 12,
-      shortcutLookahead: 8
+      shortcutLookahead: 8,
+      ineffectiveImpactDistance: 1.5,
+      impactObservationSteps: 24,
+      ineffectiveTargetSteps: 180,
+      retreatSteps: 18,
+      retreatDistance: 24
     },
     terrain: {
       friction: 0.9,
@@ -77,7 +84,13 @@
       clearance: 9,
       rayWidth: 18,
       escapeRayWidth: 12,
-      startSearchRadiusCells: 3
+      startSearchRadiusCells: 3,
+      attackSearchRadiusCells: 4,
+      sharpCornerCosine: 0.7,
+      fallbackAttackPenalty: 5000,
+      supportedAttackPenalty: 120,
+      supportDistance: 36,
+      ineffectiveAttackPenalty: 6000
     },
     input: {
       dragThresholdPixels: 4,
@@ -123,10 +136,21 @@
       strokeColor: '#294b40',
       selectedColor: '#b84b41',
       spriteFallbackColor: '#c69432',
-      impactColor: '#b18b48',
-      impactLineWidth: 1.5,
-      impactTilt: 0.18,
-      impactTiltDivisor: 3,
+      impactColor: '#bd944c',
+      impactLineWidth: 1.8,
+      impactFlashInset: 2,
+      impactFlashLength: 9,
+      impactFlashSpread: 6,
+      impactRingStartRadius: 2,
+      impactRingEndRadius: 12,
+      impactFadeStart: 0.35,
+      impactLean: 0.16,
+      impactAdvance: 3,
+      impactCompression: 0.1,
+      impactCrossStretch: 0.2,
+      impactReboundRatio: 0.45,
+      impactStrikeEnd: 0.3,
+      impactReboundEnd: 0.68,
       failureLineWidth: 3
     },
     storage: {
