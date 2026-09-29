@@ -32,7 +32,7 @@ button.active { background: #dfebe3; border-color: #527867; }
 #levelCount { margin-left: 8px; font-variant-numeric: tabular-nums; color: var(--muted); }
 .workspace { display: flex; flex: 1; min-height: 0; }
 .board-wrap { position: relative; width: 100%; overflow: hidden; background: var(--board); border: 1px solid #d5e0df; border-radius: 12px; display: flex; flex-direction: column; }
-.board-stage { position: relative; flex: 1; min-height: 0; }
+.board-stage { position: relative; flex: 1; min-height: 0; touch-action: manipulation; }
 canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; user-select: none; }
 canvas[data-spool-cursor="true"] { cursor: none; }
 .thread-spool { width: 32px; height: 32px; flex-shrink: 0; overflow: visible; }
@@ -66,10 +66,10 @@ h2 { font-size: 21px; margin: 0; }
 @media (max-width: 760px) {
   .game { max-width: 600px; padding: env(safe-area-inset-top) max(14px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left)); }
   .masthead { height: 50px; }
-  .brand { font-size: 12px; }
+  .brand { font-size: 13px; }
   .board-wrap { margin: 0 auto; border-radius: 9px; }
-  .board-hud { top: 10px; left: 12px; right: 12px; font-size: 11px; }
-  #inkText { font-size: 10px; }
-  .board-message { bottom: 11%; font-size: 11px; }
+  .board-hud { top: 10px; left: 12px; right: 12px; font-size: 13px; }
+  #inkText { font-size: 13px; }
+  .board-message { bottom: 11%; font-size: 13px; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } .board-message { transition: none; } }

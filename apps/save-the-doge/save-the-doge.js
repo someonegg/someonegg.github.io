@@ -150,6 +150,8 @@
   canvas.addEventListener('pointermove', trackCursor);
   canvas.addEventListener('pointerdown', trackCursor);
   canvas.addEventListener('pointerleave', () => { mousePosition = null; updateCursor(); });
+  // Safari can still double-tap zoom an absolutely positioned canvas despite touch-action: none.
+  canvas.addEventListener('touchend', event => { if (event.cancelable) event.preventDefault(); }, { passive: false });
   window.addEventListener('blur', () => { mousePosition = null; updateCursor(); });
   elements.levelsDialog.addEventListener('close', updateCursor);
 
