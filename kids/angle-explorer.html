@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>角度探索：转一转，折一折</title>
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="stylesheet" href="angle-explorer.css" />
+    <script src="angle-explorer.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a class="back" href="index.html">返回索引</a>
+      <header>
+        <p class="eyebrow">数学探索 · 四年级</p>
+        <h1>角度探索：转一转，折一折</h1>
+        <p>先动手，再猜想，最后用图形找到理由。</p>
+      </header>
+
+      <nav class="scene-tabs" aria-label="选择角度场景" id="scene-tabs"></nav>
+
+      <section class="workspace" aria-labelledby="scene-title">
+        <div class="visual-column">
+          <div class="stage-heading">
+            <span id="scene-count"></span>
+            <h2 id="scene-title"></h2>
+            <p id="scene-intro"></p>
+          </div>
+          <div class="stage-wrap">
+            <svg id="stage" viewBox="0 0 640 460" role="img" aria-labelledby="stage-title stage-description">
+              <title id="stage-title">角度演示图</title>
+              <desc id="stage-description"></desc>
+              <g id="drawing"></g>
+            </svg>
+          </div>
+          <div class="controls" id="controls"></div>
+          <p class="control-hint" id="control-hint"></p>
+        </div>
+
+        <aside class="lesson-panel" aria-label="观察与练习">
+          <div class="panel-section">
+            <span class="panel-label">先猜一猜</span>
+            <p id="prompt"></p>
+            <button type="button" id="reveal" class="primary">看规律</button>
+            <p id="rule" class="rule" aria-live="polite"></p>
+          </div>
+          <div class="panel-section quiz-section">
+            <span class="panel-label">试一试</span>
+            <p id="question"></p>
+            <div id="answers" class="answers" role="group" aria-label="选择答案"></div>
+            <p id="feedback" class="feedback" role="status"></p>
+          </div>
+          <div class="scene-nav">
+            <button type="button" id="previous">上一个</button>
+            <button type="button" id="next" class="primary">下一个</button>
+          </div>
+        </aside>
+      </section>
+      <p class="footer-note">带圆点的图形可以拖动；每个场景也提供滑块或按钮。</p>
+    </main>
+  </body>
+</html>

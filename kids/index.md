@@ -6,6 +6,7 @@
 
 ## 数学思维
 
+- [[angle-explorer.html]] 角度探索：直角、对顶角、三角形内角和与矩形折角
 - [[chicken_and_rabbit.html]] 鸡兔同笼：每补两只脚，找到一只兔
 - [[fraction-learning.html]] 分数割补：移动碎片，面积不变
 - [[maximum_line_segment.html]] 连线规律：逐条连接，发现新增规律
