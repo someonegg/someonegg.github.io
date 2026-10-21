@@ -1,562 +1,154 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <title>形式逻辑笔记</title>
-  <style>
-    :root {
-      --bg: #f5f3ee;
-      --surface: rgba(255, 255, 255, 0.92);
-      --surface-strong: #ffffff;
-      --line: #ddd7ca;
-      --text: #1f2933;
-      --muted: #61707d;
-      --accent: #2f5d62;
-      --accent-soft: #e6efef;
-      --accent-warm: #8a4b2f;
-      --accent-gold: #a67c2d;
-      --shadow: 0 18px 44px rgba(31, 41, 51, 0.08);
-      --radius: 18px;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      font-family: "Noto Serif SC", "Source Han Serif SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", serif;
-      line-height: 1.7;
-      background:
-        radial-gradient(circle at top left, rgba(255, 255, 255, 0.75), transparent 32%),
-        linear-gradient(180deg, #f7f4ed 0%, #f2eee7 100%);
-    }
-
-    a { color: inherit; }
-
-    .page {
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 20px 16px 48px;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: 18px;
-    }
-
-    .nav-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 38px;
-      padding: 0 14px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.7);
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 13px;
-      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-    }
-
-    .nav-link:hover {
-      background: var(--surface-strong);
-      border-color: #c9c1b1;
-      transform: translateY(-1px);
-    }
-
-    .hero,
-    .section,
-    .summary {
-      border: 1px solid rgba(221, 215, 202, 0.9);
-      border-radius: var(--radius);
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-    }
-
-    .hero {
-      padding: 28px 24px;
-      margin-bottom: 18px;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      margin-bottom: 12px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(2rem, 4vw, 3.1rem);
-      line-height: 1.12;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 16px;
-      margin: 16px 0 14px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .hero-subtitle {
-      margin: 0;
-      max-width: 760px;
-      color: #3f4b56;
-      font-size: 16px;
-    }
-
-    .flow {
-      display: grid;
-      gap: 18px;
-      margin-bottom: 18px;
-    }
-
-    .section,
-    .summary {
-      padding: 22px 20px;
-    }
-
-    .section-label {
-      margin: 0 0 14px;
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .principle-grid,
-    .modern-grid,
-    .risk-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .card {
-      height: 100%;
-      padding: 14px 14px 13px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.82);
-    }
-
-    .card.highlight {
-      border-color: #d9c9ad;
-      background: #fbf5ea;
-    }
-
-    .card h3,
-    .mini-card h3,
-    .compare-card h3 {
-      margin: 0 0 6px;
-      font-size: 16px;
-      line-height: 1.35;
-    }
-
-    .source,
-    .meta-note {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .card p,
-    .mini-card p,
-    .compare-card li,
-    .table-cell,
-    .summary p {
-      margin: 0;
-      color: #44515d;
-      font-size: 14px;
-    }
-
-    .tag {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: #efe3c8;
-      color: #78531b;
-      font-size: 11px;
-    }
-
-    .insight {
-      margin-top: 14px;
-      padding: 14px 15px;
-      border-left: 3px solid var(--accent);
-      border-radius: 0 14px 14px 0;
-      background: #eef4f4;
-      color: #365058;
-      font-size: 14px;
-    }
-
-    .insight.warm {
-      border-left-color: var(--accent-warm);
-      background: #f7eeea;
-      color: #6c4737;
-    }
-
-    .insight.gold {
-      border-left-color: var(--accent-gold);
-      background: #f7f2e5;
-      color: #6e5930;
-    }
-
-    .table {
-      display: grid;
-      gap: 8px;
-    }
-
-    .table-head,
-    .table-row {
-      display: grid;
-      grid-template-columns: 1fr 0.9fr 1.45fr;
-      gap: 10px;
-      align-items: start;
-    }
-
-    .table-head {
-      padding: 0 4px;
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .table-row {
-      padding: 12px 12px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.82);
-    }
-
-    .table-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .table-law {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .compare-card {
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-top-width: 3px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.82);
-    }
-
-    .compare-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .compare-card.logic { border-top-color: var(--accent); }
-    .compare-card.dialectic { border-top-color: #4f7d52; }
-
-    .compare-card ul {
-      margin: 0;
-      padding-left: 18px;
-    }
-
-    .mini-card {
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.82);
-    }
-
-    .popper-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .popper-item {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 12px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.82);
-    }
-
-    .badge {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-    }
-
-    .badge.strong {
-      background: #e3f0df;
-      color: #335629;
-    }
-
-    .badge.weak {
-      background: #f6e5dc;
-      color: #75412a;
-    }
-
-    .summary p + p {
-      margin-top: 10px;
-    }
-
-    @media (max-width: 720px) {
-      .page {
-        padding: 14px 12px 32px;
-      }
-
-      .hero,
-      .section,
-      .summary {
-        padding: 18px 16px;
-      }
-
-      .principle-grid,
-      .modern-grid,
-      .risk-grid,
-      .compare-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .table-head {
-        display: none;
-      }
-
-      .table-row,
-      .popper-item {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="从论证有效性出发，理解经典逻辑原则、常见谬误、现代逻辑及其与辩证法和科学检验的边界。">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="formal-logic-notes.css">
+  <title>形式逻辑笔记 · 把推理的每一步说清楚</title>
 </head>
 <body>
-  <main class="page">
-    <nav class="topbar">
-      <a href="./index.html" class="nav-link">返回索引</a>
-    </nav>
+  <a class="skip" href="#reasoning">跳到正文</a>
+  <header class="topbar">
+    <a href="./index.html">← 返回索引</a>
+    <span>知识图解 <i>/</i> 形式逻辑</span>
+    <a href="#reading">参考资料 ↗</a>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="nav-label">阅读导览</div>
+      <nav aria-label="章节导航">
+        <a href="#reasoning">01 <span>什么是有效推理</span></a>
+        <a href="#principles">02 <span>经典原则与理由</span></a>
+        <a href="#laboratory">03 <span>用反例检查论证</span></a>
+        <a href="#fallacies">04 <span>日常讨论的误区</span></a>
+        <a href="#modern">05 <span>现代逻辑的边界</span></a>
+        <a href="#dialectics">06 <span>辩证法与可纠错性</span></a>
+        <a href="#reading">07 <span>延伸阅读</span></a>
+      </nav>
+      <p class="side-note">先说清前提，<br>再检查结论是否跟得上。</p>
+    </aside>
+    <main id="top">
+      <section class="hero">
+        <div class="eyebrow">FORMAL LOGIC <span>概念 · 推理 · 边界</span></div>
+        <h1>形式逻辑笔记<span>把推理的每一步说清楚。</span></h1>
+        <p class="lede">一个结论听起来合理，是否就能从前提推出？<br>从“有效性”开始，认识逻辑能保证什么，以及它还需要什么。</p>
+        <figure class="hero-diagram">
+          <div class="argument-visual" role="img" aria-label="两个前提：如果下雨，地面就湿；下雨了。由此有效推出结论：地面湿了。地面湿是否足以推出下雨，需要另行检查。">
+            <div class="premises">
+              <span class="diagram-label">前提 PREMISES</span>
+              <div class="premise"><span>01</span><p>如果下雨，地面就湿。<small>条件关系</small></p></div>
+              <div class="premise"><span>02</span><p>下雨了。<small>肯定前件</small></p></div>
+            </div>
+            <div class="derivation"><span aria-hidden="true">⟶</span><small>保持推理形式</small></div>
+            <div class="conclusion"><span class="diagram-label">结论 CONCLUSION</span><div class="result">地面湿了。</div><p>在前提成立的情况下，<br>结论不能为假。</p></div>
+          </div>
+          <figcaption><span>图 01 · 有效推理保留前提的真</span><span>“地面湿了”能反推“下雨了”吗？<a href="#laboratory">找一个反例 →</a></span></figcaption>
+        </figure>
+        <div class="hero-meta"><span>7 个章节</span><span>含交互式反例检查</span><span>经典命题逻辑入门</span></div>
+      </section>
 
-    <section class="hero">
-      <div class="eyebrow">Logic Notes</div>
-      <h1>形式逻辑笔记</h1>
-      <div class="hero-meta">
-        <span>整理时间：2026年5月15日</span>
-        <span>主题：传统原则、现代逻辑、辩证法与波普尔批评</span>
-      </div>
-      <p class="hero-subtitle">
-        一页式整理形式逻辑的基础原则、常见谬误与现代转向，并补上与黑格尔辩证法的张力，以及波普尔批评的核心落点。
-      </p>
-    </section>
-
-    <div class="flow">
-      <section class="section">
-        <p class="section-label">传统形式逻辑四条基础原则</p>
-        <div class="principle-grid">
-          <article class="card">
-            <h3>同一律</h3>
-            <p class="source">亚里士多德</p>
-            <p>A 是 A。概念在同一讨论中含义须保持一致。</p>
-          </article>
-          <article class="card">
-            <h3>矛盾律</h3>
-            <p class="source">亚里士多德</p>
-            <p>A 不能既是 B 又不是 B。命题不能同时真又假。</p>
-          </article>
-          <article class="card">
-            <h3>排中律</h3>
-            <p class="source">亚里士多德</p>
-            <p>A 要么是 B，要么不是 B。经典逻辑中没有第三态。</p>
-          </article>
-          <article class="card highlight">
-            <h3>充足理由律</h3>
-            <p class="source">莱布尼兹扩充</p>
-            <p>任何事物存在、命题为真，必有充足理由。</p>
-            <span class="tag">更接近形而上学承诺</span>
-          </article>
+      <section id="reasoning">
+        <div class="section-no">01 / 从论证开始</div>
+        <h2>结论是真的，与推理有效，是两件事</h2>
+        <p>论证由前提和结论组成。演绎逻辑检查的是它们之间的关系：有没有一种情况，让所有前提都真，而结论却假？如果没有，这个推理就是有效的。</p>
+        <div class="statement">有效性问的是：<strong>假如这些前提都成立，结论是否必然成立？</strong></div>
+        <div class="concept-grid">
+          <article><span class="mini-label">VALIDITY</span><h3>有效性</h3><p>不允许“前提全真、结论为假”的反例。它关心推理形式，不能替你保证实际前提为真。</p></article>
+          <article><span class="mini-label">SOUNDNESS</span><h3>健全性</h3><p>论证有效，并且前提事实上都真。要判断现实论证是否健全，通常还需要事实证据。</p></article>
         </div>
-        <div class="insight">
-          前三条管命题内部一致性，是思维操作规则，不依赖世界是什么样的。充足理由律多走一步，断言"世界是有理由的"——这是对现实结构的承诺，而非推理规则本身。量子力学的真随机性构成经验反例。康德将其归入知性范畴（因果性），而非逻辑。
+        <div class="example-line"><span>例子</span><p>“所有鱼都会飞；金鱼是鱼；所以金鱼会飞。”<br>形式有效，但首个前提为假，因此论证不健全。</p></div>
+        <p class="fine">页面中的条件句按经典命题逻辑的实质蕴涵理解。日常“如果”还可能表达因果、时间或承诺，形式化时需要说明取舍。</p>
+      </section>
+
+      <section id="principles">
+        <div class="section-no">02 / 经典原则</div>
+        <h2>概念保持清楚，命题关系才能被检查</h2>
+        <p>传统介绍常谈同一律、矛盾律与排中律。今天更适合把它们放在明确的逻辑系统和解释之中，而不把几句口号当作完整的推理工具。</p>
+        <div class="law-list">
+          <article><div class="law-symbol" aria-label="A 等于 A">A = A</div><div><h3>同一律 <span>对象同一与术语一致</span></h3><p>同一对象就是它自身。在讨论中，还要让术语的意义保持稳定。后者是避免歧义的要求，不宜与对象同一公式完全混同。</p><p class="example">“银行”在前提里是金融机构，在结论里却变成河岸，推理对象已经换了。</p></div></article>
+          <article><div class="law-symbol" aria-label="并非 P 与非 P 同时成立">¬(P ∧ ¬P)</div><div><h3>矛盾律 <span>非矛盾原则</span></h3><p>在经典逻辑下，同一命题及其否定不能同时成立。对象、时间、条件与词义必须一致，才是在谈同一个命题。</p><p class="example">“上午门开着，晚上门关了”描述变化，并不构成逻辑矛盾。</p></div></article>
+          <article><div class="law-symbol" aria-label="P 或非 P">P ∨ ¬P</div><div><h3>排中律 <span>命题与其否定</span></h3><p>在经典逻辑下，一个命题或其否定成立。这不表示我们已经知道哪一个成立，也不允许把任意两个选项说成穷尽所有可能。</p><p class="example">“支持方案 / 不支持方案”与“支持方案 / 不关心问题”不是同一种二分。</p></div></article>
+        </div>
+        <aside class="note"><h3>充足理由律：解释要求，还是世界的承诺？</h3><p>莱布尼兹等人主张，每一事实都有其充足理由。这是有争议的哲学原则，并非现代逻辑系统普遍采纳的推导规则。要求论证给出证据，也不等于接受“每个事实都有最终解释”。</p><p class="fine">随机性本身不能直接裁决所有版本的充足理由律；需要先说明“理由”指决定性原因、概率规律，还是其他解释根据。<a href="https://plato.stanford.edu/entries/sufficient-reason/" target="_blank" rel="noopener">参见相关讨论 ↗</a></p></aside>
+      </section>
+
+      <section id="laboratory">
+        <div class="section-no">03 / 交互图解</div>
+        <h2>检查一条推理，试着找出它的反例</h2>
+        <p>把“下雨”记作 P，“地面湿”记作 Q。固定条件关系“如果 P，那么 Q”，再换一个前提，看结论是否仍然跟得上。</p>
+        <div class="lab">
+          <div class="tabs" role="tablist" aria-label="选择推理形式">
+            <button id="rule-mp" role="tab" aria-selected="true" aria-controls="rule-panel" data-rule="mp">肯定前件</button>
+            <button id="rule-ac" role="tab" aria-selected="false" aria-controls="rule-panel" tabindex="-1" data-rule="ac">肯定后件</button>
+            <button id="rule-da" role="tab" aria-selected="false" aria-controls="rule-panel" tabindex="-1" data-rule="da">否定前件</button>
+          </div>
+          <div id="rule-panel" role="tabpanel" aria-labelledby="rule-mp" tabindex="0">
+            <div class="lab-heading"><div><span class="mini-label">推理形式</span><h3 id="rule-name">肯定前件</h3></div><span id="validity" class="status">有效</span></div>
+            <div class="proof"><span>P → Q</span><span id="premise-two">P</span><span class="therefore">∴ <span id="proof-conclusion">Q</span></span></div>
+            <p id="rule-example" class="rule-example">如果下雨，地面就湿；下雨了；所以地面湿了。</p>
+            <div class="table-scroll"><table class="truth-table"><caption>穷举四种真值情况，检查有无“前提全真、结论为假”</caption><thead><tr><th scope="col">P 下雨</th><th scope="col">Q 地面湿</th><th scope="col">前提 1<br>P → Q</th><th scope="col" id="premise-heading">前提 2<br>P</th><th scope="col" id="conclusion-heading">结论<br>Q</th><th scope="col">检查</th></tr></thead><tbody id="truth-body"></tbody></table></div>
+            <div class="table-key"><span><i class="key possible"></i>前提全真</span><span><i class="key counter"></i>前提全真，结论为假</span></div>
+            <p id="counter-explanation" class="lab-explanation" aria-live="polite"></p>
+          </div>
+        </div>
+        <p class="fine">条件句 P → Q 仅在 P 真而 Q 假时为假。表中的“真、假”是在枚举可能赋值，并不声称这些天气情况已经实际发生。</p>
+        <noscript><div class="note">交互图解需要启用 JavaScript。肯定前件有效；肯定后件与否定前件无效，它们都存在“没有下雨，但地面因其他原因湿了”的反例。</div></noscript>
+      </section>
+
+      <section id="fallacies">
+        <div class="section-no">04 / 日常讨论</div>
+        <h2>先找到推理缺口，再给谬误命名</h2>
+        <p>日常谬误可能涉及歧义、证据、因果或论证相关性，无法逐项归入某一条基础定律。比贴标签更有用的做法，是指出缺少的前提或证据。</p>
+        <div class="fallacy-list">
+          <details><summary><span>01</span>偷换概念<small>词义变了</small></summary><div class="detail-body"><p class="quote">“这款产品很轻，所以它的影响一定无足轻重。”</p><p>前一个“轻”是重量，后一个是重要性。应先统一讨论的属性，再谈能否推出结论。</p></div></details>
+          <details><summary><span>02</span>虚假两难<small>选项没有穷尽</small></summary><div class="detail-body"><p class="quote">“你不支持这个方案，就是不关心团队。”</p><p>反对一个方案的人，仍可能提出其他方案。缺口在于把两个不互为否定的选项说成全部可能，而非排中律本身有错。</p></div></details>
+          <details><summary><span>03</span>诉诸无知<small>把未知当成证明</small></summary><div class="detail-body"><p class="quote">“没人证明这个传言是假的，所以它是真的。”</p><p>没有反证不自动成为正面证据。不过，在可靠检测应能发现某事物的条件下，“未检出”也可能具有证据价值，需要具体分析。</p></div></details>
+          <details><summary><span>04</span>事后归因<small>先后不等于因果</small></summary><div class="detail-body"><p class="quote">“换了桌面壁纸以后成绩提高，说明壁纸有效。”</p><p>还可能有复习、题目难度或偶然波动。建立因果关系，需要排查替代解释和混杂因素。</p></div></details>
+          <details><summary><span>05</span>循环论证<small>把结论放回前提</small></summary><div class="detail-body"><p class="quote">“这个来源可靠，因为它说的都是真的；它说的是真的，因为它可靠。”</p><p>前提没有提供独立支持。循环的形式可以有效，但不能据此说服尚未接受结论的人。</p></div></details>
+          <details><summary><span>06</span>稻草人与滑坡<small>对象或因果链被替换</small></summary><div class="detail-body"><p class="quote">“你建议减少会议，所以你反对团队沟通。”</p><p>这是把主张改造成更容易攻击的版本。另一类常见问题是滑坡：从一个改变跳到极端后果，却没有交代中间每一步为何会发生。有证据支持的风险链条，并不因涉及连锁后果就必然是谬误。</p></div></details>
         </div>
       </section>
 
-      <section class="section">
-        <p class="section-label">现代形式逻辑核心要点</p>
-        <div class="modern-grid">
-          <article class="mini-card">
-            <h3>从原则走向公理系统</h3>
-            <p>以原始符号、形成规则、公理模式与推导规则替代散文化原则陈述。</p>
-          </article>
-          <article class="mini-card">
-            <h3>三律地位变化</h3>
-            <p>同一律与矛盾律可被系统化处理，排中律在直觉主义中被拒绝，充足理由律则退出核心逻辑。</p>
-          </article>
-          <article class="mini-card">
-            <h3>逻辑并不唯一</h3>
-            <p>经典、直觉主义、模态、多值、次协调逻辑各有适用问题域。</p>
-          </article>
-          <article class="mini-card">
-            <h3>形式化存在边界</h3>
-            <p>哥德尔不完备定理表明，足够强的一致系统无法穷尽其内部全部真命题。</p>
-          </article>
-        </div>
+      <section id="modern">
+        <div class="section-no">05 / 从原则到系统</div>
+        <h2>现代逻辑把约定写出来，也把边界说清楚</h2>
+        <div class="system-flow" aria-label="一个形式系统的构成"><div><span>01 / 语言</span><strong>什么算一个公式</strong><p>符号与形成规则</p></div><b aria-hidden="true">→</b><div><span>02 / 证明</span><strong>哪些步骤可接受</strong><p>公理与推导规则</p></div><b aria-hidden="true">→</b><div><span>03 / 语义</span><strong>什么情况下为真</strong><p>解释、模型与满足关系</p></div></div>
+        <div class="table-scroll"><table><caption>不同系统，改变了哪些约定？</caption><thead><tr><th scope="col">系统</th><th scope="col">关注的问题</th><th scope="col">需要注意</th></tr></thead><tbody><tr><th scope="row">经典逻辑</th><td>标准的真假赋值与演绎后承</td><td>本页真值表使用这一框架</td></tr><tr><th scope="row">直觉主义逻辑</th><td>证明与构造的意义</td><td>不普遍接受排中律，不是断言每个排中律实例都为假</td></tr><tr><th scope="row">模态逻辑</th><td>必然、可能，也可扩展到知识或时间</td><td>具体解释取决于模型与采用的公理</td></tr><tr><th scope="row">次协调逻辑</th><td>在存在矛盾时限制推理扩散</td><td>阻止从矛盾推出一切，不表示接受所有矛盾</td></tr></tbody></table></div>
+        <p class="fine">直觉主义逻辑的构造性解释，参见 <a href="https://plato.stanford.edu/entries/logic-intuitionistic/" target="_blank" rel="noopener">Intuitionistic Logic ↗</a>。</p>
+        <aside class="note"><h3>哥德尔不完备定理，有明确的适用条件</h3><p>对一致、可有效公理化且足够表达算术的理论，存在该理论既不能证明、也不能反驳的句子。它限制特定形式理论的完备性，不能据此得出“逻辑无效”或“任何观点都无法判断”。</p><p class="fine">一阶逻辑的完备性，与算术理论的不完备性讨论不同层面。<a href="https://plato.stanford.edu/entries/goedel-incompleteness/" target="_blank" rel="noopener">定理与条件 ↗</a></p></aside>
       </section>
 
-      <section class="section">
-        <p class="section-label">日常谬误与基础原则的对应</p>
-        <div class="table">
-          <div class="table-head">
-            <span>谬误名称</span>
-            <span>对应原则</span>
-            <span>典型例子</span>
-          </div>
-          <div class="table-row">
-            <div class="table-title">偷换概念</div>
-            <div class="table-law">同一律</div>
-            <div class="table-cell">“法律面前人人平等，所以富人穷人都能睡公园。”</div>
-          </div>
-          <div class="table-row">
-            <div class="table-title">自我矛盾</div>
-            <div class="table-law">矛盾律</div>
-            <div class="table-cell">“任何规则都有例外。”若此句为真，就会自我推翻。</div>
-          </div>
-          <div class="table-row">
-            <div class="table-title">非黑即白</div>
-            <div class="table-law">排中律的滥用</div>
-            <div class="table-cell">“你不支持这场战争，就是不爱国。”</div>
-          </div>
-          <div class="table-row">
-            <div class="table-title">诉诸无知</div>
-            <div class="table-law">充足理由律</div>
-            <div class="table-cell">“没人能证明鬼不存在，所以鬼存在。”</div>
-          </div>
-          <div class="table-row">
-            <div class="table-title">事后归因</div>
-            <div class="table-law">充足理由律</div>
-            <div class="table-cell">“戴了幸运手环后考试过了，说明手环有效。”</div>
-          </div>
-          <div class="table-row">
-            <div class="table-title">循环论证</div>
-            <div class="table-law">充足理由律</div>
-            <div class="table-cell">“圣经是真的，因为圣经说它是上帝的话。”</div>
-          </div>
-          <div class="table-row">
-            <div class="table-title">稻草人</div>
-            <div class="table-law">同一律 + 矛盾律</div>
-            <div class="table-cell">扭曲对方观点再反驳，制造对方并未持有的立场。</div>
-          </div>
-          <div class="table-row">
-            <div class="table-title">滑坡谬误</div>
-            <div class="table-law">充足理由律</div>
-            <div class="table-cell">“允许安乐死，迟早会演变成随意杀人。”</div>
-          </div>
-        </div>
-        <div class="insight gold">
-          日常讨论中最高发的通常是偷换概念和强迫二选一，因为自然语言本身就充满模糊区和上下文滑移。
-        </div>
+      <section id="dialectics">
+        <div class="section-no">06 / 方法与争议</div>
+        <h2>讨论变化，不必放弃推理的责任</h2>
+        <p>黑格尔辩证法关注概念如何因自身的局限和张力而发展。把它简化成“正题—反题—合题”并不足以说明其方法；“矛盾”是否应按形式逻辑中的矛盾理解，也有解释争议。</p>
+        <div class="concept-grid"><article><span class="mini-label">形式逻辑关心</span><h3>结论是否由前提推出</h3><p>先明确语言、规则和解释。形式逻辑也能借助时间参数或时态逻辑表达变化，并非只能处理静态世界。</p></article><article><span class="mini-label">辩证法关心</span><h3>概念如何暴露局限并发展</h3><p>“扬弃”常包含否定与保留的双重意味。它提供哲学分析路径，但每一次概念转变仍需要具体论证。</p></article></div>
+        <p class="fine">这一区分是阅读提示，并非对两种传统的完整定义。<a href="https://plato.stanford.edu/entries/hegel-dialectics/" target="_blank" rel="noopener">Hegel’s Dialectics ↗</a></p>
+        <h3 class="subheading">波普尔的提醒：什么会使你修正观点？</h3>
+        <p>波普尔强调可证伪性与批判检验，反对让理论吸收所有反例而永远免于修正。对于经验理论，这意味着交代它排除了哪些可能观察。数学证明、哲学论证与经验科学的评价方式则不能直接混用。</p>
+        <p>他对历史主义和黑格尔的政治批评影响广泛，但其哲学解释和历史归因存在争议，不应呈现为已经定论的裁决。<a class="source-link" href="https://plato.stanford.edu/entries/popper/" target="_blank" rel="noopener">观点与批评 ↗</a></p>
+        <div class="checklist"><span class="mini-label">把讨论拉回可检查的层面</span><ol><li><strong>定义</strong><span>关键词有没有在中途换义？</span></li><li><strong>条件</strong><span>时间、对象与适用范围是否一致？</span></li><li><strong>支持</strong><span>哪条证据或推导连接前提和结论？</span></li><li><strong>修正</strong><span>什么反例会促使我们改变判断？</span></li></ol></div>
       </section>
 
-      <section class="section">
-        <p class="section-label">黑格尔辩证法 vs 形式逻辑</p>
-        <div class="compare-grid">
-          <article class="compare-card logic">
-            <h3>形式逻辑</h3>
-            <ul>
-              <li>把矛盾视为需要消除的问题</li>
-              <li>偏静态、去时间性</li>
-              <li>规则明确，可检验可复现</li>
-              <li>擅长处理固定概念之间的关系</li>
-            </ul>
-          </article>
-          <article class="compare-card dialectic">
-            <h3>黑格尔辩证法</h3>
-            <ul>
-              <li>把矛盾视为现实运动的动力</li>
-              <li>强调动态、历史性与转化</li>
-              <li>更像叙事框架，而非严格推导系统</li>
-              <li>试图把握概念自身的运动过程</li>
-            </ul>
-          </article>
-        </div>
-        <div class="insight">
-          “正题 - 反题 - 合题”并不是单纯加减法，关键在于“扬弃”同时包含否定、保留与提升。它挑战的不是单个论证技巧，而是形式逻辑对稳定概念的依赖。
-        </div>
+      <section id="reading">
+        <div class="section-no">07 / 延伸阅读</div>
+        <h2>按问题继续读</h2>
+        <p>正文是入门导览。涉及哲学解释与逻辑系统差异时，下面的条目提供更完整的定义、论证和参考文献。</p>
+        <ol class="sources">
+          <li><a href="https://openlogicproject.org/" target="_blank" rel="noopener">Open Logic Project <span>逻辑教材 ↗</span></a><p>继续学习形式语言、语义、证明与模型论。</p></li>
+          <li><a href="https://plato.stanford.edu/entries/sufficient-reason/" target="_blank" rel="noopener">Principle of Sufficient Reason <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>区分充足理由律的版本、动机与争议。</p></li>
+          <li><a href="https://plato.stanford.edu/entries/logic-intuitionistic/" target="_blank" rel="noopener">Intuitionistic Logic <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>理解构造性证明与排中律的关系。</p></li>
+          <li><a href="https://plato.stanford.edu/entries/goedel-incompleteness/" target="_blank" rel="noopener">Gödel’s Incompleteness Theorems <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>核对不完备定理的适用条件。</p></li>
+          <li><a href="https://plato.stanford.edu/entries/hegel-dialectics/" target="_blank" rel="noopener">Hegel’s Dialectics <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>了解辩证法的具体方法，以及不同解释之间的分歧。</p></li>
+          <li><a href="https://plato.stanford.edu/entries/popper/" target="_blank" rel="noopener">Karl Popper <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>继续阅读证伪性、知识增长与历史主义批评。</p></li>
+        </ol>
+        <div class="closing"><span>带走一个问题</span><p>能否让前提全部成立，<br>而结论依然不成立？</p></div>
       </section>
-    </div>
-
-    <section class="section">
-      <p class="section-label">辩证法为何容易被用成狡辩</p>
-      <div class="risk-grid">
-        <article class="mini-card">
-          <h3>矛盾免疫术</h3>
-          <p>当矛盾被指出时，直接把矛盾重新命名为“辩证张力”，从而逃避修正。</p>
-        </article>
-        <article class="mini-card">
-          <h3>合题任意性</h3>
-          <p>正反两面摆出来后，几乎任何预设结论都能被包装成“更高综合”。</p>
-        </article>
-        <article class="mini-card">
-          <h3>概念无限滑动</h3>
-          <p>一旦允许概念不断“转化”，偷换概念就可能被伪装成历史运动。</p>
-        </article>
-        <article class="mini-card">
-          <h3>层次跳跃</h3>
-          <p>某一层论证被反驳，就跳到更高层级，使批评对象不断移动。</p>
-        </article>
-      </div>
-      <div class="insight warm">
-        辩证法的问题不在于它完全虚假，而在于它缺少足够清晰的操作规则，因此很容易从解释框架退化成修辞护身符。
-      </div>
-    </section>
-
-    <section class="section">
-      <p class="section-label">波普尔对黑格尔的批评</p>
-      <div class="popper-list">
-        <article class="popper-item">
-          <div>
-            <h3>不可证伪性</h3>
-            <span class="badge strong">批评有力</span>
-          </div>
-          <p>
-            辩证法能事后解释任何历史结果——革命成功是辩证的，失败也是辩证的。没有任何经验能推翻它。解释力无限的理论，实际信息量为零。这是证伪主义框架下对黑格尔最核心的打击，至今无被完全回应。
-          </p>
-        </article>
-        <article class="popper-item">
-          <div>
-            <h3>极权主义根源</h3>
-            <span class="badge weak">延伸较强</span>
-          </div>
-          <p>
-            见《开放社会及其敌人》（1945）。波普尔认为黑格尔「历史有必然方向、国家高于个人」的框架，为极权主义提供了哲学地基。但因果链过于简单：黑格尔的「国家」是法治意义上的理性共同体，不是种族国家；两者之间隔了一百年和无数历史因素。此书写于二战期间，政治关怀影响了哲学判断。
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <section class="summary">
-      <p class="section-label">总结</p>
-      <p>形式逻辑的优势在于边界清楚、规则明确、可检验；它牺牲了对历史运动和概念转化的敏感度，换来更高的推理可靠性。</p>
-      <p>辩证法试图处理那些“不是静态对象”的问题，但如果缺少操作约束，就容易在解释力扩张的同时失去证伪性与纠错能力。</p>
-      <p>实践上，多数现代知识系统仍然更信任形式逻辑与波普尔式可纠错框架，因为它们更适合协作、争论与累积改进。</p>
-    </section>
-  </main>
+      <footer><span>初稿：2026.05.15 · 重排与内容修订：2026.10.20</span><a href="#top">回到顶部 ↑</a></footer>
+    </main>
+  </div>
+  <script src="formal-logic-notes.js"></script>
 </body>
 </html>
