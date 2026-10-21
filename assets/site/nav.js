@@ -3,7 +3,6 @@
     { key: "apps", label: "Apps", href: "/apps/index.html" },
     { key: "docs", label: "Docs", href: "/docs/index.html" },
     { key: "kids", label: "Kids", href: "/kids/index.html" },
-    { key: "wiki", label: "Wiki", href: "/wiki/index.html" },
     { key: "github", label: "GitHub", href: "https://github.com/someonegg", external: true },
   ];
 
