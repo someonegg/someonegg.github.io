@@ -24,11 +24,21 @@
   font-size: 21px;
 }
 
-.markdown p,
-.markdown li {
-  line-height: 1.95;
-  margin-bottom: 0.8em;
+.markdown p {
+  line-height: 1.8;
+  margin: 0 0 0.65em;
   color: var(--body-text);
+}
+
+.markdown li {
+  line-height: 1.7;
+  margin-bottom: 0.35em;
+  color: var(--body-text);
+}
+
+.markdown li > p {
+  line-height: 1.7;
+  margin-bottom: 0.35em;
 }
 
 .markdown ul,
