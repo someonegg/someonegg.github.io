@@ -1,0 +1,31 @@
+/* Shared by the six math lessons; Hanzi keeps its own styles. */
+:root {
+  color-scheme: light;
+  --ink: #263d36;
+  --muted: #657161;
+  --accent: #3e7563;
+  --accent-strong: #305c4d;
+  --accent-soft: #e4ecdf;
+  --hover: #edf1e9;
+  --orange: #a96232;
+  --orange-pale: #f4e5d4;
+  --volume-side: #b9cdb0;
+  --volume-front: #8daa81;
+  --diagram-muted: #a1af99;
+  --diagram-third: #e8e3ed;
+  --paper: #f9f8f3;
+  --surface: #fffefb;
+  --surface-soft: #f3f5ed;
+  --line: #d7ddd0;
+  --line-soft: #e2e5da;
+  --success: #236b51;
+  --error: #a33c27;
+  --retry: #9b5129;
+  --selection: #dbe7d7;
+  --on-accent: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 17px;
+}
+::selection { background: var(--selection); }

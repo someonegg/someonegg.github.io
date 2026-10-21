@@ -8,23 +8,21 @@
   <title>Ally｜技术笔记与实验</title>
   <style>
     :root {
-      --home-paper: #f3f6f5;
-      --home-surface: #fbfdfc;
-      --home-ink: #17211f;
-      --home-deep: #203936;
-      --home-teal: #176f68;
-      --home-blue-gray: #60747a;
-      --home-line: #cfdbd8;
-      --home-display: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+      --home-paper: var(--bg);
+      --home-surface: var(--surface);
+      --home-ink: var(--text);
+      --home-deep: #263d36;
+      --home-teal: var(--accent);
+      --home-blue-gray: var(--muted);
+      --home-line: var(--border);
+      --home-display: var(--serif);
       --home-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
 
     body {
       min-height: 100dvh;
       color: var(--home-ink);
-      background:
-        linear-gradient(115deg, rgba(255, 255, 255, 0.74), transparent 38%),
-        var(--home-paper);
+      background: var(--home-paper);
     }
 
     .home-shell {
@@ -53,7 +51,7 @@
       color: var(--home-teal);
       font-family: var(--home-mono);
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.11em;
       line-height: 1.4;
       text-transform: uppercase;
@@ -64,7 +62,7 @@
       margin: 18px 0 20px;
       font-family: var(--home-display);
       font-size: clamp(43px, 6vw, 68px);
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: -0.045em;
       line-height: 1.1;
     }
@@ -101,7 +99,7 @@
     .lens-domain {
       color: var(--home-teal);
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
     }
 
     .lens-topic {
@@ -126,7 +124,7 @@
       margin: 6px 0 0;
       font-family: var(--home-display);
       font-size: clamp(27px, 3.5vw, 38px);
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: -0.025em;
       line-height: 1.2;
     }
@@ -172,7 +170,7 @@
       padding: 25px 26px 23px;
       overflow: hidden;
       border: 1px solid var(--home-line);
-      border-radius: 14px;
+      border-radius: 6px;
       color: inherit;
       background: var(--home-surface);
       text-decoration: none;
@@ -190,7 +188,7 @@
     }
 
     .feature-link:hover {
-      border-color: #9db5b0;
+      border-color: #a7b8a1;
       box-shadow: 0 16px 36px rgba(23, 33, 31, 0.08);
       transform: translateY(-3px);
     }
@@ -202,14 +200,14 @@
     }
 
     .feature-primary .feature-meta {
-      color: #a9d0c9;
+      color: #bdcdb5;
     }
 
     .feature-title {
       margin: 17px 0 12px;
       font-family: var(--home-display);
       font-size: 23px;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: -0.025em;
       line-height: 1.35;
     }
@@ -231,7 +229,7 @@
 
     .feature-primary .feature-summary {
       margin-top: 18px;
-      color: #c7d8d5;
+      color: #d2dccb;
       font-size: 15px;
     }
 
@@ -243,11 +241,11 @@
       padding-top: 22px;
       color: var(--home-teal);
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
     }
 
     .feature-primary .feature-action {
-      color: #d9ebe7;
+      color: #e2eadb;
     }
 
     .feature-arrow,
@@ -305,7 +303,7 @@
     .experiment-title {
       font-family: var(--home-display);
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 500;
       line-height: 1.35;
     }
 

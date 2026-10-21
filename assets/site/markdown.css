@@ -4,30 +4,31 @@
 .markdown h4 {
   margin-top: 1.6em;
   margin-bottom: 0.8em;
-  line-height: 1.3;
-  font-weight: 600;
+  line-height: 1.55;
+  font-weight: 500;
+  font-family: var(--serif);
   color: var(--text);
 }
 
 .markdown h1 {
-  font-size: 26px;
+  font-size: clamp(28px, 3vw, 36px);
   border-bottom: 1px solid var(--border);
   padding-bottom: 0.3em;
 }
 
 .markdown h2 {
-  font-size: 20px;
+  font-size: 26px;
 }
 
 .markdown h3 {
-  font-size: 17px;
+  font-size: 21px;
 }
 
 .markdown p,
 .markdown li {
-  line-height: 1.8;
+  line-height: 1.95;
   margin-bottom: 0.8em;
-  color: #374151;
+  color: var(--body-text);
 }
 
 .markdown ul,
@@ -36,7 +37,7 @@
 }
 
 .markdown pre {
-  background: #f5f8f8;
+  background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px;
@@ -54,7 +55,7 @@
 }
 
 .markdown :not(pre) > code {
-  background: #f5f8f8;
+  background: var(--bg-soft);
   border: 1px solid var(--border);
   border-radius: 4px;
   padding: 0.1em 0.35em;
@@ -97,7 +98,7 @@
 }
 
 .markdown th {
-  background: #f5f8f8;
+  background: var(--bg-soft);
   font-weight: 600;
 }
 
@@ -106,7 +107,7 @@
   padding: 4px 14px;
   border-left: 3px solid var(--border-strong);
   color: var(--muted);
-  background: #f5f8f8;
+  background: var(--bg-soft);
   border-radius: 0 4px 4px 0;
 }
 
@@ -125,7 +126,7 @@
   margin: 14px auto;
   border-radius: 8px;
   border: 1px solid var(--border);
-  background: #fff;
+  background: var(--surface);
 }
 
 .frontmatter-card {
@@ -133,7 +134,7 @@
   padding: 14px 16px;
   border: 1px solid var(--border);
   border-radius: 10px;
-  background: #f8fafc;
+  background: var(--bg-soft);
 }
 
 .frontmatter-title {
@@ -141,7 +142,7 @@
   font-size: 14px;
   line-height: 1.3;
   font-weight: 600;
-  color: #334155;
+  color: var(--body-text);
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
@@ -157,7 +158,7 @@
   align-items: start;
   margin: 0;
   padding: 6px 0;
-  border-top: 1px dashed #dbe2ea;
+  border-top: 1px dashed var(--border);
 }
 
 .frontmatter-row:first-child {
@@ -173,14 +174,14 @@
   margin: 0;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 12px;
-  color: #64748b;
+  color: var(--muted);
   overflow-wrap: anywhere;
 }
 
 .frontmatter-row dd {
   margin: 0;
   min-width: 0;
-  color: #334155;
+  color: var(--body-text);
   line-height: 1.65;
   overflow-wrap: anywhere;
 }
@@ -190,7 +191,7 @@
 }
 
 .frontmatter-empty {
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 .frontmatter-tags {
@@ -203,28 +204,28 @@
   display: inline-block;
   padding: 2px 8px;
   border-radius: 999px;
-  border: 1px solid #d5dee8;
-  background: #fff;
-  color: #334155;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--body-text);
   font-size: 12px;
   line-height: 1.5;
   text-decoration: none;
 }
 
 .frontmatter-tag.is-link {
-  border-color: #bfdbfe;
-  color: #1d4ed8;
+  border-color: var(--border-strong);
+  color: var(--accent);
 }
 
 .frontmatter-tag.is-link:hover {
-  background: #eff6ff;
+  background: var(--active);
 }
 
 .frontmatter-card.is-raw .frontmatter-raw {
   margin: 0;
   padding: 10px;
   border-radius: 8px;
-  background: #fff;
+  background: var(--surface);
 }
 
 @media (max-width: 720px) {
@@ -250,3 +251,12 @@
   display: block;
   min-width: max-content;
 }
+
+.markdown h2 { padding-top: 0.6em; border-top: 1px solid var(--border); }
+.markdown h4 { font-family: var(--sans); font-size: 16px; font-weight: 600; }
+.markdown hr { border: 0; border-top: 1px solid var(--border); margin: 32px 0; }
+.markdown blockquote { border-left-color: #6d9481; padding: 8px 20px; background: var(--active); }
+.markdown blockquote > :last-child { margin-bottom: 8px; }
+.markdown a { text-underline-offset: 4px; }
+.markdown a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 720px) { .markdown h2 { font-size: 23px; } }

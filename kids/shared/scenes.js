@@ -1,12 +1,12 @@
 (function (root) {
   const M = root.KidsMath,
     { progress: P, ease: E, fmt } = M;
-  const blue = "#246b91",
-    pale = "#deedf5",
-    orange = "#be652e",
-    light = "#f7dfc9",
-    ink = "#233747",
-    gray = "#cbd9e2";
+  const blue = "var(--accent)",
+    pale = "var(--accent-soft)",
+    orange = "var(--orange)",
+    light = "var(--orange-pale)",
+    ink = "var(--ink)",
+    gray = "var(--line)";
   const line = (x1, y1, x2, y2, color = gray, width = 2, extra = "") =>
     `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="${width}" ${extra}/>`;
   const text = (x, y, s, cls = "", extra = "") =>
@@ -201,7 +201,7 @@
           t < 1
             ? "先给每个头配两只脚"
             : t < 2
-              ? "蓝色：假设每只都是鸡"
+              ? "绿色：假设每只都是鸡"
               : t < 3
                 ? "橙色：每组补上的两只脚"
                 : "头数不变，脚数补齐",
@@ -226,7 +226,7 @@
         };
       },
       legend:
-        "蓝色脚表示最初的两只脚；橙色脚表示后来补上的一对。动物下方是编号。",
+        "绿色脚表示最初的两只脚；橙色脚表示后来补上的一对。动物下方是编号。",
     },
     fraction: {
       title: "分数：把碎片拼完整",
@@ -243,7 +243,7 @@
           "找到可以搬动的碎片",
           s.shape === "circle"
             ? "圆被分成 8 个相同扇形。橙色外环碎片可以绕圆心转动。内外片本身不必一样大。"
-            : "每个格子大小相同。三角形是半个格子；橙色碎片将移动，蓝色碎片留在原处。",
+            : "每个格子大小相同。三角形是半个格子；橙色碎片将移动，绿色碎片留在原处。",
         ),
         step(
           "搬过去，拼完整",
@@ -273,7 +273,7 @@
               ro = isInner ? inner : r;
             return `M ${cx + ro * Math.cos(a)} ${cy + ro * Math.sin(a)} A ${ro} ${ro} 0 0 1 ${cx + ro * Math.cos(b)} ${cy + ro * Math.sin(b)} L ${cx + ri * Math.cos(b)} ${cy + ri * Math.sin(b)} ${ri ? `A ${ri} ${ri} 0 0 0 ${cx + ri * Math.cos(a)} ${cy + ri * Math.sin(a)}` : ""} Z`;
           };
-          body += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#fff" stroke="${blue}" stroke-width="2"/>`;
+          body += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="var(--surface)" stroke="${blue}" stroke-width="2"/>`;
           for (let i = 0; i < 8; i++) {
             const a = (i * Math.PI) / 4;
             body += line(
@@ -345,7 +345,7 @@
               : "搬动前的涂色面积 ＝ 搬动后的涂色面积",
         };
       },
-      legend: "蓝色碎片留在原处，橙色碎片搬动。颜色深浅不表示面积大小。",
+      legend: "绿色碎片留在原处，橙色碎片搬动。颜色深浅不表示面积大小。",
     },
     lines: {
       title: "连线：多一个点，多几条线？",
@@ -425,7 +425,7 @@
               y + (s.n > 15 ? 4 : 5),
               i + 1,
               "small",
-              `style="fill:white;font-size:${s.n > 15 ? 10 : 13}px"`,
+              `style="fill:var(--on-accent);font-size:${s.n > 15 ? 10 : 13}px"`,
             );
         }
         body += text(
@@ -597,7 +597,7 @@
         };
       },
       legend:
-        "每块边长为 1。橙色虚线是内部公共边，蓝色实线描出外边界。长条图可左右滚动。",
+        "每块边长为 1。橙色虚线是内部公共边，绿色实线描出外边界。长条图可左右滚动。",
     },
     units: {
       title: "单位换算：铺一面，叠一层",
@@ -700,7 +700,7 @@
             y,
             250,
             250,
-            "#f4f7fa",
+            "var(--paper)",
             `stroke="${blue}" stroke-width="2"`,
           );
           for (let r = 0; r < 10; r++)
@@ -763,7 +763,7 @@
                   pt(10, 10, h - 1),
                   pt(0, 10, h - 1),
                 ],
-                "#a8ccdf",
+                "var(--volume-side)",
                 `stroke="${blue}"`,
               ) +
               poly(
@@ -773,7 +773,7 @@
                   pt(10, 10, h - 1),
                   pt(10, 0, h - 1),
                 ],
-                "#75a8c4",
+                "var(--volume-front)",
                 `stroke="${blue}"`,
               );
             for (let i = 1; i < 10; i++)
@@ -784,7 +784,7 @@
           };
           body += poly(
             [pt(0, 0, 0), pt(10, 0, 0), pt(10, 10, 0), pt(0, 10, 0)],
-            "#f4f7fa",
+            "var(--paper)",
             `stroke="${gray}"`,
           );
           for (const [a, b] of [
@@ -854,7 +854,7 @@
             }
           }
           if (reverse && direction > 0)
-            body += `<g opacity="${direction}">${poly([pt(0, 0, 10), pt(10, 0, 10), pt(10, 10, 10), pt(0, 10, 10)], pale, `stroke="${blue}"`)}${poly([pt(0, 10, 10), pt(10, 10, 10), pt(10, 10, 0), pt(0, 10, 0)], "#a8ccdf", `stroke="${blue}"`)}${poly([pt(10, 0, 10), pt(10, 10, 10), pt(10, 10, 0), pt(10, 0, 0)], "#75a8c4", `stroke="${blue}"`)}</g>`;
+            body += `<g opacity="${direction}">${poly([pt(0, 0, 10), pt(10, 0, 10), pt(10, 10, 10), pt(0, 10, 10)], pale, `stroke="${blue}"`)}${poly([pt(0, 10, 10), pt(10, 10, 10), pt(10, 10, 0), pt(0, 10, 0)], "var(--volume-side)", `stroke="${blue}"`)}${poly([pt(10, 0, 10), pt(10, 10, 10), pt(10, 10, 0), pt(10, 0, 0)], "var(--volume-front)", `stroke="${blue}"`)}</g>`;
           body +=
             text(388, 429, "宽 10 份", "small") +
             text(150, 390, "深 10 份", "small") +

@@ -1,18 +1,21 @@
 :root {
-  --bg: #f6f8f9;
-  --bg-soft: #fbfcfc;
-  --surface: #ffffff;
-  --text: #182024;
-  --muted: #5d6a70;
-  --accent: #1f6f68;
-  --accent-soft: rgba(31, 111, 104, 0.1);
-  --active: #eef7f6;
-  --border: #dde5e7;
-  --border-strong: #c8d4d8;
-  --radius: 10px;
-  --shadow-sm: 0 1px 2px rgba(24, 32, 36, 0.05);
-  --shadow-md: 0 8px 26px rgba(24, 32, 36, 0.06);
-  --focus: 0 0 0 3px rgba(31, 111, 104, 0.18);
+  --serif: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --body-text: #48554d;
+  --bg: #f9f8f3;
+  --bg-soft: #f5f6ee;
+  --surface: #fffefb;
+  --text: #263d36;
+  --muted: #737e72;
+  --accent: #3e7563;
+  --accent-soft: rgba(62, 117, 99, 0.1);
+  --active: #edf1e9;
+  --border: #dddeda;
+  --border-strong: #c7cec0;
+  --radius: 6px;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --focus: 0 0 0 3px rgba(62, 117, 99, 0.18);
   --trans: 180ms ease;
 }
 
@@ -22,13 +25,11 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-family: var(--sans);
   color: var(--text);
-  background:
-    radial-gradient(circle at 12% 0%, #ffffff 0%, var(--bg-soft) 28%, transparent 60%),
-    var(--bg);
+  background: var(--bg);
   padding: 24px 16px 36px;
-  line-height: 1.6;
+  line-height: 1.9;
 }
 
 .wrap {
@@ -60,7 +61,7 @@ body {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 32px;
   flex-wrap: wrap;
 }
 
@@ -107,10 +108,13 @@ body {
 }
 
 .page-title {
-  margin: 0 0 10px;
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: -0.3px;
+  margin: 0 0 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 .card {
@@ -153,13 +157,13 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  background: #f9fbfb;
+  background: var(--bg-soft);
   cursor: pointer;
   text-align: left;
 }
 
 .group-toggle:hover {
-  background: #f3f7f7;
+  background: var(--active);
 }
 
 .group-toggle:focus-visible {
@@ -200,7 +204,7 @@ body {
 }
 
 .catalog-item:hover {
-  background: #fcfefe;
+  background: var(--bg-soft);
 }
 
 .catalog-item:focus-visible {
@@ -223,8 +227,8 @@ body {
 
 .layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 12px;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 32px;
   align-items: start;
 }
 
@@ -256,7 +260,7 @@ body {
 
 .collapse-all-btn {
   border: 1px solid var(--border);
-  background: #fff;
+  background: var(--surface);
   color: var(--accent);
   font-size: 12px;
   line-height: 1.2;
@@ -296,7 +300,7 @@ body {
 }
 
 .doc-btn:hover {
-  background: #fcfefe;
+  background: var(--bg-soft);
   color: var(--text);
 }
 
@@ -327,10 +331,12 @@ body {
 }
 
 .viewer {
-  padding: 30px 36px;
+  padding: 38px 44px;
   min-height: 700px;
   box-shadow: var(--shadow-md);
-  font-size: 15px;
+  font-size: 16px;
+  color: var(--body-text);
+  min-width: 0;
   overflow-wrap: anywhere;
 }
 
@@ -348,7 +354,7 @@ body {
   bottom: 18px;
   z-index: 20;
   border: 1px solid var(--border-strong);
-  background: #fff;
+  background: var(--surface);
   color: var(--accent);
   border-radius: 999px;
   min-height: 38px;
@@ -421,4 +427,21 @@ body {
     animation: none !important;
     transition: none !important;
   }
+}
+
+button { font-family: inherit; }
+::selection { background: #dbe7d7; }
+.catalog-list { border-right: 0; border-left: 0; border-radius: 0; background: transparent; }
+.catalog-item { padding: 22px 18px; }
+.catalog-item-title { color: var(--text); font-family: var(--serif); font-size: 20px; font-weight: 500; line-height: 1.6; }
+.sidebar.card { border: 0; border-radius: 0; background: transparent; }
+.sidebar .group-toggle { background: transparent; }
+.sidebar .doc-btn { border-bottom: 0; border-left: 2px solid transparent; }
+.sidebar .doc-btn.active { border-left-color: var(--accent); }
+.viewer > .markdown > :first-child { margin-top: 0; }
+@media (max-width: 920px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+@media (max-width: 720px) {
+  .page-title { font-size: 29px; padding-top: 24px; margin-bottom: 24px; }
+  .catalog-item { padding: 18px 10px; }
+  .catalog-item-title { font-size: 19px; }
 }

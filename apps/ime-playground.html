@@ -7,22 +7,20 @@
   <title>Textarea IME Playground</title>
   <style>
     :root {
-      --bg: #f6f8f9;
-      --panel: #ffffff;
-      --line: #dde5e7;
-      --text: #182024;
-      --muted: #5d6a70;
-      --accent: #1f6f68;
-      --ok: #1f6f68;
+      --bg: #f9f8f3;
+      --panel: #fffefb;
+      --line: #dddeda;
+      --text: #263d36;
+      --muted: #657161;
+      --accent: #3e7563;
+      --ok: #3e7563;
       --warn: #b45309;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      background:
-        radial-gradient(circle at 10% 0%, #ffffff 0%, #fbfcfc 30%, transparent 70%),
-        var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       padding: 16px;
@@ -32,7 +30,7 @@
       max-width: 980px;
       margin: 0 auto 12px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
     }
     .nav-link {
       color: var(--accent);
@@ -43,7 +41,7 @@
       border-radius: 6px;
       transition: background 0.2s;
     }
-    .nav-link:hover { background: rgba(31, 111, 104, 0.08); }
+    .nav-link:hover { background: rgba(62, 117, 99, 0.08); }
 
     .wrap {
       max-width: 980px;
@@ -53,9 +51,9 @@
     }
     .card {
       border: 1px solid var(--line);
-      border-radius: 10px;
+      border-radius: 6px;
       background: var(--panel);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      box-shadow: none;
       overflow: hidden;
     }
     .head {
@@ -67,6 +65,7 @@
       gap: 8px;
     }
     .title { font-weight: 600; font-size: 15px; color: var(--text); }
+    #status { flex: 0 0 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: right; }
     .muted { color: var(--muted); font-size: 12px; }
     .body { padding: 16px; }
     textarea {
@@ -74,7 +73,7 @@
       min-height: 140px;
       border-radius: 8px;
       border: 1px solid var(--line);
-      background: #fafafa;
+      background: #f9f8f3;
       color: var(--text);
       padding: 12px;
       font: inherit;
@@ -85,7 +84,7 @@
     }
     textarea:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(31, 111, 104, 0.1);
+      box-shadow: 0 0 0 3px rgba(62, 117, 99, 0.1);
       background: #fff;
     }
     .controls { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -100,7 +99,9 @@
       font-size: 13px;
       transition: all 0.2s;
     }
-    button:hover { border-color: var(--accent); color: var(--accent); background: #fcfefe; }
+    button:hover { border-color: var(--accent); color: var(--accent); background: #edf1e9; }
+    #log, textarea { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     #log {
       margin: 0;
       padding: 12px;
@@ -110,8 +111,8 @@
       white-space: pre-wrap;
       word-break: break-word;
       border-top: 1px solid var(--line);
-      background: #f9fafb;
-      color: #475569;
+      background: #f3f5ed;
+      color: #48554d;
       font-size: 12px;
       line-height: 1.4;
     }

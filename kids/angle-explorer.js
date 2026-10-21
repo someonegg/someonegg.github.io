@@ -18,8 +18,8 @@
   if (typeof module !== "undefined" && module.exports) module.exports = math;
   if (typeof document === "undefined") return;
 
-  const BLUE = "#246b91", ORANGE = "#b86935", INK = "#233747", GRAY = "#9db2bf";
-  const bluePale = "#deedf5", orangePale = "#fae8d7";
+  const BLUE = "var(--accent)", ORANGE = "var(--orange)", INK = "var(--ink)", GRAY = "var(--diagram-muted)";
+  const bluePale = "var(--accent-soft)", orangePale = "var(--orange-pale)";
   const $ = (id) => document.getElementById(id);
   const pt = (x, y) => ({ x, y });
   const ray = (p, degrees, length) => pt(p.x + Math.cos(degrees * DEG) * length, p.y - Math.sin(degrees * DEG) * length);
@@ -52,7 +52,7 @@
       prompt: "转到像书角一样方正时，是多少度？转到一条直线时呢？",
       rule: "直角是 90°；平角是 180°。两个直角正好拼成一个平角。",
       question: "两个直角拼在一起，是多少度？", answers: ["90°", "180°", "360°"], correct: 1,
-      hint: "拖动蓝色圆点，或移动滑块。",
+      hint: "拖动绿色圆点，或移动滑块。",
       default: () => ({ degrees: 65 }),
       controls: (s) => `<label for="angle-range">转动射线<input id="angle-range" type="range" min="0" max="180" step="1" value="${s.degrees}" aria-label="角的大小"><span class="value" id="range-value">${s.degrees}°</span></label>`,
       draw(s) {
@@ -69,10 +69,10 @@
     },
     {
       tab: "邻补角与对顶角", title: "两条直线相交", intro: "观察相邻的角与面对面的角，看看谁会一起变化。",
-      prompt: "转动蓝色圆点：面对面的两个角会一样大吗？挨着的两个角加起来是多少？",
+      prompt: "转动绿色圆点：面对面的两个角会一样大吗？挨着的两个角加起来是多少？",
       rule: "面对面的对顶角相等；挨着且合成一条直线的邻补角，和是 180°。",
       question: "一个角是 55°，它的对顶角是多少度？", answers: ["55°", "90°", "125°"], correct: 0,
-      hint: "拖动蓝色圆点，或移动滑块。",
+      hint: "拖动绿色圆点，或移动滑块。",
       default: () => ({ degrees: 62 }),
       controls: (s) => `<label for="cross-range">转动直线<input id="cross-range" type="range" min="30" max="150" step="1" value="${s.degrees}" aria-label="相交直线的角度"><span class="value" id="range-value">${s.degrees}°</span></label>`,
       draw(s) {
@@ -88,20 +88,20 @@
           label(ray(o, (d + 540) / 2, 120), `${180 - d}°`, "orange-text") +
           label(pt(320, 416), `${d}° + ${180 - d}° = 180°`, "large");
       },
-      description: (s) => `两条直线相交。相对的蓝色角都是 ${s.degrees} 度；相邻的橙色角是 ${180 - s.degrees} 度。`,
+      description: (s) => `两条直线相交。相对的绿色角都是 ${s.degrees} 度；相邻的橙色角是 ${180 - s.degrees} 度。`,
     },
     {
       tab: "三角形内角和", title: "三角形的三个角", intro: "改变形状，再把三个角拼成一条直线。",
       prompt: "拖动上面的顶点。三角形变瘦或变宽时，三个角的总和会变吗？",
       rule: "三个内角可以拼成一个平角，所以三角形内角和是 180°。显示的单个角度是近似测量值。",
       question: "三角形有两个角是 50° 和 60°，第三个角是多少度？", answers: ["60°", "70°", "80°"], correct: 1,
-      hint: "拖动蓝色顶点，或分别移动左右滑块。点击“拼起三个角”看理由。",
+      hint: "拖动绿色顶点，或分别移动左右滑块。点击“拼起三个角”看理由。",
       default: () => ({ x: 320, y: 105, assembled: false }),
       controls: (s) => `<label for="triangle-x">顶点左右<input id="triangle-x" type="range" min="170" max="470" step="1" value="${s.x}" aria-label="三角形顶点左右位置"><span class="value" id="triangle-x-value">${Math.round(s.x)}</span></label><label for="triangle-y">顶点高低<input id="triangle-y" type="range" min="70" max="245" step="1" value="${s.y}" aria-label="三角形顶点高低位置"><span class="value" id="triangle-y-value">${Math.round(s.y)}</span></label><button type="button" data-action="assemble">${s.assembled ? "收起拼角" : "拼起三个角"}</button>`,
       draw(s) {
         const a = pt(110, 285), b = pt(530, 285), c = pt(s.x, s.y), angles = triangleAngles(a, b, c);
-        let body = `<polygon points="${a.x},${a.y} ${b.x},${b.y} ${c.x},${c.y}" fill="#f8fbfd" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>` +
-          cornerSector(a, b, c, 45, bluePale) + cornerSector(b, a, c, 45, orangePale) + cornerSector(c, a, b, 42, "#e8e3f3") +
+        let body = `<polygon points="${a.x},${a.y} ${b.x},${b.y} ${c.x},${c.y}" fill="var(--paper)" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>` +
+          cornerSector(a, b, c, 45, bluePale) + cornerSector(b, a, c, 45, orangePale) + cornerSector(c, a, b, 42, "var(--diagram-third)") +
           circle(a, 5, INK) + circle(b, 5, INK) + handle(c, "triangle") +
           label(pt(a.x + 61, a.y - 28), `${angles[0].toFixed(1)}°`, "small blue-text") +
           label(pt(b.x - 63, b.y - 28), `${angles[1].toFixed(1)}°`, "small orange-text") +
@@ -110,7 +110,7 @@
           const o = pt(320, 408), [aa, bb] = angles;
           body += line(pt(164, 408), pt(476, 408), INK, 3) +
             sector(o, 0, aa, 41, bluePale) + sector(o, aa, aa + bb, 41, orangePale) +
-            sector(o, aa + bb, 180, 41, "#e8e3f3") +
+            sector(o, aa + bb, 180, 41, "var(--diagram-third)") +
             label(pt(320, 350), "三个角拼成 180°", "small");
         } else body += label(pt(320, 387), "先猜：三个角能拼成什么？", "small");
         return body;
@@ -137,10 +137,10 @@
         const shownRemaining = (180 - 2 * shownSmall).toFixed(1);
         const poly = (points, fill, stroke, dash = "") => `<polygon points="${points.map((p) => `${p.x},${p.y}`).join(" ")}" fill="${fill}" stroke="${stroke}" stroke-width="3" stroke-linejoin="round" ${dash ? `stroke-dasharray="${dash}"` : ""}/>`;
         let body = s.folded
-          ? poly([leftTop, creaseStart, creaseEnd, rightBottom, leftBottom], "#f5f9fc", INK) +
+          ? poly([leftTop, creaseStart, creaseEnd, rightBottom, leftBottom], "var(--paper)", INK) +
             poly([creaseStart, foldedCorner, creaseEnd], orangePale, ORANGE) +
             line(creaseStart, corner, GRAY, 2, "6 6") + line(corner, creaseEnd, GRAY, 2, "6 6")
-          : poly([leftTop, corner, rightBottom, leftBottom], "#f5f9fc", INK) +
+          : poly([leftTop, corner, rightBottom, leftBottom], "var(--paper)", INK) +
             poly([creaseStart, corner, creaseEnd], orangePale, ORANGE);
         body += line(creaseStart, creaseEnd, BLUE, 3, "8 6") + circle(creaseStart, 5, INK) +
           label(pt(160, 72), "矩形纸片", "small") +
@@ -148,7 +148,7 @@
           label(pt(445, 285), s.folded ? "折下来的角" : "右上角", "small");
         if (s.folded) {
           body += `<g class="folded-shape">` +
-            sector(creaseStart, 180, 360 - 2 * small, 62, "#e8e3f3") +
+            sector(creaseStart, 180, 360 - 2 * small, 62, "var(--diagram-third)") +
             sector(creaseStart, 360 - 2 * small, 360 - small, 62, bluePale) +
             sector(creaseStart, 360 - small, 360, 62, orangePale) +
             line(creaseStart, foldedCorner, ORANGE, 3) +
@@ -164,7 +164,7 @@
         const start = pt(s.creaseX, 100), end = pt(540, 260), small = angleBetween(start, pt(540, 100), end);
         return s.folded
           ? `矩形右上角已经折下。折前的①翻到折后的①上，两个小角重合。①约 ${small.toFixed(1)} 度；②是剩下的角，三个角合成 180 度。`
-          : "矩形右上角可以沿蓝色折痕折下来。折痕起点在矩形上边。";
+          : "矩形右上角可以沿绿色折痕折下来。折痕起点在矩形上边。";
       },
     },
   ];
