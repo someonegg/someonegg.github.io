@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>Ally · 探索折带</title>
+  <defs>
+    <linearGradient id="ribbon" gradientUnits="userSpaceOnUse" x1="0" y1="280" x2="0" y2="374">
+      <stop offset="0.0000" stop-color="rgb(255, 255, 255)"/>
+      <stop offset="0.0625" stop-color="rgb(255, 255, 255)"/>
+      <stop offset="0.1250" stop-color="rgb(254, 254, 254)"/>
+      <stop offset="0.1875" stop-color="rgb(254, 254, 254)"/>
+      <stop offset="0.2500" stop-color="rgb(252, 253, 253)"/>
+      <stop offset="0.3125" stop-color="rgb(251, 252, 252)"/>
+      <stop offset="0.3750" stop-color="rgb(250, 251, 250)"/>
+      <stop offset="0.4375" stop-color="rgb(248, 250, 249)"/>
+      <stop offset="0.5000" stop-color="rgb(247, 248, 248)"/>
+      <stop offset="0.5625" stop-color="rgb(246, 247, 246)"/>
+      <stop offset="0.6250" stop-color="rgb(244, 246, 245)"/>
+      <stop offset="0.6875" stop-color="rgb(243, 245, 243)"/>
+      <stop offset="0.7500" stop-color="rgb(242, 244, 242)"/>
+      <stop offset="0.8125" stop-color="rgb(240, 243, 241)"/>
+      <stop offset="0.8750" stop-color="rgb(240, 243, 241)"/>
+      <stop offset="0.9375" stop-color="rgb(239, 242, 240)"/>
+      <stop offset="1.0000" stop-color="rgb(239, 242, 240)"/>
+    </linearGradient>
+  </defs>
+  <path fill="#46745c" d="M0 0h512v512H0z"/>
+  <path fill="url(#ribbon)" d="M100 356 L196 181 C215 148 230 132 258 132 L309 132 C334 132 348 158 359 198 L383 291 C391 321 403 346 418 366 L399 360 C380 326 371 292 361 254 L343 186 C335 154 325 138 311 138 C293 138 279 164 265 197 L213 324 C199 358 182 374 156 374 L112 374 C98 374 94 367 100 356 Z"/>
+  <path fill="url(#ribbon)" d="M264 250 C300 250 329 266 351 294 C373 322 393 347 418 366 C377 364 339 357 308 345 C277 332 266 301 264 250 Z"/>
+</svg>
