@@ -57,169 +57,6 @@
     });
   }
 
-  function stripYamlScalar(value) {
-    const trimmed = String(value || "").trim();
-    if (!trimmed) return "";
-    if ((trimmed.startsWith('"') && trimmed.endsWith('"')) || (trimmed.startsWith("'") && trimmed.endsWith("'"))) {
-      return trimmed.slice(1, -1);
-    }
-    return trimmed;
-  }
-
-  function parseInlineYamlList(value) {
-    const trimmed = String(value || "").trim();
-    if (!trimmed.startsWith("[") || !trimmed.endsWith("]")) return null;
-    const content = trimmed.slice(1, -1).trim();
-    if (!content) return [];
-    return content
-      .split(",")
-      .map((item) => stripYamlScalar(item))
-      .filter((item) => item.length > 0);
-  }
-
-  function parseFrontmatterMeta(rawMeta) {
-    const lines = String(rawMeta || "").split(/\r?\n/);
-    const meta = {};
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      if (!line || !line.trim()) continue;
-      const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
-      if (!match) continue;
-
-      const key = match[1];
-      const rest = match[2] || "";
-      const inlineList = parseInlineYamlList(rest);
-      if (inlineList) {
-        meta[key] = inlineList;
-        continue;
-      }
-
-      if (!rest.trim()) {
-        const list = [];
-        let j = i + 1;
-        while (j < lines.length) {
-          const itemMatch = lines[j].match(/^\s*-\s+(.*)\s*$/);
-          if (!itemMatch) break;
-          list.push(stripYamlScalar(itemMatch[1]));
-          j++;
-        }
-        if (list.length > 0) {
-          meta[key] = list;
-          i = j - 1;
-          continue;
-        }
-        meta[key] = "";
-        continue;
-      }
-
-      meta[key] = stripYamlScalar(rest);
-    }
-    return meta;
-  }
-
-  function extractFrontmatter(md) {
-    const source = String(md || "");
-    const lines = source.split(/\r?\n/);
-    if (lines.length < 3 || lines[0].trim() !== "---") {
-      return { meta: null, body: source, raw: "" };
-    }
-
-    let endIndex = -1;
-    for (let i = 1; i < lines.length; i++) {
-      if (lines[i].trim() === "---") {
-        endIndex = i;
-        break;
-      }
-    }
-    if (endIndex < 0) {
-      return { meta: null, body: source, raw: "" };
-    }
-
-    const rawMeta = lines.slice(1, endIndex).join("\n");
-    const body = lines.slice(endIndex + 1).join("\n");
-    return {
-      meta: parseFrontmatterMeta(rawMeta),
-      body,
-      raw: "---\n" + rawMeta + "\n---",
-    };
-  }
-
-  function isWikiRefPath(value) {
-    return /^(sources|entities|concepts|queries)\//.test(String(value || "").trim());
-  }
-
-  function extractWikiRefPath(value) {
-    const text = String(value || "").trim();
-    if (!text) return "";
-    const match = text.match(/^\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|[^\]]+)?\]\]$/);
-    if (!match) return "";
-    const target = match[1].trim();
-    return isWikiRefPath(target) ? target : "";
-  }
-
-  function renderFrontmatterCardValue(key, value, options) {
-    if (Array.isArray(value)) {
-      if (value.length === 0) {
-        return '<span class="frontmatter-empty">[]</span>';
-      }
-      const tags = value.map((item) => {
-        const text = String(item || "").trim();
-        const refPath = key === "source_refs" && options.frontmatterLinkRefs ? extractWikiRefPath(text) : "";
-        if (refPath) {
-          const href = "?file=" + encodeURIComponent(toFilePath(refPath));
-          return '<a class="frontmatter-tag is-link" href="' + href + '">' + escapeHtml(refPath) + "</a>";
-        }
-        return '<span class="frontmatter-tag">' + escapeHtml(text) + "</span>";
-      });
-      return '<div class="frontmatter-tags">' + tags.join("") + "</div>";
-    }
-
-    const text = String(value || "").trim();
-    const refPath = key === "source_refs" && options.frontmatterLinkRefs ? extractWikiRefPath(text) : "";
-    if (refPath) {
-      const href = "?file=" + encodeURIComponent(toFilePath(refPath));
-      return '<a class="frontmatter-tag is-link" href="' + href + '">' + escapeHtml(refPath) + "</a>";
-    }
-    if (!text) {
-      return '<span class="frontmatter-empty">-</span>';
-    }
-    return '<span class="frontmatter-value">' + escapeHtml(text) + "</span>";
-  }
-
-  function renderFrontmatterCard(meta, options) {
-    if (!meta || typeof meta !== "object") return "";
-    const keys = Object.keys(meta);
-    if (keys.length === 0) return "";
-
-    const preferred = ["id", "type", "updated_at", "source_refs"];
-    const ordered = preferred.filter((key) => keys.includes(key)).concat(keys.filter((key) => !preferred.includes(key)));
-    const rows = ordered.map((key) => {
-      const valueHtml = renderFrontmatterCardValue(key, meta[key], options);
-      return '<div class="frontmatter-row"><dt>' + escapeHtml(key) + "</dt><dd>" + valueHtml + "</dd></div>";
-    });
-
-    return (
-      '<section class="frontmatter-card" aria-label="Metadata">' +
-      '<h2 class="frontmatter-title">Metadata</h2>' +
-      '<dl class="frontmatter-grid">' +
-      rows.join("") +
-      "</dl>" +
-      "</section>"
-    );
-  }
-
-  function renderFrontmatterRaw(raw) {
-    if (!raw) return "";
-    return (
-      '<section class="frontmatter-card is-raw" aria-label="Frontmatter">' +
-      '<h2 class="frontmatter-title">Frontmatter</h2>' +
-      '<pre class="frontmatter-raw"><code>' +
-      escapeHtml(raw) +
-      "</code></pre>" +
-      "</section>"
-    );
-  }
-
   function createRenderer(viewerEl, options) {
     let mermaidInitialized = false;
     let mermaidLoadPromise = null;
@@ -310,10 +147,6 @@
     }
 
     return function renderMarkdown(md) {
-      const frontmatterMode = (options.frontmatterMode || "none").toLowerCase();
-      const frontmatter = frontmatterMode === "none" ? { meta: null, body: md, raw: "" } : extractFrontmatter(md);
-      const renderSource = frontmatter.body;
-
       const codeTokens = [];
       const stashCode = (text) => {
         let out = text;
@@ -368,20 +201,14 @@
         return out;
       };
 
-      const bothStashed = stashMath(stashCode(renderSource));
+      const bothStashed = stashMath(stashCode(md));
       const converted = options.convertWikiLinks ? convertWikiLinks(bothStashed) : bothStashed;
       const input = restoreCode(converted);
-      const frontmatterHtml =
-        frontmatterMode === "card"
-          ? renderFrontmatterCard(frontmatter.meta, options)
-          : frontmatterMode === "raw"
-            ? renderFrontmatterRaw(frontmatter.raw)
-            : "";
       if (window.marked && typeof window.marked.parse === "function") {
         const parsed = window.marked.parse(input);
-        viewerEl.innerHTML = frontmatterHtml + '<div class="markdown">' + restoreMath(parsed) + "</div>";
+        viewerEl.innerHTML = '<div class="markdown">' + restoreMath(parsed) + "</div>";
       } else {
-        viewerEl.innerHTML = frontmatterHtml + "<pre>" + escapeHtml(input) + "</pre>";
+        viewerEl.innerHTML = "<pre>" + escapeHtml(input) + "</pre>";
       }
 
       if (window.renderMathInElement) {

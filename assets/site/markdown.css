@@ -24,6 +24,22 @@
   font-size: 21px;
 }
 
+.markdown > :first-child {
+  margin-top: 0;
+}
+
+.markdown h4 {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.markdown hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
 .markdown p {
   line-height: 1.8;
   margin: 0 0 0.65em;
@@ -31,13 +47,13 @@
 }
 
 .markdown li {
-  line-height: 1.7;
+  line-height: 1.8;
   margin-bottom: 0.35em;
   color: var(--body-text);
 }
 
 .markdown li > p {
-  line-height: 1.7;
+  line-height: 1.8;
   margin-bottom: 0.35em;
 }
 
@@ -55,7 +71,7 @@
 }
 
 .markdown code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--mono);
   font-size: 0.92em;
 }
 
@@ -114,16 +130,17 @@
 
 .markdown blockquote {
   margin: 14px 0;
-  padding: 4px 14px;
-  border-left: 3px solid var(--border-strong);
+  padding: 8px 20px;
+  border-left: 3px solid var(--accent);
   color: var(--muted);
-  background: var(--bg-soft);
+  background: var(--active);
   border-radius: 0 4px 4px 0;
 }
 
 .markdown a {
   color: var(--accent);
   text-decoration: none;
+  text-underline-offset: 4px;
 }
 
 .markdown a:hover {
@@ -137,112 +154,6 @@
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--surface);
-}
-
-.frontmatter-card {
-  margin-bottom: 18px;
-  padding: 14px 16px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg-soft);
-}
-
-.frontmatter-title {
-  margin: 0 0 10px;
-  font-size: 14px;
-  line-height: 1.3;
-  font-weight: 600;
-  color: var(--body-text);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.frontmatter-grid {
-  margin: 0;
-}
-
-.frontmatter-row {
-  display: grid;
-  grid-template-columns: 130px minmax(0, 1fr);
-  gap: 8px 10px;
-  align-items: start;
-  margin: 0;
-  padding: 6px 0;
-  border-top: 1px dashed var(--border);
-}
-
-.frontmatter-row:first-child {
-  border-top: none;
-  padding-top: 0;
-}
-
-.frontmatter-row:last-child {
-  padding-bottom: 0;
-}
-
-.frontmatter-row dt {
-  margin: 0;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 12px;
-  color: var(--muted);
-  overflow-wrap: anywhere;
-}
-
-.frontmatter-row dd {
-  margin: 0;
-  min-width: 0;
-  color: var(--body-text);
-  line-height: 1.65;
-  overflow-wrap: anywhere;
-}
-
-.frontmatter-value {
-  display: inline;
-}
-
-.frontmatter-empty {
-  color: var(--muted);
-}
-
-.frontmatter-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.frontmatter-tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--body-text);
-  font-size: 12px;
-  line-height: 1.5;
-  text-decoration: none;
-}
-
-.frontmatter-tag.is-link {
-  border-color: var(--border-strong);
-  color: var(--accent);
-}
-
-.frontmatter-tag.is-link:hover {
-  background: var(--active);
-}
-
-.frontmatter-card.is-raw .frontmatter-raw {
-  margin: 0;
-  padding: 10px;
-  border-radius: 8px;
-  background: var(--surface);
-}
-
-@media (max-width: 720px) {
-  .frontmatter-row {
-    grid-template-columns: 1fr;
-    gap: 4px;
-  }
 }
 
 .table-scroll,
@@ -262,11 +173,17 @@
   min-width: max-content;
 }
 
-.markdown h2 { padding-top: 0.6em; border-top: 1px solid var(--border); }
-.markdown h4 { font-family: var(--sans); font-size: 16px; font-weight: 600; }
-.markdown hr { border: 0; border-top: 1px solid var(--border); margin: 32px 0; }
-.markdown blockquote { border-left-color: #6d9481; padding: 8px 20px; background: var(--active); }
-.markdown blockquote > :last-child { margin-bottom: 8px; }
-.markdown a { text-underline-offset: 4px; }
-.markdown a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-@media (max-width: 720px) { .markdown h2 { font-size: 23px; } }
+.markdown blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 720px) {
+  .markdown h2 {
+    font-size: 23px;
+  }
+}

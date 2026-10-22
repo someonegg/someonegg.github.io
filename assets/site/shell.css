@@ -1,6 +1,7 @@
 :root {
   --serif: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
   --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --body-text: #48554d;
   --bg: #f9f8f3;
   --bg-soft: #f5f6ee;
@@ -136,11 +137,10 @@ body {
 }
 
 .catalog-list {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  background: transparent;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
 }
 
 .group-toggle {
@@ -192,7 +192,7 @@ body {
 
 .catalog-item {
   display: block;
-  padding: 16px 18px;
+  padding: 22px 18px;
   border-bottom: 1px solid var(--border);
   transition: background var(--trans), border-color var(--trans), box-shadow var(--trans);
   color: inherit;
@@ -214,15 +214,18 @@ body {
 
 .catalog-item-title {
   margin: 0 0 4px;
-  font-size: 15px;
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 20px;
   font-weight: 500;
+  line-height: 1.6;
 }
 
 .catalog-item-file {
   margin-top: 3px;
   color: var(--muted);
   font-size: 12px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--mono);
 }
 
 .layout {
@@ -230,6 +233,29 @@ body {
   grid-template-columns: 250px minmax(0, 1fr);
   gap: 32px;
   align-items: start;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: #dbe7d7;
+}
+
+.sidebar.card {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.sidebar .group-toggle {
+  background: transparent;
+}
+
+.sidebar .list-header-title,
+.sidebar .doc-title {
+  font-family: var(--serif);
 }
 
 .sidebar {
@@ -293,7 +319,7 @@ body {
   background: transparent;
   text-align: left;
   padding: 12px 14px;
-  border-bottom: 1px solid var(--border);
+  border-left: 2px solid transparent;
   cursor: pointer;
   color: var(--muted);
   transition: background var(--trans), color var(--trans);
@@ -305,6 +331,7 @@ body {
 }
 
 .doc-btn.active {
+  border-left-color: var(--accent);
   background: var(--active);
   color: var(--accent);
 }
@@ -324,7 +351,7 @@ body {
   margin: 0;
   opacity: 0.7;
   font-size: 11px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--mono);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -389,7 +416,8 @@ body {
   }
 
   .layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
   }
 
   .sidebar {
@@ -410,11 +438,17 @@ body {
 
 @media (max-width: 720px) {
   .page-title {
-    font-size: 24px;
+    font-size: 29px;
+    padding-top: 24px;
+    margin-bottom: 24px;
   }
 
   .catalog-item {
-    padding: 14px 12px;
+    padding: 18px 10px;
+  }
+
+  .catalog-item-title {
+    font-size: 19px;
   }
 
   .top-nav {
@@ -427,21 +461,4 @@ body {
     animation: none !important;
     transition: none !important;
   }
-}
-
-button { font-family: inherit; }
-::selection { background: #dbe7d7; }
-.catalog-list { border-right: 0; border-left: 0; border-radius: 0; background: transparent; }
-.catalog-item { padding: 22px 18px; }
-.catalog-item-title { color: var(--text); font-family: var(--serif); font-size: 20px; font-weight: 500; line-height: 1.6; }
-.sidebar.card { border: 0; border-radius: 0; background: transparent; }
-.sidebar .group-toggle { background: transparent; }
-.sidebar .doc-btn { border-bottom: 0; border-left: 2px solid transparent; }
-.sidebar .doc-btn.active { border-left-color: var(--accent); }
-.viewer > .markdown > :first-child { margin-top: 0; }
-@media (max-width: 920px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
-@media (max-width: 720px) {
-  .page-title { font-size: 29px; padding-top: 24px; margin-bottom: 24px; }
-  .catalog-item { padding: 18px 10px; }
-  .catalog-item-title { font-size: 19px; }
 }
