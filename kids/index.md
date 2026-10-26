@@ -1,9 +1,5 @@
 # Kids Index
 
-## 汉字学习
-
-- [[hanzi/index.html]] 汉字学习：拼音、笔顺、组词
-
 ## 数学思维
 
 - [[angle-explorer.html]] 角度探索：直角、对顶角、三角形内角和与矩形折角
