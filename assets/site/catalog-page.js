@@ -2,6 +2,7 @@
   function escapeHtml(text) {
     return String(text)
       .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
   }
@@ -62,8 +63,11 @@
 
       group.items.forEach((item) => {
         const li = document.createElement("li");
+        const href = /^https?:\/\//i.test(item.file)
+          ? item.file
+          : "./" + encodeHrefPath(item.file);
         li.innerHTML =
-          '<a class="catalog-item" href="./' + encodeHrefPath(item.file) + '">' +
+          '<a class="catalog-item" href="' + escapeHtml(href) + '">' +
             '<div><p class="catalog-item-title">' + escapeHtml(item.title) + "</p>" +
             '<div class="catalog-item-file">' + escapeHtml(item.file) + "</div></div>" +
           "</a>";
