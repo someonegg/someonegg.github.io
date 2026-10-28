@@ -1,6 +1,6 @@
 (function (root, factory) {
   const config = typeof module === 'object' && module.exports
-    ? require('../game-config.js')
+    ? require('/immutable/apps/save-the-doge/game-config.68004cf8406165e05197a2f25fea74e4103e76a69bb99a2f36e289bd4b975454.js')
     : root.SaveTheDoge.config;
   const api = factory(config);
   if (typeof module === 'object' && module.exports) module.exports = api;

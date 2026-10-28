@@ -1,8 +1,8 @@
 /* Shared by the browser and the deterministic simulation tests. */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) {
-    const config = require('./game-config.js');
-    const geometry = require('./core/geometry.js');
+    const config = require('/immutable/apps/save-the-doge/game-config.68004cf8406165e05197a2f25fea74e4103e76a69bb99a2f36e289bd4b975454.js');
+    const geometry = require('/immutable/apps/save-the-doge/core/geometry.eb8238becc0afbd82fbb81fa1e2a3f3cb2d44ed61ff9fc4f93b9835915338537.js');
     module.exports = Matter => factory(Matter, config, geometry);
   } else root.DogeCore = factory(root.Matter, root.SaveTheDoge.config, root.SaveTheDoge.geometry);
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (Matter, config, geometry) {

@@ -79,7 +79,7 @@
 
       mermaidLoadPromise = new Promise((resolve, reject) => {
         const script = document.createElement("script");
-        script.src = "/vendor/mermaid.min.js";
+        script.src = "/immutable/vendor/mermaid.min.5a8ec91820bd55afef049068489369910e5d6ce70c8103952f27e29d3e76e8bc.js";
         script.async = true;
         script.onload = () => resolve(window.mermaid);
         script.onerror = () => reject(new Error("无法加载 Mermaid 渲染库"));
@@ -399,7 +399,7 @@
       viewerEl.classList.add("loading");
 
       try {
-        const resp = await fetch("./" + file, { cache: "no-store" });
+        const resp = await fetch("./" + file, { cache: "no-cache" });
         if (!resp.ok) {
           throw new Error("HTTP " + resp.status + (options.errorIncludeFile ? " " + file : ""));
         }
@@ -466,7 +466,7 @@
     }
 
     try {
-      const resp = await fetch(indexUrl, { cache: "no-store" });
+      const resp = await fetch(indexUrl, { cache: "no-cache" });
       if (!resp.ok) {
         throw new Error(options.indexLoadErrorText || ("HTTP " + resp.status));
       }

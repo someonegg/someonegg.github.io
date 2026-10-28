@@ -89,7 +89,7 @@
     if (!listEl) return;
 
     try {
-      const resp = await fetch(indexUrl, { cache: "no-store" });
+      const resp = await fetch(indexUrl, { cache: "no-cache" });
       if (!resp.ok) throw new Error("HTTP " + resp.status);
       const indexMd = await resp.text();
       const groups = parseIndex(indexMd);
