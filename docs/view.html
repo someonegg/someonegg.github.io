@@ -213,7 +213,7 @@
         rawLinkEl.href = "./" + file;
 
         try {
-          const resp = await fetch("./" + file, { cache: "no-store" });
+          const resp = await fetch("./" + file, { cache: "no-cache" });
           if (!resp.ok) throw new Error("HTTP " + resp.status);
           const md = await resp.text();
           const prepared = prepareMarkdown(md);
