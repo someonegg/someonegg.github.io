@@ -202,7 +202,9 @@
       };
 
       const bothStashed = stashMath(stashCode(md));
-      const converted = options.convertWikiLinks ? convertWikiLinks(bothStashed) : bothStashed;
+      const convertLinks = typeof options.convertWikiLinks === "function"
+        ? options.convertWikiLinks : convertWikiLinks;
+      const converted = options.convertWikiLinks ? convertLinks(bothStashed) : bothStashed;
       const input = restoreCode(converted);
       if (window.marked && typeof window.marked.parse === "function") {
         const parsed = window.marked.parse(input);
@@ -516,5 +518,6 @@
     }
   }
 
+  window.createDocRenderer = createRenderer;
   window.initDocViewer = initDocViewer;
 })();

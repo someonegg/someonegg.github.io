@@ -110,6 +110,7 @@
   <script src="/immutable/vendor/marked.min.3e7e7d7feb3e5d58cb6c804f68ab5c24cc7e5eb6270fd6e5cbb9124739217d0c.js"></script>
   <script src="/immutable/vendor/katex.min.e6bfe5deebd4c7ccd272055bab63bd3ab2c73b907b6e6a22d352740a81381fd4.js"></script>
   <script src="/immutable/vendor/katex-auto-render.min.7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae.js"></script>
+  <script src="/immutable/assets/site/doc-viewer.db9fb725b5a8e50fa9961d5d537f6b0255bb59a03ec06fda8df17e9d0848919b.js"></script>
   <script>
     (function () {
       const viewerEl = document.getElementById("viewer");
@@ -150,57 +151,9 @@
         });
       }
 
-      function createStash(prefix) {
-        const tokens = [];
-        return {
-          stash(text, pattern) {
-            return String(text || "").replace(pattern, function (match) {
-              const token = "@@" + prefix + "_" + tokens.length + "@@";
-              tokens.push(match);
-              return token;
-            });
-          },
-          restore(text, escapeValue) {
-            let out = String(text || "");
-            for (let i = 0; i < tokens.length; i++) {
-              const value = escapeValue ? escapeValue(tokens[i]) : tokens[i];
-              out = out.split("@@" + prefix + "_" + i + "@@").join(value);
-            }
-            return out;
-          }
-        };
-      }
-
-      function prepareMarkdown(md) {
-        const code = createStash("CODE");
-        const math = createStash("MATH");
-        let source = String(md || "");
-
-        source = code.stash(source, /^(`{3,}|~{3,})[^\n]*\n[\s\S]*?\n\1[ \t]*$/gm);
-        source = code.stash(source, /`[^`\n]+`/g);
-        source = math.stash(source, /\$\$[\s\S]*?\$\$/g);
-        source = math.stash(source, /\$(?!\$)(?:\\.|[^$\\\n])+\$/g);
-
-        return {
-          source: code.restore(convertWikiLinks(source)),
-          restoreMath(html) {
-            return math.restore(html, escapeHtml);
-          }
-        };
-      }
-
-      function renderMath(container) {
-        if (!window.renderMathInElement) return;
-        window.renderMathInElement(container, {
-          delimiters: [
-            { left: "$$", right: "$$", display: true },
-            { left: "$", right: "$", display: false },
-            { left: "\\(", right: "\\)", display: false },
-            { left: "\\[", right: "\\]", display: true }
-          ],
-          throwOnError: false
-        });
-      }
+      const renderMarkdown = window.createDocRenderer(viewerEl, {
+        convertWikiLinks: convertWikiLinks
+      });
 
       async function load() {
         const file = getFileFromQuery();
@@ -216,12 +169,7 @@
           const resp = await fetch("./" + file, { cache: "no-cache" });
           if (!resp.ok) throw new Error("HTTP " + resp.status);
           const md = await resp.text();
-          const prepared = prepareMarkdown(md);
-          const html = window.marked && window.marked.parse
-            ? prepared.restoreMath(window.marked.parse(prepared.source))
-            : "<pre>" + escapeHtml(prepared.source) + "</pre>";
-          viewerEl.innerHTML = '<div class="markdown">' + html + "</div>";
-          renderMath(viewerEl);
+          renderMarkdown(md);
 
           const firstHeading = viewerEl.querySelector(".markdown h1");
           if (firstHeading && firstHeading.textContent.trim()) {
