@@ -30,7 +30,7 @@ npm run preview
 
 构建每次重新生成仓库内的 `dist/`，展开内容目录为实际文件并写入 `.nojekyll`。产物可独立部署。
 
-开发和预览默认地址均为 `http://127.0.0.1:6006`，可通过 `npm run preview -- --port 6007`（开发同理）更换端口。预览不自动构建，源文件修改后需重新执行 `npm run build`。
+开发和预览默认地址均为 `http://127.0.0.1:27463`，可通过 `npm run preview -- --port 27464`（开发同理）更换端口。预览不自动构建，源文件修改后需重新执行 `npm run build`。
 
 `npm test` 运行单元及构建流程测试；`npm run test:doge:browser` 需要已安装 `playwright-cli`，会自行构建并启动预览。
 
