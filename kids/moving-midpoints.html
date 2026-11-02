@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>运动的中点：数轴实验</title>
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64" />
+    <link
+      rel="icon"
+      href="/assets/icons/ally.svg"
+      type="image/svg+xml"
+      sizes="any"
+    />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#263d36" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Ally" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="stylesheet" href="/immutable/kids/moving-midpoints.f34a4938e3aae49e34e2deb62efb8c7c3939ed9aa639e67f90fca9d7c40636fb.css" />
+    <script src="/immutable/kids/moving-midpoints.a4766571fe89da5a0006c46e2ebd462a8192b5c1828c78a690ffbf8cfda6128a.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a class="back" href="index.html">返回索引</a>
+      <header>
+        <div class="eyebrow">数学探索 · 运动与中点</div>
+        <h1>运动的中点：什么没有变？</h1>
+        <p>拖动时间，看两段中点之间的距离，怎样跟随原来的线段变化。</p>
+      </header>
+      <section class="card">
+        <h2>① 观察数轴上的运动</h2>
+        <p class="note">
+          起点：A = −2，B = 8，O = 0。E 从 O 向右每秒走 1；M 从 A 向左每秒走
+          7；N 从 B 向右每秒走 10。P 是 ME 的中点，Q 是 ON 的中点。
+        </p>
+        <div class="controls">
+          <button class="primary" id="play" aria-pressed="false">播放</button
+          ><button id="reset">回到起点</button
+          ><label for="time"
+            >时间 t =
+            <output class="time" id="timeValue">0.00</output> 秒</label
+          >
+        </div>
+        <label class="scale-toggle"
+          ><input type="checkbox" id="fixed" />固定比例尺（观察长度增长）</label
+        ><input
+          id="time"
+          type="range"
+          min="0"
+          max="10"
+          step="0.01"
+          value="0"
+          aria-label="运动时间，零到十秒"
+        />
+        <p class="note">
+          演示范围 0～10
+          秒；默认自动缩放以看清细节，可勾选固定比例尺。时间滑块支持方向键微调。到终点自动暂停。
+        </p>
+        <div
+          class="diagram-scroll"
+          tabindex="0"
+          role="region"
+          aria-label="演示图，可左右滚动"
+        >
+          <svg
+            id="axis"
+            viewBox="0 0 1000 340"
+            role="img"
+            aria-label="随时间变化的数轴与中点"
+          ></svg>
+        </div>
+        <p class="note mobile-note">左右滑动图形，查看数轴上的细节。</p>
+        <div class="legend">
+          <span class="pill">绿色：线段 ME 及其中点 P</span
+          ><span class="pill">橙色：线段 ON 及其中点 Q</span
+          ><span class="pill">灰色空心点：固定起点 A、B、O</span>
+        </div>
+      </section>
+      <section class="card">
+        <h2>② 把长度放在一起比较</h2>
+        <p>
+          同一时刻，下面三行使用<strong>同一把尺子</strong>（自动缩放时，不同时间的图形不能直接比较长短）。第一行从
+          MN 中扣掉 OE；第二行将剩余长度平分；第三行摆放两段 PQ。
+        </p>
+        <div
+          class="diagram-scroll"
+          tabindex="0"
+          role="region"
+          aria-label="演示图，可左右滚动"
+        >
+          <svg
+            id="bars"
+            viewBox="0 0 1000 290"
+            role="img"
+            aria-label="MN减去OE与两段PQ的同尺度比较"
+          ></svg>
+        </div>
+        <div class="numbers">
+          <div>MN − OE<strong id="difference"></strong></div>
+          <div>PQ<strong id="pq"></strong></div>
+          <div>(MN − OE) ÷ PQ<strong id="ratio" class="ratio"></strong></div>
+        </div>
+        <p class="hint">
+          试试 t = 0、1、5、10 秒：长度变了，但第二行和第三行始终一样长。
+        </p>
+        <details>
+          <summary>为什么始终是两倍？查看完整解析</summary>
+          <div class="equation">
+            <p>
+              设运动时间为 t 秒（t ≥ 0）。点的位置：<br />E：t　 M：−2 − 7t　
+              N：8 + 10t。
+            </p>
+            <p>
+              中点取两端对应数的平均数：<br />P = [(−2 − 7t) + t] ÷ 2 = −1 −
+              3t<br />Q = [0 + (8 + 10t)] ÷ 2 = 4 + 5t。
+            </p>
+            <p>
+              N 始终在 M 右边，Q 始终在 P 右边，所以：<br />MN = (8 + 10t) − (−2
+              − 7t) = 10 + 17t<br />OE = t<br />PQ = (4 + 5t) − (−1 − 3t) = 5 +
+              8t。
+            </p>
+            <p>
+              <strong>MN − OE = 10 + 16t = 2(5 + 8t) = 2PQ。</strong><br />因此
+              (MN − OE) ÷ PQ = 2。因为 t ≥ 0，分母至少为 5，不会等于 0。
+            </p>
+            <p>
+              再从中点理解一次：M、P、E 依次排列，O、E、N 依次排列。于是 MP = ME
+              ÷ 2，NQ = ON ÷ 2；从 MN 两端扣掉 MP 和 NQ，剩下的正是 PQ。而 ME +
+              ON = MN + OE，所以 PQ = MN − (MN + OE) ÷ 2 = (MN − OE) ÷ 2。
+            </p>
+          </div>
+        </details>
+      </section>
+      <p class="note">
+        可随时暂停、重看；页面不记录操作。演示帮助理解，能否独立解释还需要你自己尝试。
+      </p>
+      <noscript>请启用 JavaScript，使用数轴实验。</noscript>
+    </main>
+  </body>
+</html>

@@ -1,10 +1,6 @@
 # Kids Index
 
-## 汉字学习
-
-- [[https://hanzi-kg8.pages.dev/]] 汉字学习：查拼音、学笔顺、练组词
-
-## 数学思维
+## 小学数学
 
 - [[angle-explorer.html]] 角度探索：直角、对顶角、三角形内角和与矩形折角
 - [[chicken_and_rabbit.html]] 鸡兔同笼：每补两只脚，找到一只兔
@@ -12,3 +8,11 @@
 - [[maximum_line_segment.html]] 连线规律：逐条连接，发现新增规律
 - [[rectangle-perimeter.html]] 拼图周长：重排方块，追踪外边界
 - [[unit-conversion.html]] 单位换算：面积铺行，体积叠层
+
+## 初中数学
+
+- [[moving-midpoints.html]] 运动的中点：拖动时间，发现不变的倍数关系
+
+## 汉字学习
+
+- [[https://hanzi-kg8.pages.dev/]] 汉字学习：查拼音、学笔顺、练组词
