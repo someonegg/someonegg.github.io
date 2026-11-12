@@ -39,7 +39,7 @@
 
 ## Agent
 
-- [[2026-11-10-agent-engineering-environment-memory.md]] Agent 工程2：从工作环境到记忆设计
+- [[2026-11-10-agent-engineering-environment-memory.md]] Agent 记忆：从原始证据到可复用知识
 - [[2026-09-24-agent-engineering-harness-orchestration.md]] Agent 工程：从可靠执行到持续编排
 - [[2026-08-20-ai-native-engineering-context-execution-memory.md]] 从读懂老项目到继承团队经验：AI 原生研发的三层工程
 - [[2026-06-08-agent-security-architecture.md]] Anthropic Agent 安全架构
