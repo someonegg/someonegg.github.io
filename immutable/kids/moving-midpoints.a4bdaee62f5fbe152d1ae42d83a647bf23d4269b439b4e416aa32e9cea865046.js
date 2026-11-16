@@ -1,5 +1,6 @@
 const $ = (id) => document.getElementById(id),
   slider = $("time");
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 let playing = false,
   last = null,
   frame = null;
@@ -96,6 +97,7 @@ function pause() {
   playing = false;
   last = null;
   cancelAnimationFrame(frame);
+  frame = null;
   $("play").textContent = "播放";
   $("play").setAttribute("aria-pressed", "false");
 }
@@ -116,6 +118,12 @@ $("play").onclick = () => {
     pause();
     return;
   }
+  if (reducedMotion.matches) {
+    pause();
+    slider.value = 10;
+    render();
+    return;
+  }
   if (+slider.value >= 10) slider.value = 0;
   playing = true;
   last = null;
@@ -133,6 +141,7 @@ slider.oninput = () => {
   pause();
   render();
 };
+reducedMotion.addEventListener("change", pause);
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) pause();
 });
