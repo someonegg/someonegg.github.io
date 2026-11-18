@@ -57,6 +57,7 @@
 
 ## DS
 
+- [[2026-11-18-ransomware-incident-lessons.md]] 数据库勒索事件处置指南
 - [[2026-06-16-paxos.md]] Paxos
 - [[2026-06-13-microservices-system.md]] 微服务系统
 - [[2026-06-13-distributed-system-principles.md]] 分布式系统原理
