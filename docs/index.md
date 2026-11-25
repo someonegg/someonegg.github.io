@@ -25,6 +25,7 @@
 
 ## ML / LLM
 
+- [[2026-11-24-post-agi-and-next-gen-architecture.md]] 超越 AGI 与重构 Transformer：DeepMind 与 Łukasz Kaiser 的两重视角
 - [[2026-09-19-deltanet-wy-transform.md]] DeltaNet 中的 WY 变换：从 Delta Rule 到分块并行
 - [[2026-07-24-nanochat-model-notes.md]] nanochat 模型结构与特性研究笔记
 - [[2026-06-09-backpropagation-math.md]] 反向传播中的数学：从偏导数到矩阵微分
