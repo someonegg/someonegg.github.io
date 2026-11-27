@@ -57,9 +57,120 @@
     });
   }
 
+  const CJK_CHAR_RE = /[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\u{20000}-\u{2fa1f}]/u;
+  const PUNCT_OR_SYMBOL_RE = /[\p{P}\p{S}]/u;
+
+  function charAtCodePoint(str, index) {
+    if (!str || index < 0 || index >= str.length) return "";
+    return String.fromCodePoint(str.codePointAt(index));
+  }
+
+  function charBeforeCodePoint(str, index) {
+    if (!str || index <= 0 || index > str.length) return "";
+    const code = str.charCodeAt(index - 1);
+    if (code >= 0xdc00 && code <= 0xdfff && index >= 2) {
+      const prev = str.charCodeAt(index - 2);
+      if (prev >= 0xd800 && prev <= 0xdbff) {
+        return str.slice(index - 2, index);
+      }
+    }
+    return str[index - 1];
+  }
+
+  // Only relax CommonMark flanking checks when punctuation/symbol is directly
+  // adjacent to a CJK character, avoiding regressions on pure ASCII/Latin text
+  // (e.g. `foo**bar)**baz`); closing punctuation followed by ASCII/digits is
+  // intentionally left to native CommonMark rules unless opening is CJK-blocked.
+  function findCjkPunctStrongMatch(src, maskedSrc, prevChar) {
+    if (prevChar === "*" || !src.startsWith("**") || src.startsWith("***")) return null;
+    if (src.length < 5 || /\s/.test(src[2])) return null;
+
+    const alignedMasked =
+      typeof maskedSrc === "string" && maskedSrc.length >= src.length
+        ? maskedSrc.slice(maskedSrc.length - src.length)
+        : src;
+
+    const openInner = charAtCodePoint(src, 2);
+    const openBlockedByCjk = CJK_CHAR_RE.test(prevChar || "") && PUNCT_OR_SYMBOL_RE.test(openInner);
+
+    let depth = 1;
+    let searchFrom = 2;
+    while (searchFrom < alignedMasked.length - 1) {
+      const idx = alignedMasked.indexOf("**", searchFrom);
+      if (idx === -1) return null;
+
+      if (/\n[ \t]*\n/.test(src.slice(2, idx))) return null;
+
+      let starStart = idx;
+      while (starStart > 2 && alignedMasked[starStart - 1] === "*") starStart -= 1;
+      let starEnd = idx + 2;
+      while (starEnd < alignedMasked.length && alignedMasked[starEnd] === "*") starEnd += 1;
+      const starRunLen = starEnd - starStart;
+
+      if (starRunLen >= 4) return null;
+      searchFrom = starEnd;
+      if (starRunLen !== 2) continue;
+
+      const closeInner = charBeforeCodePoint(src, idx);
+      const closeOuter = charAtCodePoint(src, idx + 2);
+      if (/\s/.test(closeInner)) {
+        if (closeOuter && !/\s/.test(closeOuter)) {
+          depth += 1;
+        }
+        continue;
+      }
+
+      depth -= 1;
+      if (depth !== 0) continue;
+
+      const closeBlockedByCjk = PUNCT_OR_SYMBOL_RE.test(closeInner) && CJK_CHAR_RE.test(closeOuter);
+      if (!openBlockedByCjk && !closeBlockedByCjk) return null;
+      return {
+        raw: src.slice(0, idx + 2),
+        text: src.slice(2, idx),
+      };
+    }
+    return null;
+  }
+
+  function createMarkedParser(markedLib) {
+    if (!markedLib) return null;
+    const MarkedCtor = markedLib.Marked;
+    const nativeEmStrong =
+      markedLib.Tokenizer &&
+      markedLib.Tokenizer.prototype &&
+      markedLib.Tokenizer.prototype.emStrong;
+    if (typeof MarkedCtor === "function" && typeof nativeEmStrong === "function") {
+      const instance = new MarkedCtor();
+      instance.use({
+        tokenizer: {
+          emStrong(src, maskedSrc, prevChar) {
+            const nativeToken = nativeEmStrong.call(this, src, maskedSrc, prevChar);
+            const cjkMatch = findCjkPunctStrongMatch(src, maskedSrc, prevChar);
+            if (cjkMatch && (!nativeToken || cjkMatch.raw.length < nativeToken.raw.length)) {
+              return {
+                type: "strong",
+                raw: cjkMatch.raw,
+                text: cjkMatch.text,
+                tokens: this.lexer.inlineTokens(cjkMatch.text),
+              };
+            }
+            return nativeToken;
+          },
+        },
+      });
+      return (input) => instance.parse(input);
+    }
+    if (typeof markedLib.parse === "function") {
+      return (input) => markedLib.parse(input);
+    }
+    return null;
+  }
+
   function createRenderer(viewerEl, options) {
     let mermaidInitialized = false;
     let mermaidLoadPromise = null;
+    let parseMarkdown = null;
 
     function wrapWideNodes(selector, wrapperClass) {
       viewerEl.querySelectorAll(selector).forEach((node) => {
@@ -206,8 +317,11 @@
         ? options.convertWikiLinks : convertWikiLinks;
       const converted = options.convertWikiLinks ? convertLinks(bothStashed) : bothStashed;
       const input = restoreCode(converted);
-      if (window.marked && typeof window.marked.parse === "function") {
-        const parsed = window.marked.parse(input);
+      if (!parseMarkdown && window.marked) {
+        parseMarkdown = createMarkedParser(window.marked);
+      }
+      if (parseMarkdown) {
+        const parsed = parseMarkdown(input);
         viewerEl.innerHTML = '<div class="markdown">' + restoreMath(parsed) + "</div>";
       } else {
         viewerEl.innerHTML = "<pre>" + escapeHtml(input) + "</pre>";
@@ -562,6 +676,13 @@
     }
   }
 
-  window.createDocRenderer = createRenderer;
-  window.initDocViewer = initDocViewer;
+  if (typeof window !== "undefined") {
+    window.createDocRenderer = createRenderer;
+    window.initDocViewer = initDocViewer;
+  }
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = {
+      createMarkedParser,
+    };
+  }
 })();
