@@ -282,6 +282,14 @@ button {
   position: sticky;
   top: 12px;
   max-height: calc(100dvh - 48px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-body {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: auto;
   overscroll-behavior: contain;
   scrollbar-color: var(--scrollbar-thumb) transparent;
@@ -289,6 +297,7 @@ button {
 }
 
 .list-header {
+  flex: none;
   margin: 0;
   padding: 14px 16px;
   border-bottom: 1px solid var(--border);

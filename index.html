@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Ally" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <link rel="stylesheet" href="/immutable/assets/site/shell.39ad489fecb1b3c297d724b8f2a07351a54ff03ddc0d7cb5c0e6d0de8ba5bbe0.css" />
+  <link rel="stylesheet" href="/immutable/assets/site/shell.d74b2e0df7997d400f6a815fed88fd59100bb4bd23d0583cf629a60407e89465.css" />
   <title>Ally｜技术笔记与实验</title>
   <style>
     body {
@@ -420,10 +420,10 @@
 
     <header class="home-hero">
       <div>
-        <p class="eyebrow">Current thread · 2026.09</p>
-        <h1 class="hero-title">从记忆写入，<br />到并行计算</h1>
+        <p class="eyebrow">Current thread · 2026.11</p>
+        <h1 class="hero-title">从可信边界，<br />到持续运行的系统</h1>
         <p class="hero-intro">
-          近期聚焦线性注意力中的状态更新：记忆如何依据误差被覆写，因果依赖又如何重组为适合硬件的矩阵计算。
+          近期关注三个交汇处：硬件隔离下的模型隐私推理、以环境约束和证据回查为基础的 Agent 工程，以及数据安全与架构演进的真实代价。
           这里收录完整笔记、知识整理，也保留一些用来验证想法的交互实验。
         </p>
       </div>
@@ -431,20 +431,20 @@
       <aside class="research-lens" aria-labelledby="lensHeading">
         <h2 id="lensHeading" class="lens-heading">研究切面</h2>
         <div class="lens-row">
-          <span class="lens-domain">内核</span>
-          <span class="lens-topic">共享队列与 I/O 控制面</span>
-        </div>
-        <div class="lens-row">
-          <span class="lens-domain">网络</span>
-          <span class="lens-topic">设备对象与直接数据路径</span>
-        </div>
-        <div class="lens-row">
-          <span class="lens-domain">架构</span>
-          <span class="lens-topic">服务边界与系统治理</span>
-        </div>
-        <div class="lens-row">
           <span class="lens-domain">模型</span>
-          <span class="lens-topic">Delta Rule、WY 与分块并行</span>
+          <span class="lens-topic">架构演进、线性注意力与隐私推理</span>
+        </div>
+        <div class="lens-row">
+          <span class="lens-domain">Agent</span>
+          <span class="lens-topic">环境约束、记忆保真与持续编排</span>
+        </div>
+        <div class="lens-row">
+          <span class="lens-domain">安全</span>
+          <span class="lens-topic">TEE 隔离、勒索处置与数据边界</span>
+        </div>
+        <div class="lens-row">
+          <span class="lens-domain">系统</span>
+          <span class="lens-topic">内核 I/O、RDMA 与分布式治理</span>
         </div>
       </aside>
     </header>
@@ -460,39 +460,39 @@
 
       <div class="featured-grid">
         <article class="feature feature-primary">
-          <a class="feature-link" href="/docs/index.html?file=2026-09-19-deltanet-wy-transform.md">
-            <p class="feature-meta">机器学习 · 2026.09.19</p>
-            <h3 class="feature-title">DeltaNet 中的 WY 变换：从 Delta Rule 到分块并行</h3>
+          <a class="feature-link" href="/docs/index.html?file=2026-09-24-agent-engineering-harness-orchestration.md">
+            <p class="feature-meta">Agent 工程 · 2026.09.24</p>
+            <h3 class="feature-title">Agent 工程：从可靠执行到持续编排</h3>
             <p class="feature-summary">
-              从记忆覆写出发，推导 WY 表示与三角求解，看清一串递归更新如何重组为适合 GPU 的分块矩阵计算。
+              把工程判断沉淀为可验证的环境边界与不变量，从单 Agent 可靠执行延伸到多任务持续编排与熵清理。
             </p>
             <span class="feature-action">阅读笔记 <span class="feature-arrow" aria-hidden="true">→</span></span>
           </a>
         </article>
 
         <article class="feature feature-secondary">
-          <a class="feature-link" href="/docs/index.html?file=2026-07-19-rdma-verbs.md">
-            <p class="feature-meta">网络与数据路径 · 2026.07.19</p>
-            <h3 class="feature-title">深入理解 RDMA：从 Verbs 对象模型到 RC WRITE 生命周期</h3>
-            <p class="feature-summary">沿着一条 RDMA WRITE，串起 QP、MR、Doorbell、DMA 与 CQE。</p>
+          <a class="feature-link" href="/docs/index.html?file=2026-11-26-llm-private-inference.md">
+            <p class="feature-meta">隐私推理 · 2026.11.26</p>
+            <h3 class="feature-title">LLM 隐私推理：全链路架构、硬件隔离与工程代价</h3>
+            <p class="feature-summary">从远程证明、OHTTP 中继到 CPU/GPU TEE，拆解机密推理的全链路机制与成本。</p>
             <span class="feature-action">阅读笔记 <span class="feature-arrow" aria-hidden="true">→</span></span>
           </a>
         </article>
 
         <article class="feature feature-secondary">
-          <a class="feature-link" href="/docs/index.html?file=2026-06-13-microservices-system.md">
-            <p class="feature-meta">系统架构 · 2026.06.13</p>
-            <h3 class="feature-title">微服务系统：从服务自治到整体稳定</h3>
-            <p class="feature-summary">梳理资源、发布、观测与治理底座，以及拆分服务真正引入的边界和代价。</p>
+          <a class="feature-link" href="/docs/index.html?file=2026-11-18-ransomware-incident-lessons.md">
+            <p class="feature-meta">数据安全 · 2026.11.18</p>
+            <h3 class="feature-title">数据库勒索事件处置指南</h3>
+            <p class="feature-summary">以 SQL Server 为例，梳理勒索加密原理、事实取证边界与分阶段恢复路线。</p>
             <span class="feature-action">阅读笔记 <span class="feature-arrow" aria-hidden="true">→</span></span>
           </a>
         </article>
 
         <article class="feature feature-wide">
-          <a class="feature-link" href="/docs/index.html?file=2026-06-09-backpropagation-math.md">
-            <p class="feature-meta">机器学习 · 2026.06.09</p>
-            <h3 class="feature-title">反向传播中的数学：从偏导数到矩阵微分</h3>
-            <p class="feature-summary">用偏导数、链式法则和矩阵记号，逐层展开损失函数的梯度如何传回每个参数。</p>
+          <a class="feature-link" href="/docs/index.html?file=2026-09-19-deltanet-wy-transform.md">
+            <p class="feature-meta">机器学习 · 2026.09.19</p>
+            <h3 class="feature-title">DeltaNet 中的 WY 变换：从 Delta Rule 到分块并行</h3>
+            <p class="feature-summary">从记忆覆写出发，推导 WY 表示与三角求解，看清一串递归更新如何重组为适合 GPU 的分块矩阵计算。</p>
             <span class="feature-action">阅读笔记 <span class="feature-arrow" aria-hidden="true">→</span></span>
           </a>
         </article>

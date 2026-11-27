@@ -244,6 +244,40 @@
     });
   }
 
+  function scrollSidebarToActive(sidebarEl, activeBtn, mode) {
+    if (!sidebarEl || !activeBtn || !mode) return;
+    const scrollEl = sidebarEl.querySelector(".sidebar-body") || sidebarEl;
+    const maxScroll = scrollEl.scrollHeight - scrollEl.clientHeight;
+    if (maxScroll <= 0) return;
+
+    const containerRect = scrollEl.getBoundingClientRect();
+    const getOffsetTop = (el) => el.getBoundingClientRect().top - containerRect.top + scrollEl.scrollTop;
+
+    const btnTop = getOffsetTop(activeBtn);
+    const btnBottom = btnTop + activeBtn.offsetHeight;
+    const groupList = activeBtn.closest(".doc-list");
+    const groupToggle =
+      groupList && groupList.previousElementSibling && groupList.previousElementSibling.classList.contains("group-toggle")
+        ? groupList.previousElementSibling
+        : null;
+    const groupTop = groupToggle ? getOffsetTop(groupToggle) : btnTop;
+    const viewHeight = scrollEl.clientHeight;
+
+    let targetTop;
+    if (btnBottom <= viewHeight) {
+      targetTop = 0;
+    } else if (btnBottom - groupTop <= viewHeight) {
+      targetTop = groupTop;
+    } else {
+      targetTop = btnTop - Math.round((viewHeight - activeBtn.offsetHeight) * 0.35);
+    }
+
+    targetTop = Math.max(0, Math.min(maxScroll, targetTop));
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const behavior = mode === "smooth" && !reduceMotion ? "smooth" : "instant";
+    scrollEl.scrollTo({ top: targetTop, behavior });
+  }
+
   function renderSidebar(sidebarEl, groups, onDocClick, headerTitle) {
     sidebarEl.innerHTML = "";
     const fragment = document.createDocumentFragment();
@@ -255,6 +289,9 @@
       '<button id="collapseAllBtn" class="collapse-all-btn" type="button">全部折叠</button>';
     fragment.appendChild(headerEl);
 
+    const bodyEl = document.createElement("div");
+    bodyEl.className = "sidebar-body";
+
     groups.forEach((group) => {
       const heading = document.createElement("button");
       heading.type = "button";
@@ -263,7 +300,7 @@
       heading.innerHTML =
         "<span>" + escapeHtml(group.name) + "</span>" +
         '<span class="group-caret">▾</span>';
-      fragment.appendChild(heading);
+      bodyEl.appendChild(heading);
 
       const list = document.createElement("ul");
       list.className = "doc-list";
@@ -282,7 +319,7 @@
         list.appendChild(li);
       });
 
-      fragment.appendChild(list);
+      bodyEl.appendChild(list);
       heading.addEventListener("click", () => {
         const collapsed = list.classList.toggle("is-collapsed");
         heading.setAttribute("aria-expanded", collapsed ? "false" : "true");
@@ -290,6 +327,7 @@
       });
     });
 
+    fragment.appendChild(bodyEl);
     sidebarEl.appendChild(fragment);
     const collapseAllBtnEl = sidebarEl.querySelector("#collapseAllBtn");
     if (collapseAllBtnEl) {
@@ -362,9 +400,12 @@
     function markActive(file, opts) {
       const settings = opts || {};
       const buttons = sidebarEl.querySelectorAll(".doc-btn");
+      let activeBtn = null;
       buttons.forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.file === file);
-        if (btn.dataset.file === file) {
+        const isMatch = btn.dataset.file === file;
+        btn.classList.toggle("active", isMatch);
+        if (isMatch) {
+          activeBtn = btn;
           const groupList = btn.closest(".doc-list");
           if (groupList && groupList.classList.contains("is-collapsed")) {
             groupList.classList.remove("is-collapsed");
@@ -376,6 +417,9 @@
         }
       });
       refreshCollapseAllButton(sidebarEl);
+      if (settings.scrollSidebar) {
+        scrollSidebarToActive(sidebarEl, activeBtn, settings.scrollSidebar);
+      }
       syncFileToUrl(file, settings.historyMode || "replace");
     }
 
@@ -457,7 +501,7 @@
           viewerEl.innerHTML = '<p class="hint">索引中未收录：' + escapeHtml(file) + "</p>";
           return;
         }
-        markActive(file, { historyMode: "push" });
+        markActive(file, { historyMode: "push", scrollSidebar: "smooth" });
         loadDocument(file, { markActive: false, ensureViewerStart: true });
       });
     }
@@ -499,12 +543,12 @@
           const queryFile = params.get("file");
           const targetFile = (queryFile && docMap.has(queryFile)) ? queryFile : initial;
           if (!targetFile) return;
-          markActive(targetFile, { historyMode: "skip" });
+          markActive(targetFile, { historyMode: "skip", scrollSidebar: "smooth" });
           loadDocument(targetFile, { markActive: false, ensureViewerStart: true });
         });
       }
 
-      markActive(initial);
+      markActive(initial, { scrollSidebar: "instant" });
       await loadDocument(initial, { markActive: false, ensureViewerStart: false });
     } catch (err) {
       setViewerVisible(true);

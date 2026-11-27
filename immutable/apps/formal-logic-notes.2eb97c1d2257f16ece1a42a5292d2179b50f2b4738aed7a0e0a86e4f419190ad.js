@@ -5,19 +5,19 @@
       name: '肯定前件', premise: 'P', conclusion: 'Q', valid: true,
       example: '如果下雨，地面就湿；下雨了；所以地面湿了。',
       second: p => p, result: (p, q) => q,
-      explanation: '没有反例：当前提 P → Q 和 P 都真时，Q 必须为真。其他赋值中即使结论为假，也不构成反例，因为至少有一个前提不成立。'
+      explanation: '找不到反例：只要前提 P → Q 和 P 同时成立，结论 Q 就必然为真。其他几行里就算 Q 为假，也因为前提本身没有全真，算不上反例。'
     },
     ac: {
       name: '肯定后件', premise: 'Q', conclusion: 'P', valid: false,
       example: '如果下雨，地面就湿；地面湿了；所以一定下雨了。',
       second: (p, q) => q, result: p => p,
-      explanation: '反例在第三行：没有下雨，但洒水让地面湿了。两个前提都成立，结论“下雨了”却为假。这就足以证明该推理形式无效。'
+      explanation: '反例在第三行：并没有下雨，但洒水车把地面淋湿了。两条前提都满足，结论“下雨了”却是假的。只要有一个反例，这种推理形式就不成立。'
     },
     da: {
       name: '否定前件', premise: '¬P', conclusion: '¬Q', valid: false,
       example: '如果下雨，地面就湿；没有下雨；所以地面一定不湿。',
       second: p => !p, result: (p, q) => !q,
-      explanation: '反例仍在第三行：没有下雨，但洒水让地面湿了。两个前提都成立，结论“地面不湿”却为假。不下雨，并不能排除其他使地面湿的原因。'
+      explanation: '反例还是第三行：没有下雨，但地面可能被洒水弄湿了。两条前提都成立，结论“地面不湿”却错了。没下雨，排不掉其他让地面变湿的原因。'
     }
   };
   const assignments = [[true, true], [true, false], [false, true], [false, false]];
@@ -53,7 +53,7 @@
       const row = document.createElement('tr');
       row.classList.toggle('premises-true', premisesTrue);
       row.classList.toggle('counterexample', counterexample);
-      const check = counterexample ? '反例' : premisesTrue ? '前提真，结论真' : '前提未全真';
+      const check = counterexample ? '找到反例' : premisesTrue ? '前提真，结论真' : '前提未全真';
       [word(p), word(q), word(conditional), word(second), word(conclusion), check].forEach(value => {
         const cell = document.createElement('td');
         cell.textContent = value;

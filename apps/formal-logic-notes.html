@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="从论证有效性出发，理解经典逻辑原则、常见谬误、现代逻辑及其与辩证法和科学检验的边界。">
+  <meta name="description" content="从“什么是有效推理”出发，梳理经典逻辑原则、反例检查、日常论证误区，以及现代逻辑与辩证法、科学检验的边界。">
   <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64" />
   <link rel="icon" href="/assets/icons/ally.svg" type="image/svg+xml" sizes="any" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
@@ -28,64 +28,64 @@
       <div class="nav-label">阅读导览</div>
       <nav aria-label="章节导航">
         <a href="#reasoning">01 <span>什么是有效推理</span></a>
-        <a href="#principles">02 <span>经典原则与理由</span></a>
+        <a href="#principles">02 <span>经典逻辑原则</span></a>
         <a href="#laboratory">03 <span>用反例检查论证</span></a>
         <a href="#fallacies">04 <span>日常讨论的误区</span></a>
-        <a href="#modern">05 <span>现代逻辑的边界</span></a>
+        <a href="#modern">05 <span>现代逻辑与系统</span></a>
         <a href="#dialectics">06 <span>辩证法与可纠错性</span></a>
         <a href="#reading">07 <span>延伸阅读</span></a>
       </nav>
-      <p class="side-note">先说清前提，<br>再检查结论是否跟得上。</p>
+      <p class="side-note">先说清前提，<br>再看结论站不站得住。</p>
     </aside>
     <main id="top">
       <section class="hero">
         <div class="eyebrow">FORMAL LOGIC <span>概念 · 推理 · 边界</span></div>
         <h1>形式逻辑笔记<span>把推理的每一步说清楚。</span></h1>
-        <p class="lede">一个结论听起来合理，是否就能从前提推出？<br>从“有效性”开始，认识逻辑能保证什么，以及它还需要什么。</p>
+        <p class="lede">一个结论听上去挺有道理，就一定能从前提推出来吗？<br>从“有效性”开始，弄清形式逻辑能替我们把住什么关，又有哪些事它管不了。</p>
         <figure class="hero-diagram">
-          <div class="argument-visual" role="img" aria-label="两个前提：如果下雨，地面就湿；下雨了。由此有效推出结论：地面湿了。地面湿是否足以推出下雨，需要另行检查。">
+          <div class="argument-visual" role="img" aria-label="两个前提：如果下雨，地面就湿；下雨了。由此有效推出结论：地面湿了。反过来，只知道地面湿了，能不能推出下过雨，还需要另行检查。">
             <div class="premises">
               <span class="diagram-label">前提 PREMISES</span>
               <div class="premise"><span>01</span><p>如果下雨，地面就湿。<small>条件关系</small></p></div>
               <div class="premise"><span>02</span><p>下雨了。<small>肯定前件</small></p></div>
             </div>
-            <div class="derivation"><span aria-hidden="true">⟶</span><small>保持推理形式</small></div>
-            <div class="conclusion"><span class="diagram-label">结论 CONCLUSION</span><div class="result">地面湿了。</div><p>在前提成立的情况下，<br>结论不能为假。</p></div>
+            <div class="derivation"><span aria-hidden="true">⟶</span><small>有效推导</small></div>
+            <div class="conclusion"><span class="diagram-label">结论 CONCLUSION</span><div class="result">地面湿了。</div><p>只要两条前提都成立，<br>结论就必然成立。</p></div>
           </div>
-          <figcaption><span>图 01 · 有效推理保留前提的真</span><span>“地面湿了”能反推“下雨了”吗？<a href="#laboratory">找一个反例 →</a></span></figcaption>
+          <figcaption><span>图 01 · 有效推理不让真前提推导出假结论</span><span>只看到“地面湿了”，能反推出“下过雨”吗？<a href="#laboratory">找个反例试试 →</a></span></figcaption>
         </figure>
-        <div class="hero-meta"><span>7 个章节</span><span>含交互式反例检查</span><span>经典命题逻辑入门</span></div>
+        <div class="hero-meta"><span>7 个章节</span><span>交互式反例检查</span><span>经典命题逻辑入门</span></div>
       </section>
 
       <section id="reasoning">
         <div class="section-no">01 / 从论证开始</div>
-        <h2>结论是真的，与推理有效，是两件事</h2>
-        <p>论证由前提和结论组成。演绎逻辑检查的是它们之间的关系：有没有一种情况，让所有前提都真，而结论却假？如果没有，这个推理就是有效的。</p>
-        <div class="statement">有效性问的是：<strong>假如这些前提都成立，结论是否必然成立？</strong></div>
+        <h2>结论对不对，和推理有没有效，是两回事</h2>
+        <p>一段论证由前提和结论组成。演绎逻辑盯住的是这两者之间的关系：有没有可能所有前提都成立，结论却错了？如果找不出这种反例，这段推理就是有效的。</p>
+        <div class="statement">有效性只问一件事：<strong>假如这些前提都成立，结论是不是必然跟着成立？</strong></div>
         <div class="concept-grid">
-          <article><span class="mini-label">VALIDITY</span><h3>有效性</h3><p>不允许“前提全真、结论为假”的反例。它关心推理形式，不能替你保证实际前提为真。</p></article>
-          <article><span class="mini-label">SOUNDNESS</span><h3>健全性</h3><p>论证有效，并且前提事实上都真。要判断现实论证是否健全，通常还需要事实证据。</p></article>
+          <article><span class="mini-label">VALIDITY</span><h3>有效性</h3><p>只要不存在“前提全对、结论却错”的情况，推理就有效。它只管推理的结构过不过关，不管前提在现实里是不是真的。</p></article>
+          <article><span class="mini-label">SOUNDNESS</span><h3>健全性</h3><p>推理本身有效，而且每条前提在事实上也都成立。要判断现实里的说法靠不靠谱，光看逻辑不够，还得核对事实。</p></article>
         </div>
-        <div class="example-line"><span>例子</span><p>“所有鱼都会飞；金鱼是鱼；所以金鱼会飞。”<br>形式有效，但首个前提为假，因此论证不健全。</p></div>
-        <p class="fine">页面中的条件句按经典命题逻辑的实质蕴涵理解。日常“如果”还可能表达因果、时间或承诺，形式化时需要说明取舍。</p>
+        <div class="example-line"><span>例子</span><p>“所有鱼都会飞；金鱼是鱼；所以金鱼会飞。”<br>推理结构完全有效，但第一条前提与事实不符，所以这段论证不健全。</p></div>
+        <p class="fine">注：本页中的“如果……那么……”按经典命题逻辑的实质蕴涵来理解。日常说话里的“如果”还常带有因果、先后或承诺的意味，写进形式系统时需要取舍。</p>
       </section>
 
       <section id="principles">
         <div class="section-no">02 / 经典原则</div>
-        <h2>概念保持清楚，命题关系才能被检查</h2>
-        <p>传统介绍常谈同一律、矛盾律与排中律。今天更适合把它们放在明确的逻辑系统和解释之中，而不把几句口号当作完整的推理工具。</p>
+        <h2>先把概念说稳，推理才经得起检查</h2>
+        <p>谈起形式逻辑，最常被提起的往往是同一律、矛盾律和排中律。与其把它们背成几句口号，不如看清它们各自在守什么边界，以及在具体的逻辑系统里怎么起作用。</p>
         <div class="law-list">
-          <article><div class="law-symbol" aria-label="A 等于 A">A = A</div><div><h3>同一律 <span>对象同一与术语一致</span></h3><p>同一对象就是它自身。在讨论中，还要让术语的意义保持稳定。后者是避免歧义的要求，不宜与对象同一公式完全混同。</p><p class="example">“银行”在前提里是金融机构，在结论里却变成河岸，推理对象已经换了。</p></div></article>
-          <article><div class="law-symbol" aria-label="并非 P 与非 P 同时成立">¬(P ∧ ¬P)</div><div><h3>矛盾律 <span>非矛盾原则</span></h3><p>在经典逻辑下，同一命题及其否定不能同时成立。对象、时间、条件与词义必须一致，才是在谈同一个命题。</p><p class="example">“上午门开着，晚上门关了”描述变化，并不构成逻辑矛盾。</p></div></article>
-          <article><div class="law-symbol" aria-label="P 或非 P">P ∨ ¬P</div><div><h3>排中律 <span>命题与其否定</span></h3><p>在经典逻辑下，一个命题或其否定成立。这不表示我们已经知道哪一个成立，也不允许把任意两个选项说成穷尽所有可能。</p><p class="example">“支持方案 / 不支持方案”与“支持方案 / 不关心问题”不是同一种二分。</p></div></article>
+          <article><div class="law-symbol" aria-label="A 等于 A">A = A</div><div><h3>同一律 <span>对象自身同一，讨论时词义保持一致</span></h3><p>一个对象就是它自己。放到日常论证里，更常见的要求是别在中途偷换词义——这两层意思有联系，但一个是对象同一，一个是避免歧义，值得分清。</p><p class="example">前提里的“银行”指金融机构，到了结论却指河岸，前后说的早就不是一回事了。</p></div></article>
+          <article><div class="law-symbol" aria-label="并非 P 与非 P 同时成立">¬(P ∧ ¬P)</div><div><h3>矛盾律 <span>非矛盾原则</span></h3><p>在经典逻辑里，同一个命题和它的否定不能同时成立。前提是说的是同一件事——对象、时间、条件和词义都得对齐，才谈得上自相矛盾。</p><p class="example">“上午门开着，晚上门关了”是在说状态的变化，并不是逻辑矛盾。</p></div></article>
+          <article><div class="law-symbol" aria-label="P 或非 P">P ∨ ¬P</div><div><h3>排中律 <span>非此即彼的边界</span></h3><p>在经典逻辑里，一个命题和它的否定，总有一个成立。但这并不意味着我们已经知道是哪一个，更不是说随便挑出两个选项，就涵盖了全部可能。</p><p class="example">“支持这个方案”和“不支持这个方案”才是互为否定；“支持方案”和“不关心问题”之间，还夹着不少其他态度。</p></div></article>
         </div>
-        <aside class="note"><h3>充足理由律：解释要求，还是世界的承诺？</h3><p>莱布尼兹等人主张，每一事实都有其充足理由。这是有争议的哲学原则，并非现代逻辑系统普遍采纳的推导规则。要求论证给出证据，也不等于接受“每个事实都有最终解释”。</p><p class="fine">随机性本身不能直接裁决所有版本的充足理由律；需要先说明“理由”指决定性原因、概率规律，还是其他解释根据。<a href="https://plato.stanford.edu/entries/sufficient-reason/" target="_blank" rel="noopener">参见相关讨论 ↗</a></p></aside>
+        <aside class="note"><h3>充足理由律：讲道理的要求，还是关于世界的哲学主张？</h3><p>莱布尼兹等人认为，凡是存在或发生的事，背后都有它之所以如此的充足理由。这其实是一条很有争议的哲学原则，并不是现代逻辑系统普遍采用的推理规则。要求别人说话拿出根据，和相信“世上每件事都有终极解释”，是两码事。</p><p class="fine">物理世界里的随机现象，也不能简单拿来一举推翻所有版本的充足理由律——得先说清这里的“理由”指的是决定论原因、概率规律，还是其他形式的解释。<a href="https://plato.stanford.edu/entries/sufficient-reason/" target="_blank" rel="noopener">延伸阅读 ↗</a></p></aside>
       </section>
 
       <section id="laboratory">
         <div class="section-no">03 / 交互图解</div>
-        <h2>检查一条推理，试着找出它的反例</h2>
-        <p>把“下雨”记作 P，“地面湿”记作 Q。固定条件关系“如果 P，那么 Q”，再换一个前提，看结论是否仍然跟得上。</p>
+        <h2>检验一条推理，最直接的办法是找反例</h2>
+        <p>把“下雨”记作 P，“地面湿”记作 Q。先固定第一条前提“如果 P，那么 Q”，再分别换上不同的第二条前提，看看结论还能不能稳稳推出来。</p>
         <div class="lab">
           <div class="tabs" role="tablist" aria-label="选择推理形式">
             <button id="rule-mp" role="tab" aria-selected="true" aria-controls="rule-panel" data-rule="mp">肯定前件</button>
@@ -96,67 +96,67 @@
             <div class="lab-heading"><div><span class="mini-label">推理形式</span><h3 id="rule-name">肯定前件</h3></div><span id="validity" class="status">有效</span></div>
             <div class="proof"><span>P → Q</span><span id="premise-two">P</span><span class="therefore">∴ <span id="proof-conclusion">Q</span></span></div>
             <p id="rule-example" class="rule-example">如果下雨，地面就湿；下雨了；所以地面湿了。</p>
-            <div class="table-scroll"><table class="truth-table"><caption>穷举四种真值情况，检查有无“前提全真、结论为假”</caption><thead><tr><th scope="col">P 下雨</th><th scope="col">Q 地面湿</th><th scope="col">前提 1<br>P → Q</th><th scope="col" id="premise-heading">前提 2<br>P</th><th scope="col" id="conclusion-heading">结论<br>Q</th><th scope="col">检查</th></tr></thead><tbody id="truth-body"></tbody></table></div>
-            <div class="table-key"><span><i class="key possible"></i>前提全真</span><span><i class="key counter"></i>前提全真，结论为假</span></div>
+            <div class="table-scroll"><table class="truth-table"><caption>列出四种真假组合，看看有没有“前提全真、结论为假”的反例</caption><thead><tr><th scope="col">P 下雨</th><th scope="col">Q 地面湿</th><th scope="col">前提 1<br>P → Q</th><th scope="col" id="premise-heading">前提 2<br>P</th><th scope="col" id="conclusion-heading">结论<br>Q</th><th scope="col">检查</th></tr></thead><tbody id="truth-body"></tbody></table></div>
+            <div class="table-key"><span><i class="key possible"></i>前提全真</span><span><i class="key counter"></i>反例（前提全真，结论为假）</span></div>
             <p id="counter-explanation" class="lab-explanation" aria-live="polite"></p>
           </div>
         </div>
-        <p class="fine">条件句 P → Q 仅在 P 真而 Q 假时为假。表中的“真、假”是在枚举可能赋值，并不声称这些天气情况已经实际发生。</p>
-        <noscript><div class="note">交互图解需要启用 JavaScript。肯定前件有效；肯定后件与否定前件无效，它们都存在“没有下雨，但地面因其他原因湿了”的反例。</div></noscript>
+        <p class="fine">条件句 P → Q 只有在“P 真而 Q 假”时才为假。表里的“真”和“假”是在穷举所有可能情况，不是在说这些天气真的发生过。</p>
+        <noscript><div class="note">交互图解需要启用 JavaScript。肯定前件是有效推理；肯定后件和否定前件都无效，因为它们都挡不住同一个反例：没下雨，但地面因为别的原因湿了。</div></noscript>
       </section>
 
       <section id="fallacies">
         <div class="section-no">04 / 日常讨论</div>
-        <h2>先找到推理缺口，再给谬误命名</h2>
-        <p>日常谬误可能涉及歧义、证据、因果或论证相关性，无法逐项归入某一条基础定律。比贴标签更有用的做法，是指出缺少的前提或证据。</p>
+        <h2>先找出推理里的缺口，再给谬误起名字</h2>
+        <p>日常争论里的逻辑毛病五花八门，往往牵扯词义、证据、因果或跑题，很难一一硬塞进某条基础定律里。比起急着贴上“某某谬误”的标签，更有用的是直接指出：哪一步缺了前提，或者证据根本撑不起结论。</p>
         <div class="fallacy-list">
-          <details><summary><span>01</span>偷换概念<small>词义变了</small></summary><div class="detail-body"><p class="quote">“这款产品很轻，所以它的影响一定无足轻重。”</p><p>前一个“轻”是重量，后一个是重要性。应先统一讨论的属性，再谈能否推出结论。</p></div></details>
-          <details><summary><span>02</span>虚假两难<small>选项没有穷尽</small></summary><div class="detail-body"><p class="quote">“你不支持这个方案，就是不关心团队。”</p><p>反对一个方案的人，仍可能提出其他方案。缺口在于把两个不互为否定的选项说成全部可能，而非排中律本身有错。</p></div></details>
-          <details><summary><span>03</span>诉诸无知<small>把未知当成证明</small></summary><div class="detail-body"><p class="quote">“没人证明这个传言是假的，所以它是真的。”</p><p>没有反证不自动成为正面证据。不过，在可靠检测应能发现某事物的条件下，“未检出”也可能具有证据价值，需要具体分析。</p></div></details>
-          <details><summary><span>04</span>事后归因<small>先后不等于因果</small></summary><div class="detail-body"><p class="quote">“换了桌面壁纸以后成绩提高，说明壁纸有效。”</p><p>还可能有复习、题目难度或偶然波动。建立因果关系，需要排查替代解释和混杂因素。</p></div></details>
-          <details><summary><span>05</span>循环论证<small>把结论放回前提</small></summary><div class="detail-body"><p class="quote">“这个来源可靠，因为它说的都是真的；它说的是真的，因为它可靠。”</p><p>前提没有提供独立支持。循环的形式可以有效，但不能据此说服尚未接受结论的人。</p></div></details>
-          <details><summary><span>06</span>稻草人与滑坡<small>对象或因果链被替换</small></summary><div class="detail-body"><p class="quote">“你建议减少会议，所以你反对团队沟通。”</p><p>这是把主张改造成更容易攻击的版本。另一类常见问题是滑坡：从一个改变跳到极端后果，却没有交代中间每一步为何会发生。有证据支持的风险链条，并不因涉及连锁后果就必然是谬误。</p></div></details>
+          <details><summary><span>01</span>偷换概念<small>词义悄悄变了</small></summary><div class="detail-body"><p class="quote">“这款产品很轻，所以它的影响一定微不足道。”</p><p>前面的“轻”说的是重量，后面的“微不足道”说的是分量和影响。概念中途换了意思，推理就断了。</p></div></details>
+          <details><summary><span>02</span>虚假两难<small>硬把选项压缩成两个</small></summary><div class="detail-body"><p class="quote">“你不支持这个方案，就是不关心团队。”</p><p>反对眼前的方案，完全可能是因为想改得更好，或者有别的备选。问题不在排中律，而在说话的人把两个并不穷尽的选项说成了全部可能。</p></div></details>
+          <details><summary><span>03</span>诉诸无知<small>把“没证明”当成“已证明”</small></summary><div class="detail-body"><p class="quote">“没人能证明这个传言是假的，所以它一定是真的。”</p><p>拿不出反证，不代表正面说法就成立。当然，如果是经过可靠排查、本该查出迹象却一无所获，“没查到”本身也可以作为证据，这要结合具体场景判断。</p></div></details>
+          <details><summary><span>04</span>事后归因<small>先后发生不等于因果</small></summary><div class="detail-body"><p class="quote">“换了桌面壁纸之后成绩提上去了，看来壁纸真管用。”</p><p>成绩变化还可能来自复习更扎实、试卷变简单，或者正常波动。要确认因果，得把这些替代解释和干扰因素逐一排开。</p></div></details>
+          <details><summary><span>05</span>循环论证<small>拿结论来证明结论</small></summary><div class="detail-body"><p class="quote">“这个消息源很可靠，因为它说的一向都是真的；而它说的是真的，因为它一向可靠。”</p><p>兜了一圈，前提里其实藏着结论本身，并没有给出独立的依据。哪怕在形式上挑不出毛病，它也说服不了原本就不信结论的人。</p></div></details>
+          <details><summary><span>06</span>稻草人与滑坡<small>歪曲靶子，或跳过中间步骤</small></summary><div class="detail-body"><p class="quote">“你建议少开点会，就是反对团队沟通。”</p><p>这是先帮对方立一个更容易挨打的靶子，再猛烈攻击。另一类常见手法是滑坡：从一个温和的改动一路推到极端后果，却省掉了中间每一步为什么必然发生。不过，如果每一步风险都有扎实证据支撑，连锁推演本身并不是谬误。</p></div></details>
         </div>
       </section>
 
       <section id="modern">
         <div class="section-no">05 / 从原则到系统</div>
-        <h2>现代逻辑把约定写出来，也把边界说清楚</h2>
-        <div class="system-flow" aria-label="一个形式系统的构成"><div><span>01 / 语言</span><strong>什么算一个公式</strong><p>符号与形成规则</p></div><b aria-hidden="true">→</b><div><span>02 / 证明</span><strong>哪些步骤可接受</strong><p>公理与推导规则</p></div><b aria-hidden="true">→</b><div><span>03 / 语义</span><strong>什么情况下为真</strong><p>解释、模型与满足关系</p></div></div>
-        <div class="table-scroll"><table><caption>不同系统，改变了哪些约定？</caption><thead><tr><th scope="col">系统</th><th scope="col">关注的问题</th><th scope="col">需要注意</th></tr></thead><tbody><tr><th scope="row">经典逻辑</th><td>标准的真假赋值与演绎后承</td><td>本页真值表使用这一框架</td></tr><tr><th scope="row">直觉主义逻辑</th><td>证明与构造的意义</td><td>不普遍接受排中律，不是断言每个排中律实例都为假</td></tr><tr><th scope="row">模态逻辑</th><td>必然、可能，也可扩展到知识或时间</td><td>具体解释取决于模型与采用的公理</td></tr><tr><th scope="row">次协调逻辑</th><td>在存在矛盾时限制推理扩散</td><td>阻止从矛盾推出一切，不表示接受所有矛盾</td></tr></tbody></table></div>
-        <p class="fine">直觉主义逻辑的构造性解释，参见 <a href="https://plato.stanford.edu/entries/logic-intuitionistic/" target="_blank" rel="noopener">Intuitionistic Logic ↗</a>。</p>
-        <aside class="note"><h3>哥德尔不完备定理，有明确的适用条件</h3><p>对一致、可有效公理化且足够表达算术的理论，存在该理论既不能证明、也不能反驳的句子。它限制特定形式理论的完备性，不能据此得出“逻辑无效”或“任何观点都无法判断”。</p><p class="fine">一阶逻辑的完备性，与算术理论的不完备性讨论不同层面。<a href="https://plato.stanford.edu/entries/goedel-incompleteness/" target="_blank" rel="noopener">定理与条件 ↗</a></p></aside>
+        <h2>现代逻辑把约定摊在明面上，也把边界画清楚</h2>
+        <div class="system-flow" aria-label="一个形式系统的构成"><div><span>01 / 语言</span><strong>什么算合乎规矩的公式</strong><p>符号与构造规则</p></div><b aria-hidden="true">→</b><div><span>02 / 证明</span><strong>哪些推导步骤被允许</strong><p>公理与推导规则</p></div><b aria-hidden="true">→</b><div><span>03 / 语义</span><strong>在什么情况下算作真</strong><p>解释、模型与真值条件</p></div></div>
+        <div class="table-scroll"><table><caption>换一套逻辑系统，改了哪些约定？</caption><thead><tr><th scope="col">系统</th><th scope="col">关注的问题</th><th scope="col">需要注意</th></tr></thead><tbody><tr><th scope="row">经典逻辑</th><td>标准的真假赋值与演绎推导</td><td>本页前面的真值表用的就是这套框架</td></tr><tr><th scope="row">直觉主义逻辑</th><td>命题怎么被构造、被证明</td><td>不把排中律当成普遍原则，但也不是说排中律处处都错</td></tr><tr><th scope="row">模态逻辑</th><td>“必然”与“可能”，也可延伸到知识或时间</td><td>具体怎么解释，取决于选定的模型与公理</td></tr><tr><th scope="row">次协调逻辑</th><td>系统里出现矛盾时，如何防止推导失控</td><td>目标是拦住“从矛盾推出一切”，不是鼓吹自相矛盾</td></tr></tbody></table></div>
+        <p class="fine">关于直觉主义逻辑的构造性理解，可参考 <a href="https://plato.stanford.edu/entries/logic-intuitionistic/" target="_blank" rel="noopener">Intuitionistic Logic ↗</a>。</p>
+        <aside class="note"><h3>哥德尔不完备定理，并不是“逻辑没用”的免死金牌</h3><p>只要一个形式理论自身不矛盾、公理能按规则机械列出，而且表达能力足够涵盖基本算术，里头就一定存在既证不出来、也推翻不了的命题。它划出的是特定形式理论的能力边界，绝不是在说“逻辑失效了”或者“什么观点都没法判断”。</p><p class="fine">一阶逻辑本身的完备性，和算术理论的不完备性，说的是两个层面的事。<a href="https://plato.stanford.edu/entries/goedel-incompleteness/" target="_blank" rel="noopener">查看定理与适用条件 ↗</a></p></aside>
       </section>
 
       <section id="dialectics">
         <div class="section-no">06 / 方法与争议</div>
-        <h2>讨论变化，不必放弃推理的责任</h2>
-        <p>黑格尔辩证法关注概念如何因自身的局限和张力而发展。把它简化成“正题—反题—合题”并不足以说明其方法；“矛盾”是否应按形式逻辑中的矛盾理解，也有解释争议。</p>
-        <div class="concept-grid"><article><span class="mini-label">形式逻辑关心</span><h3>结论是否由前提推出</h3><p>先明确语言、规则和解释。形式逻辑也能借助时间参数或时态逻辑表达变化，并非只能处理静态世界。</p></article><article><span class="mini-label">辩证法关心</span><h3>概念如何暴露局限并发展</h3><p>“扬弃”常包含否定与保留的双重意味。它提供哲学分析路径，但每一次概念转变仍需要具体论证。</p></article></div>
-        <p class="fine">这一区分是阅读提示，并非对两种传统的完整定义。<a href="https://plato.stanford.edu/entries/hegel-dialectics/" target="_blank" rel="noopener">Hegel’s Dialectics ↗</a></p>
-        <h3 class="subheading">波普尔的提醒：什么会使你修正观点？</h3>
-        <p>波普尔强调可证伪性与批判检验，反对让理论吸收所有反例而永远免于修正。对于经验理论，这意味着交代它排除了哪些可能观察。数学证明、哲学论证与经验科学的评价方式则不能直接混用。</p>
-        <p>他对历史主义和黑格尔的政治批评影响广泛，但其哲学解释和历史归因存在争议，不应呈现为已经定论的裁决。<a class="source-link" href="https://plato.stanford.edu/entries/popper/" target="_blank" rel="noopener">观点与批评 ↗</a></p>
-        <div class="checklist"><span class="mini-label">把讨论拉回可检查的层面</span><ol><li><strong>定义</strong><span>关键词有没有在中途换义？</span></li><li><strong>条件</strong><span>时间、对象与适用范围是否一致？</span></li><li><strong>支持</strong><span>哪条证据或推导连接前提和结论？</span></li><li><strong>修正</strong><span>什么反例会促使我们改变判断？</span></li></ol></div>
+        <h2>谈变化与发展，不等于放弃推理的严谨</h2>
+        <p>黑格尔的辩证法关心的是：概念如何在自身局限与内在张力中一步步向前推进。把它压缩成“正题—反题—合题”的三段公式，其实会漏掉它的核心做法；至于辩证法里的“矛盾”和形式逻辑里的矛盾是不是一回事，哲学界也一直存在不同解读。</p>
+        <div class="concept-grid"><article><span class="mini-label">形式逻辑关心</span><h3>结论能不能从前提推出</h3><p>先把语言、规则和前提定清楚。形式逻辑也不是只能看静止的世界——引入时间参数或时态逻辑，一样可以刻画变化。</p></article><article><span class="mini-label">辩证法关心</span><h3>概念如何暴露局限并推进</h3><p>“扬弃”同时带着否定与保留的意思。它是一条分析概念演变的哲学路径，但每一次推进照样得讲清理由，不能只靠口号带过。</p></article></div>
+        <p class="fine">这里只做入门对照，并非对两种传统的完整概括。<a href="https://plato.stanford.edu/entries/hegel-dialectics/" target="_blank" rel="noopener">Hegel’s Dialectics ↗</a></p>
+        <h3 class="subheading">波普尔的追问：什么证据能让你改口？</h3>
+        <p>波普尔看重可证伪性与批判检验，最警惕那种“无论发生什么都能圆回来”的理论。对经验科学来说，一个有信息量的判断，得说清楚它排除了哪些可能观察到的事实。当然，数学证明、哲学论证和经验科学的检验方式各不相同，不能混为一谈。</p>
+        <p>波普尔对历史主义和黑格尔的批评影响深远，但他对黑格尔的解读和历史归因本身也颇多争议，读的时候不妨两边对照着看。<a class="source-link" href="https://plato.stanford.edu/entries/popper/" target="_blank" rel="noopener">观点与批评 ↗</a></p>
+        <div class="checklist"><span class="mini-label">把讨论拉回可检查的层面</span><ol><li><strong>定义</strong><span>关键词在前后有没有悄悄换了意思？</span></li><li><strong>条件</strong><span>谈论的对象、时间和适用范围一致吗？</span></li><li><strong>依据</strong><span>前提和结论之间，靠哪条证据或推导连起来？</span></li><li><strong>修正</strong><span>如果出现什么反例，我们会愿意修正自己的判断？</span></li></ol></div>
       </section>
 
       <section id="reading">
         <div class="section-no">07 / 延伸阅读</div>
-        <h2>按问题继续读</h2>
-        <p>正文是入门导览。涉及哲学解释与逻辑系统差异时，下面的条目提供更完整的定义、论证和参考文献。</p>
+        <h2>带着问题往下读</h2>
+        <p>这篇笔记只是一份入门导览。如果你想把某个逻辑系统或哲学争论看透，下面这些条目有更完整的定义、论证与文献线索。</p>
         <ol class="sources">
-          <li><a href="https://openlogicproject.org/" target="_blank" rel="noopener">Open Logic Project <span>逻辑教材 ↗</span></a><p>继续学习形式语言、语义、证明与模型论。</p></li>
-          <li><a href="https://plato.stanford.edu/entries/sufficient-reason/" target="_blank" rel="noopener">Principle of Sufficient Reason <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>区分充足理由律的版本、动机与争议。</p></li>
-          <li><a href="https://plato.stanford.edu/entries/logic-intuitionistic/" target="_blank" rel="noopener">Intuitionistic Logic <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>理解构造性证明与排中律的关系。</p></li>
-          <li><a href="https://plato.stanford.edu/entries/goedel-incompleteness/" target="_blank" rel="noopener">Gödel’s Incompleteness Theorems <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>核对不完备定理的适用条件。</p></li>
-          <li><a href="https://plato.stanford.edu/entries/hegel-dialectics/" target="_blank" rel="noopener">Hegel’s Dialectics <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>了解辩证法的具体方法，以及不同解释之间的分歧。</p></li>
-          <li><a href="https://plato.stanford.edu/entries/popper/" target="_blank" rel="noopener">Karl Popper <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>继续阅读证伪性、知识增长与历史主义批评。</p></li>
+          <li><a href="https://openlogicproject.org/" target="_blank" rel="noopener">Open Logic Project <span>逻辑教材 ↗</span></a><p>系统学习形式语言、语义、证明与模型论。</p></li>
+          <li><a href="https://plato.stanford.edu/entries/sufficient-reason/" target="_blank" rel="noopener">Principle of Sufficient Reason <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>梳理充足理由律的不同版本、动机与争论。</p></li>
+          <li><a href="https://plato.stanford.edu/entries/logic-intuitionistic/" target="_blank" rel="noopener">Intuitionistic Logic <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>深入理解构造性证明与排中律的关系。</p></li>
+          <li><a href="https://plato.stanford.edu/entries/goedel-incompleteness/" target="_blank" rel="noopener">Gödel’s Incompleteness Theorems <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>核对不完备定理的严格表述与适用条件。</p></li>
+          <li><a href="https://plato.stanford.edu/entries/hegel-dialectics/" target="_blank" rel="noopener">Hegel’s Dialectics <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>了解黑格尔辩证法的具体方法，以及学界的不同解读。</p></li>
+          <li><a href="https://plato.stanford.edu/entries/popper/" target="_blank" rel="noopener">Karl Popper <span>Stanford Encyclopedia of Philosophy ↗</span></a><p>进一步阅读可证伪性、知识增长与对历史主义的批评。</p></li>
         </ol>
-        <div class="closing"><span>带走一个问题</span><p>能否让前提全部成立，<br>而结论依然不成立？</p></div>
+        <div class="closing"><span>带走一个问题</span><p>有没有一种情况，前提全都成立，<br>结论却依然站不住？</p></div>
       </section>
-      <footer><span>初稿：2026.05.15 · 重排与内容修订：2026.10.20</span><a href="#top">回到顶部 ↑</a></footer>
+      <footer><span>初稿：2026.05.15 · 修订：2026.11.26</span><a href="#top">回到顶部 ↑</a></footer>
     </main>
   </div>
-  <script src="/immutable/apps/formal-logic-notes.4bfd0d5d62b7f61fec66aa73609008cd6fab2eeab0f608f4c086cefd1160b7a9.js"></script>
+  <script src="/immutable/apps/formal-logic-notes.2eb97c1d2257f16ece1a42a5292d2179b50f2b4738aed7a0e0a86e4f419190ad.js"></script>
 </body>
 </html>
