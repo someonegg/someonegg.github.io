@@ -1,6 +1,10 @@
-/* Shared by the six math lessons. */
+/* Shared by the kids math lessons. */
 :root {
   color-scheme: light;
+  --leading-tight: 1.35;
+  --leading-ui: 1.5;
+  --leading-body: 1.8;
+  --page-inline-padding: 32px;
   --ink: #263d36;
   --muted: #657161;
   --accent: #3e7563;
@@ -18,6 +22,7 @@
   --surface-soft: #f3f5ed;
   --line: #d7ddd0;
   --line-soft: #e2e5da;
+  --scrollbar-thumb: #a0ad93;
   --success: #236b51;
   --error: #a33c27;
   --retry: #9b5129;
@@ -27,5 +32,14 @@
   color: var(--ink);
   background: var(--paper);
   font-size: 17px;
+  line-height: var(--leading-ui);
 }
-::selection { background: var(--selection); }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+::selection {
+  background: var(--selection);
+}

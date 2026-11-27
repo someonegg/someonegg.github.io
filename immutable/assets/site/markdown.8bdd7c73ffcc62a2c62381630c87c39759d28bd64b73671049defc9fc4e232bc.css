@@ -1,0 +1,259 @@
+/* Markdown Typography */
+.markdown {
+  color: var(--body-text);
+  line-height: var(--leading-body);
+}
+
+.markdown :is(h1, h2, h3, h4) {
+  margin-block: 1.6em 0.7em;
+  line-height: var(--leading-tight);
+  font-weight: 500;
+  font-family: var(--serif);
+  color: var(--text);
+}
+
+.markdown h1 {
+  font-size: clamp(28px, 3vw, 36px);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3em;
+}
+
+.markdown h2 {
+  font-size: 26px;
+}
+
+.markdown h3 {
+  font-size: 21px;
+}
+
+.markdown h4 {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: var(--leading-ui);
+}
+
+.markdown hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin-block: var(--space-xl);
+}
+
+.markdown p {
+  line-height: var(--leading-body);
+  margin: 0 0 0.75em;
+  color: var(--body-text);
+}
+
+.markdown :is(ul, ol) {
+  margin-block: var(--space-sm) 0.85em;
+  padding-inline-start: 1.4em;
+}
+
+.markdown :is(ul, ol) :is(ul, ol) {
+  margin-block: var(--space-xs);
+}
+
+.markdown li {
+  line-height: var(--leading-body);
+  margin-bottom: 0.35em;
+  color: var(--body-text);
+}
+
+.markdown li > p {
+  line-height: var(--leading-body);
+  margin-bottom: 0.35em;
+}
+
+/* Inline & Block Code */
+.markdown pre {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  padding: 12px 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  line-height: var(--leading-ui);
+}
+
+.markdown code {
+  font-family: var(--mono);
+  font-size: 0.92em;
+}
+
+.markdown pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.markdown :not(pre) > code {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+.markdown blockquote :not(pre) > code {
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  border-color: color-mix(in srgb, var(--text) 12%, transparent);
+}
+
+/* Blockquote & Links */
+.markdown blockquote {
+  margin-block: var(--space-md);
+  margin-inline: 0;
+  padding: 10px 20px;
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+  background: var(--active);
+  border-radius: 0 4px 4px 0;
+}
+
+.markdown blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown a {
+  color: var(--accent);
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+
+.markdown a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Media, Math & Tables */
+.markdown img,
+.markdown > svg,
+.markdown > canvas {
+  max-width: 100%;
+  height: auto;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.markdown img {
+  display: block;
+  width: min(100%, 960px);
+  margin: 14px auto;
+  border-radius: var(--radius-panel);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.markdown .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+  margin-block: 1.1em;
+}
+
+.markdown .katex-display > .katex {
+  display: inline-block;
+  min-width: max-content;
+}
+
+.markdown table {
+  border-collapse: collapse;
+  width: max-content;
+  min-width: min(100%, 600px);
+}
+
+.markdown :is(th, td) {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: start;
+  vertical-align: top;
+}
+
+.markdown th {
+  background: var(--bg-soft);
+  font-weight: 600;
+}
+
+.table-scroll,
+.diagram-scroll {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-block: var(--space-md);
+  padding-bottom: 4px;
+}
+
+.diagram-scroll > :is(.mermaid, svg, canvas) {
+  display: block;
+  min-width: max-content;
+}
+
+.markdown > :first-child {
+  margin-top: 0;
+}
+
+.markdown > :last-child {
+  margin-bottom: 0;
+}
+
+/* Unified Horizontal Scroll Regions */
+.markdown :is(pre, .katex-display),
+.table-scroll,
+.diagram-scroll {
+  overscroll-behavior-inline: contain;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.markdown :is(pre, .katex-display)::-webkit-scrollbar,
+.table-scroll::-webkit-scrollbar,
+.diagram-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.markdown :is(pre, .katex-display)::-webkit-scrollbar-track,
+.markdown :is(pre, .katex-display)::-webkit-scrollbar-corner,
+.table-scroll::-webkit-scrollbar-track,
+.table-scroll::-webkit-scrollbar-corner,
+.diagram-scroll::-webkit-scrollbar-track,
+.diagram-scroll::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.markdown :is(pre, .katex-display)::-webkit-scrollbar-thumb,
+.table-scroll::-webkit-scrollbar-thumb,
+.diagram-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+/* Pointer-only Hover */
+@media (hover: hover) and (pointer: fine) {
+  .markdown a:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Responsive */
+@media (width <= 720px) {
+  .markdown h2 {
+    font-size: 23px;
+  }
+}
+
+@media (width <= 480px) {
+  .markdown blockquote {
+    padding-inline: 0.75rem;
+  }
+
+  .markdown :is(ul, ol) {
+    padding-inline-start: 1.25rem;
+  }
+
+  .markdown :is(ul, ol) :is(ul, ol) {
+    padding-inline-start: 1rem;
+  }
+}

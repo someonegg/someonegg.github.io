@@ -12,25 +12,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Ally" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <link rel="stylesheet" href="/immutable/assets/site/shell.fc7e695365bd3044e425db89858fed70d1fe55a0e29c6b261ad4191d1f89f42c.css" />
+  <link rel="stylesheet" href="/immutable/assets/site/shell.39ad489fecb1b3c297d724b8f2a07351a54ff03ddc0d7cb5c0e6d0de8ba5bbe0.css" />
   <title>Ally｜技术笔记与实验</title>
   <style>
-    :root {
-      --home-paper: var(--bg);
-      --home-surface: var(--surface);
-      --home-ink: var(--text);
-      --home-deep: #263d36;
-      --home-teal: var(--accent);
-      --home-blue-gray: var(--muted);
-      --home-line: var(--border);
-      --home-display: var(--serif);
-      --home-mono: var(--mono);
-    }
-
     body {
       min-height: 100dvh;
-      color: var(--home-ink);
-      background: var(--home-paper);
     }
 
     .home-shell {
@@ -47,8 +33,8 @@
       gap: clamp(36px, 7vw, 88px);
       align-items: end;
       padding: clamp(36px, 7vw, 76px) 0 clamp(38px, 6vw, 64px);
-      border-top: 1px solid var(--home-line);
-      border-bottom: 1px solid var(--home-line);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
 
     .eyebrow,
@@ -56,8 +42,8 @@
     .feature-meta,
     .lens-heading {
       margin: 0;
-      color: var(--home-teal);
-      font-family: var(--home-mono);
+      color: var(--accent);
+      font-family: var(--mono);
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.11em;
@@ -68,7 +54,7 @@
     .hero-title {
       max-width: 690px;
       margin: 18px 0 20px;
-      font-family: var(--home-display);
+      font-family: var(--serif);
       font-size: clamp(43px, 6vw, 68px);
       font-weight: 500;
       letter-spacing: -0.045em;
@@ -78,9 +64,9 @@
     .hero-intro {
       max-width: 630px;
       margin: 0;
-      color: var(--home-blue-gray);
+      color: var(--muted);
       font-size: 16px;
-      line-height: 1.8;
+      line-height: var(--leading-body);
     }
 
     .research-lens {
@@ -92,7 +78,7 @@
 
     .lens-heading {
       margin-bottom: 12px;
-      color: var(--home-blue-gray);
+      color: var(--muted);
     }
 
     .lens-row {
@@ -101,19 +87,19 @@
       gap: 14px;
       align-items: baseline;
       padding: 12px 0;
-      border-top: 1px solid var(--home-line);
+      border-top: 1px solid var(--border);
     }
 
     .lens-domain {
-      color: var(--home-teal);
+      color: var(--accent);
       font-size: 13px;
       font-weight: 500;
     }
 
     .lens-topic {
-      color: var(--home-blue-gray);
+      color: var(--muted);
       font-size: 13px;
-      line-height: 1.5;
+      line-height: var(--leading-ui);
     }
 
     .writing-section {
@@ -124,13 +110,13 @@
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      gap: 24px;
+      gap: var(--space-lg);
       margin-bottom: 22px;
     }
 
     .section-title {
       margin: 6px 0 0;
-      font-family: var(--home-display);
+      font-family: var(--serif);
       font-size: clamp(27px, 3.5vw, 38px);
       font-weight: 500;
       letter-spacing: -0.025em;
@@ -139,8 +125,8 @@
 
     .section-note {
       max-width: 310px;
-      margin: 0 0 4px;
-      color: var(--home-blue-gray);
+      margin: 0 0 var(--space-xs);
+      color: var(--muted);
       font-size: 13px;
       line-height: 1.65;
       text-align: right;
@@ -177,10 +163,10 @@
       flex-direction: column;
       padding: 25px 26px 23px;
       overflow: hidden;
-      border: 1px solid var(--home-line);
-      border-radius: 6px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
       color: inherit;
-      background: var(--home-surface);
+      background: var(--surface);
       text-decoration: none;
       transition: border-color var(--trans), box-shadow var(--trans), transform var(--trans);
     }
@@ -188,17 +174,11 @@
     .feature-primary .feature-link {
       min-height: 386px;
       padding: clamp(28px, 4vw, 42px);
-      border-color: var(--home-deep);
+      border-color: var(--text);
       color: #f6faf9;
       background:
         linear-gradient(145deg, rgba(255, 255, 255, 0.06), transparent 44%),
-        var(--home-deep);
-    }
-
-    .feature-link:hover {
-      border-color: #a7b8a1;
-      box-shadow: 0 16px 36px rgba(23, 33, 31, 0.08);
-      transform: translateY(-3px);
+        var(--text);
     }
 
     .feature-link:focus-visible,
@@ -213,11 +193,11 @@
 
     .feature-title {
       margin: 17px 0 12px;
-      font-family: var(--home-display);
+      font-family: var(--serif);
       font-size: 23px;
       font-weight: 500;
       letter-spacing: -0.025em;
-      line-height: 1.35;
+      line-height: var(--leading-tight);
     }
 
     .feature-primary .feature-title {
@@ -230,7 +210,7 @@
     .feature-summary {
       max-width: 560px;
       margin: 0;
-      color: var(--home-blue-gray);
+      color: var(--muted);
       font-size: 14px;
       line-height: 1.7;
     }
@@ -247,7 +227,7 @@
       gap: 9px;
       margin-top: auto;
       padding-top: 22px;
-      color: var(--home-teal);
+      color: var(--accent);
       font-size: 13px;
       font-weight: 500;
     }
@@ -261,24 +241,19 @@
       transition: transform var(--trans);
     }
 
-    .feature-link:hover .feature-arrow,
-    .experiment-link:hover .experiment-arrow {
-      transform: translateX(4px);
-    }
-
     .experiments {
       display: grid;
       grid-template-columns: minmax(180px, 0.62fr) minmax(0, 1.38fr);
       gap: clamp(28px, 6vw, 68px);
       margin-top: clamp(62px, 9vw, 96px);
       padding: 30px 0 18px;
-      border-top: 1px solid var(--home-line);
+      border-top: 1px solid var(--border);
     }
 
     .experiments-intro {
       max-width: 270px;
       margin: 10px 0 0;
-      color: var(--home-blue-gray);
+      color: var(--muted);
       font-size: 14px;
       line-height: 1.7;
     }
@@ -296,39 +271,52 @@
       align-items: center;
       min-height: 72px;
       padding: 13px 4px;
-      border-bottom: 1px solid var(--home-line);
+      border-bottom: 1px solid var(--border);
       color: inherit;
       text-decoration: none;
       transition: color var(--trans), padding var(--trans);
     }
 
-    .experiment-link:hover {
-      padding-right: 0;
-      padding-left: 8px;
-      color: var(--home-teal);
-    }
-
     .experiment-title {
-      font-family: var(--home-display);
+      font-family: var(--serif);
       font-size: 18px;
       font-weight: 500;
-      line-height: 1.35;
+      line-height: var(--leading-tight);
     }
 
     .experiment-desc {
-      color: var(--home-blue-gray);
+      color: var(--muted);
       font-size: 13px;
-      line-height: 1.5;
+      line-height: var(--leading-ui);
     }
 
     .experiment-arrow {
-      color: var(--home-teal);
+      color: var(--accent);
       font-size: 18px;
     }
 
-    @media (max-width: 780px) {
+    @media (hover: hover) and (pointer: fine) {
+      .feature-link:hover {
+        border-color: #a7b8a1;
+        box-shadow: 0 16px 36px rgba(23, 33, 31, 0.08);
+        transform: translateY(-3px);
+      }
+
+      .feature-link:hover .feature-arrow,
+      .experiment-link:hover .experiment-arrow {
+        transform: translateX(4px);
+      }
+
+      .experiment-link:hover {
+        padding-right: 0;
+        padding-left: 8px;
+        color: var(--accent);
+      }
+    }
+
+    @media (width <= 780px) {
       .home-shell .top-nav {
-        margin-bottom: 24px;
+        margin-bottom: var(--space-lg);
       }
 
       .home-hero {
@@ -359,9 +347,9 @@
       }
     }
 
-    @media (max-width: 520px) {
+    @media (width <= 520px) {
       body {
-        padding: 16px 12px 30px;
+        padding-block: var(--space-md) 30px;
       }
 
       .home-shell .top-nav {
