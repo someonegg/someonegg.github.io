@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Ally" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <link rel="stylesheet" href="/immutable/assets/site/shell.d74b2e0df7997d400f6a815fed88fd59100bb4bd23d0583cf629a60407e89465.css" />
+  <link rel="stylesheet" href="/immutable/assets/site/shell.de51838648cd38c16f1a2d8d61830189ad2d0a0c77623819314da6e348753c38.css" />
   <title>Ally｜技术笔记与实验</title>
   <style>
     body {
@@ -423,7 +423,7 @@
         <p class="eyebrow">Current thread · 2026.11</p>
         <h1 class="hero-title">从可信边界，<br />到持续运行的系统</h1>
         <p class="hero-intro">
-          近期关注三个交汇处：硬件隔离下的模型隐私推理、以环境约束和证据回查为基础的 Agent 工程，以及数据安全与架构演进的真实代价。
+          近期关注三条主线：序列模型的记忆机制与架构演进、现代密码学与硬件隔离下的模型隐私推理，以及数据安全事件的真实边界与代价。
           这里收录完整笔记、知识整理，也保留一些用来验证想法的交互实验。
         </p>
       </div>
@@ -432,7 +432,7 @@
         <h2 id="lensHeading" class="lens-heading">研究切面</h2>
         <div class="lens-row">
           <span class="lens-domain">模型</span>
-          <span class="lens-topic">架构演进、线性注意力与隐私推理</span>
+          <span class="lens-topic">记忆机制、架构演进与隐私推理</span>
         </div>
         <div class="lens-row">
           <span class="lens-domain">Agent</span>
@@ -440,7 +440,7 @@
         </div>
         <div class="lens-row">
           <span class="lens-domain">安全</span>
-          <span class="lens-topic">TEE 隔离、勒索处置与数据边界</span>
+          <span class="lens-topic">密码学底座、TEE 隔离与数据安全</span>
         </div>
         <div class="lens-row">
           <span class="lens-domain">系统</span>
@@ -460,11 +460,11 @@
 
       <div class="featured-grid">
         <article class="feature feature-primary">
-          <a class="feature-link" href="/docs/index.html?file=2026-09-24-agent-engineering-harness-orchestration.md">
-            <p class="feature-meta">Agent 工程 · 2026.09.24</p>
-            <h3 class="feature-title">Agent 工程：从可靠执行到持续编排</h3>
+          <a class="feature-link" href="/docs/index.html?file=2026-11-27-unified-view-of-model-memory.md">
+            <p class="feature-meta">机器学习 · 2026.11.27</p>
+            <h3 class="feature-title">模型记忆的统一视角：有限状态下的读写、遗忘与纠错</h3>
             <p class="feature-summary">
-              把工程判断沉淀为可验证的环境边界与不变量，从单 Agent 可靠执行延伸到多任务持续编排与熵清理。
+              将 Attention、Linear Attention、GLA、DeltaNet 与 SSM 纳入同一状态机框架，串联联想记忆、容量串扰、遗忘门控、在线学习与 LLM 记忆层级。
             </p>
             <span class="feature-action">阅读笔记 <span class="feature-arrow" aria-hidden="true">→</span></span>
           </a>
@@ -489,10 +489,10 @@
         </article>
 
         <article class="feature feature-wide">
-          <a class="feature-link" href="/docs/index.html?file=2026-09-19-deltanet-wy-transform.md">
-            <p class="feature-meta">机器学习 · 2026.09.19</p>
-            <h3 class="feature-title">DeltaNet 中的 WY 变换：从 Delta Rule 到分块并行</h3>
-            <p class="feature-summary">从记忆覆写出发，推导 WY 表示与三角求解，看清一串递归更新如何重组为适合 GPU 的分块矩阵计算。</p>
+          <a class="feature-link" href="/docs/index.html?file=2026-11-27-cryptography-math-and-five-worlds.md">
+            <p class="feature-meta">密码学 · 2026.11.27</p>
+            <h3 class="feature-title">现代密码学介绍：五个世界与公钥体系的数学底座</h3>
+            <p class="feature-summary">从计算复杂性与 Impagliazzo 五个世界出发，系统推导 RSA、ECC 与 LWE 格密码的底层数学假设与安全边界。</p>
             <span class="feature-action">阅读笔记 <span class="feature-arrow" aria-hidden="true">→</span></span>
           </a>
         </article>

@@ -2,6 +2,7 @@
 
 ## General
 
+- [[2026-11-27-cryptography-math-and-five-worlds.md]] 现代密码学介绍：五个世界与公钥体系的数学底座
 - [[2026-06-19-zero-knowledge-proof-intro.md]] 零知识证明入门：从直觉到 zk-SNARK 工程路径
 - [[2026-06-16-go-gc-tricolor-barrier.md]] Go GC 三色标记与混合写屏障
 - [[2026-06-14-statistical-inference.md]] 统计推断入门：从样本、置信区间到 P 值、功效与因果边界
@@ -25,6 +26,7 @@
 
 ## ML / LLM
 
+- [[2026-11-27-unified-view-of-model-memory.md]] 模型记忆的统一视角：有限状态下的读写、遗忘与纠错
 - [[2026-11-26-llm-private-inference.md]] LLM 隐私推理：全链路架构、硬件隔离与工程代价
 - [[2026-11-24-post-agi-and-next-gen-architecture.md]] 超越 AGI 与重构 Transformer：DeepMind 与 Łukasz Kaiser 的两重视角
 - [[2026-09-19-deltanet-wy-transform.md]] DeltaNet 中的 WY 变换：从 Delta Rule 到分块并行

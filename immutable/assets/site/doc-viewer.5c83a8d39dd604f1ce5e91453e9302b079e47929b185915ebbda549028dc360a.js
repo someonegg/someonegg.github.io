@@ -298,7 +298,28 @@
     scrollEl.scrollTo({ top: targetTop, behavior });
   }
 
-  function renderSidebar(sidebarEl, groups, onDocClick, headerTitle) {
+  function resolveInitialCollapsed(mode, isActiveGroup) {
+    if (mode === "all") return false;
+    if (mode === "none") return true;
+    return !isActiveGroup;
+  }
+
+  function getCollapseAllState(collapsedFlags) {
+    if (!Array.isArray(collapsedFlags) || collapsedFlags.length === 0) {
+      return { disabled: true, label: "全部折叠", nextCollapsed: true };
+    }
+    const allExpanded = collapsedFlags.every((collapsed) => !collapsed);
+    if (allExpanded) {
+      return { disabled: false, label: "全部折叠", nextCollapsed: true };
+    }
+    return { disabled: false, label: "全部展开", nextCollapsed: false };
+  }
+
+  function renderSidebar(sidebarEl, groups, onDocClick, headerTitle, sidebarOptions) {
+    const opts = sidebarOptions || {};
+    const defaultExpandMode = opts.defaultExpandMode || "active";
+    const initialActiveGroup = opts.initialActiveGroup || "";
+
     sidebarEl.innerHTML = "";
     const fragment = document.createDocumentFragment();
 
@@ -306,24 +327,28 @@
     headerEl.className = "list-header";
     headerEl.innerHTML =
       '<h2 class="list-header-title">' + escapeHtml(headerTitle) + '</h2>' +
-      '<button id="collapseAllBtn" class="collapse-all-btn" type="button">全部折叠</button>';
+      '<button id="collapseAllBtn" class="collapse-all-btn" type="button">全部展开</button>';
     fragment.appendChild(headerEl);
 
     const bodyEl = document.createElement("div");
     bodyEl.className = "sidebar-body";
 
     groups.forEach((group) => {
+      const isCollapsed = resolveInitialCollapsed(defaultExpandMode, group.name === initialActiveGroup);
       const heading = document.createElement("button");
       heading.type = "button";
       heading.className = "group-toggle";
-      heading.setAttribute("aria-expanded", "true");
+      heading.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
       heading.innerHTML =
-        "<span>" + escapeHtml(group.name) + "</span>" +
+        '<span class="group-label">' +
+          '<span class="group-name">' + escapeHtml(group.name) + "</span>" +
+          '<span class="group-count">' + group.items.length + "</span>" +
+        "</span>" +
         '<span class="group-caret">▾</span>';
       bodyEl.appendChild(heading);
 
       const list = document.createElement("ul");
-      list.className = "doc-list";
+      list.className = isCollapsed ? "doc-list is-collapsed" : "doc-list";
 
       group.items.forEach((doc) => {
         const li = document.createElement("li");
@@ -353,8 +378,11 @@
     if (collapseAllBtnEl) {
       collapseAllBtnEl.addEventListener("click", () => {
         const lists = sidebarEl.querySelectorAll(".doc-list");
-        const allCollapsed = lists.length > 0 && Array.from(lists).every((ul) => ul.classList.contains("is-collapsed"));
-        setAllGroupsCollapsed(sidebarEl, !allCollapsed);
+        const flags = Array.from(lists).map((ul) => ul.classList.contains("is-collapsed"));
+        const state = getCollapseAllState(flags);
+        if (!state.disabled) {
+          setAllGroupsCollapsed(sidebarEl, state.nextCollapsed);
+        }
       });
     }
     refreshCollapseAllButton(sidebarEl);
@@ -376,14 +404,10 @@
     const collapseAllBtnEl = sidebarEl.querySelector("#collapseAllBtn");
     if (!collapseAllBtnEl) return;
     const lists = sidebarEl.querySelectorAll(".doc-list");
-    if (lists.length === 0) {
-      collapseAllBtnEl.disabled = true;
-      collapseAllBtnEl.textContent = "全部折叠";
-      return;
-    }
-    collapseAllBtnEl.disabled = false;
-    const allCollapsed = Array.from(lists).every((ul) => ul.classList.contains("is-collapsed"));
-    collapseAllBtnEl.textContent = allCollapsed ? "全部展开" : "全部折叠";
+    const flags = Array.from(lists).map((ul) => ul.classList.contains("is-collapsed"));
+    const state = getCollapseAllState(flags);
+    collapseAllBtnEl.disabled = state.disabled;
+    collapseAllBtnEl.textContent = state.label;
   }
 
   async function initDocViewer(options) {
@@ -420,6 +444,9 @@
     function markActive(file, opts) {
       const settings = opts || {};
       const buttons = sidebarEl.querySelectorAll(".doc-btn");
+      sidebarEl.querySelectorAll(".group-toggle.has-active").forEach((el) => {
+        el.classList.remove("has-active");
+      });
       let activeBtn = null;
       buttons.forEach((btn) => {
         const isMatch = btn.dataset.file === file;
@@ -427,10 +454,16 @@
         if (isMatch) {
           activeBtn = btn;
           const groupList = btn.closest(".doc-list");
+          const toggle =
+            groupList && groupList.previousElementSibling && groupList.previousElementSibling.classList.contains("group-toggle")
+              ? groupList.previousElementSibling
+              : null;
+          if (toggle) {
+            toggle.classList.add("has-active");
+          }
           if (groupList && groupList.classList.contains("is-collapsed")) {
             groupList.classList.remove("is-collapsed");
-            const toggle = groupList.previousElementSibling;
-            if (toggle && toggle.classList.contains("group-toggle")) {
+            if (toggle) {
               toggle.setAttribute("aria-expanded", "true");
             }
           }
@@ -539,10 +572,15 @@
 
       const indexMd = await resp.text();
       const groups = parseIndex(indexMd, docMap, options || {});
+      const initial = getInitialFile(groups);
+      const initialActiveGroup = initial && docMap.has(initial) ? docMap.get(initial).group : "";
       renderSidebar(sidebarEl, groups, (file) => {
         markActive(file, { historyMode: "push" });
         loadDocument(file, { markActive: false, ensureViewerStart: true });
-      }, options.sidebarTitle || "文档索引");
+      }, options.sidebarTitle || "文档索引", {
+        defaultExpandMode: options.defaultExpandMode || "active",
+        initialActiveGroup,
+      });
 
       if (groups.length === 0) {
         setViewerVisible(!options.hideViewerByDefault);
@@ -550,7 +588,6 @@
         return;
       }
 
-      const initial = getInitialFile(groups);
       if (!initial) {
         setViewerVisible(!options.hideViewerByDefault);
         viewerEl.innerHTML = '<p class="hint">' + escapeHtml(options.emptyText || "index.md 中没有可展示条目。") + "</p>";
@@ -589,6 +626,8 @@
   if (typeof module !== "undefined" && module.exports) {
     module.exports = {
       createMarkedParser,
+      resolveInitialCollapsed,
+      getCollapseAllState,
     };
   }
 })();
