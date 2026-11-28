@@ -162,15 +162,21 @@
 }
 
 .markdown :is(th, td) {
+  max-width: clamp(12rem, 45cqi, 30rem);
   border: 1px solid var(--border);
   padding: 8px 10px;
   text-align: start;
   vertical-align: top;
+  overflow-wrap: break-word;
 }
 
 .markdown th {
   background: var(--bg-soft);
   font-weight: 600;
+}
+
+.table-scroll {
+  container-type: inline-size;
 }
 
 .table-scroll,
