@@ -48,6 +48,8 @@ html {
   /* Keep mobile Safari from inflating individual Markdown blocks and table cells. */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
 }
 
 body {
@@ -57,6 +59,8 @@ body {
   background: var(--bg);
   padding: var(--space-lg) var(--page-inline-padding) 36px;
   line-height: var(--leading-ui);
+  overflow-x: clip;
+  overscroll-behavior-x: none;
 }
 
 button {
@@ -152,6 +156,7 @@ button {
 }
 
 .card {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
